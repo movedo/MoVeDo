@@ -6,3 +6,8 @@
 TODO dir structure with explanations
 ```
 
+## Running tests
+
+```bash
+src/test/filters/_all.sh
+```
