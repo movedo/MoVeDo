@@ -53,9 +53,6 @@ def is_rel_path(str):
     """Returns True if the argument is an absolute, local file path."""
     return not (is_url(str) or is_abs_path(str))
 
-#def print_elem(elem, doc):
-#    eprint('\tid: %s' % elem.identifier)
-
 def prefix_if_rel_path(url):
     """Prefixes an input with a given string, if the input is a relative path."""
     new_url = url
@@ -66,16 +63,6 @@ def prefix_if_rel_path(url):
 def prepare(doc):
     """The panflute filter init method."""
     prefix = doc.get_metadata('allp_prefix', "<allp_prefix>")
-    #eprint('\targs: %d' % len(sys.argv))
-    #eprint('\tconfig: link_prefix: %s' % link_prefix)
-    #eprint('\tconfig: link_prefix: %s' % doc.link_prefix)
-    #eprint('\tconfig: link_prefix: %s' % link_prefix)
-    #eprint('\tconfig: metadata:   %s' % doc.metadata)
-    #for k in doc.metadata:
-    #    eprint('\tconfig: metadata 2: %s' % k)
-    #doc.metadata.walk(print_elem)
-    #for arg in sys.argv:
-    #    eprint('\targ="%s"' % arg)
 
 def action(elem, doc):
     """The panflute filter per-element method."""

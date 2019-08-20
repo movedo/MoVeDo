@@ -21,7 +21,6 @@ $ pandoc -f markdown -t markdown --atx-headers \
 """
 
 import re
-#import argparse
 import sys
 import panflute as pf
 
@@ -45,18 +44,6 @@ def is_abs_path(str):
 def is_rel_path(str):
     """Returns True if the argument is an absolute, local file path."""
     return not (is_url(str) or is_abs_path(str))
-
-"""
-parser = argparse.ArgumentParser(description='Pandoc filter that replaces the file extension in (local) links in Markdown files.')
-parser.add_argument('-f', '--from-extension', dest='ext_from',
-                    default='.md',
-                    help='The extension to search for; to convert from')
-parser.add_argument('-t', '--to-extension', dest='ext_to',
-                    default='.html',
-                    help='The extension to convert to')
-
-args = parser.parse_args()
-"""
 
 def prepare(doc):
     """The panflute filter init method."""
