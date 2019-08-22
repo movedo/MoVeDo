@@ -80,10 +80,11 @@ def main(doc=None):
     if we want to be able to run filters automatically
     with '-F panflute'
     """
-    return pf.run_filter(action,
-            prepare=prepare,
-            finalize=finalize,
-            doc=doc)
+    return pf.run_filter(
+        action,
+        prepare=prepare,
+        finalize=finalize,
+        doc=doc)
 
 if __name__ == '__main__':
     main()
