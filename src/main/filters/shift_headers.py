@@ -21,10 +21,8 @@ $ pandoc -f markdown -t markdown --atx-headers \
         input.md
 """
 
-from __future__ import print_function
-
-import sys
 import panflute as pf
+from _common import eprint
 
 # constants
 MIN_LEVEL = 1
@@ -41,24 +39,25 @@ workaround_level_overflow = True
 # we convert it into an emphazised paragraph
 workaround_level_underflow = False
 
-def eprint(*args, **kwargs):
-    """Prints a message to stderr, just like `print()` does for stdout)."""
-    print(*args, file=sys.stderr, **kwargs)
-
 def prepare(doc):
     """The panflute filter init method."""
-    shift = doc.get_metadata('sh_shift', "<sh_shift>")
-    workaround_level_overflow = doc.get_metadata('sh_workaround_level_overflow', "<sh_workaround_level_overflow>")
-    workaround_level_underflow = doc.get_metadata('sh_workaround_level_underflow', "<sh_workaround_level_underflow>")
+    shift = doc.get_metadata(
+        'sh_shift', "<sh_shift>")
+    workaround_level_overflow = doc.get_metadata(
+        'sh_workaround_level_overflow', "<sh_workaround_level_overflow>")
+    workaround_level_underflow = doc.get_metadata(
+        'sh_workaround_level_underflow', "<sh_workaround_level_underflow>")
 
 def action(elem, doc):
+    """The panflute filter main method, called once per element."""
     if isinstance(elem, pf.Header):
         level_old = elem.level
         level_new = level_old + shift
         if level_new > MAX_LEVEL:
-            eprint("After shifting header levels by %d, '%s' would be on level %d, "
-                    "which is above the max level %d."
-                    % (shift, elem.identifier, level_new, MAX_LEVEL))
+            eprint(
+                "After shifting header levels by %d, '%s' would be on level %d, "
+                "which is above the max level %d."
+                % (shift, elem.identifier, level_new, MAX_LEVEL))
             if workaround_level_overflow:
                 eprint("Thus we convert it to an emphazised text paragraph instead.")
                 if level_new == (MAX_LEVEL + 1):
@@ -68,16 +67,17 @@ def action(elem, doc):
             else:
                 raise OverflowError()
         elif level_new < MIN_LEVEL:
-            eprint("After shifting header levels by %d, '%s' would be on level %d, "
-                    "which is below the min level %d."
-                    % (shift, elem.identifier, level_new, MIN_LEVEL))
+            eprint(
+                "After shifting header levels by %d, '%s' would be on level %d, "
+                "which is below the min level %d."
+                % (shift, elem.identifier, level_new, MIN_LEVEL))
             if workaround_level_underflow:
                 eprint("Thus we leave it at the min level.")
             else:
                 raise OverflowError()
         else:
             elem.level = level_new
-        return elem
+    return elem
 
 def finalize(doc):
     """The panflute filter "destructor" method."""
@@ -89,10 +89,11 @@ def main(doc=None):
     if we want to be able to run filters automatically
     with '-F panflute'
     """
-    return pf.run_filter(action,
-            prepare=prepare,
-            finalize=finalize,
-            doc=doc)
+    return pf.run_filter(
+        action,
+        prepare=prepare,
+        finalize=finalize,
+        doc=doc)
 
 if __name__ == '__main__':
     main()

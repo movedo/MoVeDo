@@ -20,30 +20,13 @@ $ pandoc -f markdown -t markdown --atx-headers \
         input.md
 """
 
-import re
-import sys
 import panflute as pf
-
-# constants
-REGEX_URL = re.compile(r'^(?:[a-z:_-]+)://', re.IGNORECASE)
-REGEX_ABS_PATH = re.compile(r'^([A-Z]:)?[/\\]', re.IGNORECASE)
+from _common import is_rel_path
 
 # parameters
 relative_only = True
 ext_from = '.md'
 ext_to = '.html'
-
-def is_url(str):
-    """Returns True if the argument is a URL."""
-    return re.match(REGEX_URL, str) is not None
-
-def is_abs_path(str):
-    """Returns True if the argument is an absolute, local file path."""
-    return re.match(REGEX_ABS_PATH, str) is not None
-
-def is_rel_path(str):
-    """Returns True if the argument is an absolute, local file path."""
-    return not (is_url(str) or is_abs_path(str))
 
 def prepare(doc):
     """The panflute filter init method."""
@@ -52,7 +35,9 @@ def prepare(doc):
     ext_to = doc.get_metadata('rls_ext_to', "<rls_ext_to>")
 
 def action(elem, doc):
-    if isinstance(elem, pf.Link) and elem.url.endswith(ext_from) and (not relative_only or is_rel_path(elem.url)):
+    """The panflute filter main method, called once per element."""
+    if isinstance(elem, pf.Link) and elem.url.endswith(ext_from) \
+            and (not relative_only or is_rel_path(elem.url)):
         elem.url = elem.url[:-len(ext_from)] + ext_to
     return elem
 

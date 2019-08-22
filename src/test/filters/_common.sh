@@ -13,8 +13,8 @@ tmp_dir="$build_dir/tmp"
 our_name=`basename -s '.sh' $0`
 
 in_file="$tmp_dir/${our_name}_input.md"
-out_file="$tmp_dir/${our_name}_expected_output.md"
-exp_out_file="$tmp_dir/${our_name}_actual_output.md"
+out_file="$tmp_dir/${our_name}_actual_output.md"
+exp_out_file="$tmp_dir/${our_name}_expected_output.md"
 diff_file="$tmp_dir/${our_name}_actual_diff.txt"
 
 mkdir -p "$build_dir"
@@ -24,12 +24,17 @@ run_filter() {
 	params="$@"
 
 	cd "$build_dir"
-	cat "$in_file" \
-		| pandoc \
-			$params \
-			-f markdown -t markdown --atx-headers \
-			--filter "$filters_dir/${our_name}.py" \
+	# HACK We use "--columns=50" to prevent line wrapping
+	pandoc \
+		$params \
+		-f markdown \
+		-t markdown \
+		--atx-headers \
+		--columns=50 \
+		--filter "$filters_dir/${our_name}.py" \
+		"$in_file" \
 		> "$out_file"
+		#-f markdown-raw_tex-smart+all_symbols_escapable \
 }
 
 eval_result() {

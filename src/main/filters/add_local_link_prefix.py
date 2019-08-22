@@ -23,51 +23,31 @@ $ pandoc -f markdown -t markdown --atx-headers \
         input.md
 """
 
-from __future__ import print_function
-
-import re
-import sys
 import panflute as pf
-
-# constants
-REGEX_URL = re.compile(r'^(?:[a-z:_-]+)://', re.IGNORECASE)
-REGEX_ABS_PATH = re.compile(r'^([A-Z]:)?[/\\]', re.IGNORECASE)
+from _common import is_rel_path
 
 # parameters
 # should be something like 'some/static/prefix/'
-prefix = 'some/static/prefix/'
+prefix = '<default-prefix>'
 
-def eprint(*args, **kwargs):
-    """Prints a message to stderr, just like `print()` does for stdout)."""
-    print(*args, file=sys.stderr, **kwargs)
-
-def is_url(str):
-    """Returns True if the argument is a URL."""
-    return re.match(REGEX_URL, str) is not None
-
-def is_abs_path(str):
-    """Returns True if the argument is an absolute, local file path."""
-    return re.match(REGEX_ABS_PATH, str) is not None
-
-def is_rel_path(str):
-    """Returns True if the argument is an absolute, local file path."""
-    return not (is_url(str) or is_abs_path(str))
-
-def prefix_if_rel_path(url):
-    """Prefixes an input with a given string, if the input is a relative path."""
-    new_url = url
-    if is_rel_path(url):
-        new_url = prefix + url
-    return new_url
+def prefix_if_rel_path(elem):
+    """
+    Prefixes an inputs URL with a given string,
+    if the input is a link/image with to a relative path.
+    """
+    global prefix
+    if is_rel_path(elem.url):
+        elem.url = prefix + elem.url
 
 def prepare(doc):
     """The panflute filter init method."""
+    global prefix
     prefix = doc.get_metadata('allp_prefix', "<allp_prefix>")
 
 def action(elem, doc):
-    """The panflute filter per-element method."""
+    """The panflute filter main method, called once per element."""
     if isinstance(elem, (pf.Link, pf.Image)):
-        elem.url = prefix_if_rel_path(elem.url)
+        prefix_if_rel_path(elem)
     return elem
 
 def finalize(doc):
