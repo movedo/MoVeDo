@@ -45,7 +45,11 @@ function process_ppmd() {
 	cd "$pre_dir"
 	if $rewrite_links
 	then
-		sed --in-place -e 's/\.pp\.md/\.md/g' "$target_rel" || return $?
+		pandoc -f markdown -t markdown --atx-headers \
+			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter replace_link_suffixes.py \
+			-o "${target_rel}_out" \
+			"$target_rel"
+		mv "${target_rel}_out" "$target_rel"
 	fi
 }
 export -f process_ppmd
