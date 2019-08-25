@@ -1,0 +1,17 @@
+#!/bin/sh
+# Generates sources, for example:
+# * Markdown with PP (pandoc _p_re-_p_rocessor) instructions
+#   -> Markdown
+# * myDiagram.dot -> myDiagram.svg
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+"${script_dir}/gen-src-prepare"
+"${script_dir}/pp-md"
+#"${script_dir}/gen-diagrams"
+

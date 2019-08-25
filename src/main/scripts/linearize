@@ -1,0 +1,48 @@
+#!/bin/bash
+# Builds a single Markdown file out of an index of Markdown files.
+# We do that by using Pandoc with custom filters.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools pandoc" # for Markdown filterin/cleanup
+tools="$tools '$script_dir/strip_front_matter'"
+_check_tools $tools
+_check_env
+
+cd "$gen_src_dir"
+
+echo
+echo "Generating single, linear Markdown file ..."
+Use global document meta-data
+cat "$doc_meta_file" > "$single_md"
+cat index-md.txt | while read -d $'\n' -r md_in
+do
+	# stripp the preceeding directory depth away
+	md_in=$(echo "$md_in" | sed -z -e 's/^[0-9]\+\s//;' -e 's/^\.///')
+	echo "Processing $md_in ..."
+	# TODO put this in its own script:
+	# extract the document(-fragment)s title from the YAML meta-data
+	grep "^title: " "$md_in" > /dev/null && {
+		title=$(grep "^title: " "$md_in" | head -n 1 | sed -e 's/^title:[[:space:]]\+//')
+		echo -e "# $title\n" >> "$single_md"
+	}
+	# strip front-matter, cleanup, filter,
+	# and write to the global document file
+	"$script_dir/strip_front_matter" "$md_in" \
+		| pandoc \
+			--from markdown \
+			--to markdown \
+			--atx-headers \
+			-M allp_prefix="$(dirname $md_in)/" --filter add_local_link_prefix.py \
+			--filter normalize_links.py \
+			-M ll_doc_path="$md_in" --filter linearize_links.py \
+		>> "$single_md"
+	echo -e "\n" >> "$single_md"
+done
+

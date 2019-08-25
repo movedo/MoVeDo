@@ -1,0 +1,60 @@
+#!/bin/bash
+# Pre-processes Markdown sources with PP (pandoc _p_re-_p_rocessor);
+# *.pp.md -> *.md
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools pp" # for pre-processing Markdown sources
+_check_tools $tools
+_check_env
+
+export rewrite_links=true
+export gen_src_dir
+
+echo
+echo "Generate *.md from *.pp.md (Markdown with Pandoc pre-processor (PP) directives) ..."
+function process_ppmd() {
+	local ppmd="$1"
+	local rel_dir=`dirname "$ppmd"`
+	local base=`basename -s ".pp.md" "$ppmd"`
+	local source_rel="$rel_dir/${base}.pp.md"
+	local target_rel="$gen_src_dir/$rel_dir/${base}.md"
+	local source_abs="`pwd`/$source_rel"
+	local target_abs="`pwd`/$target_rel"
+	#local project_dir_abs="`pwd`"
+	local project_dir_rel=".." # HACK This just works for the files in "chapters/", because it is a single depth from the project-root
+	local gen_project_dir_rel=`dirname "$target_rel"`
+	local gen_project_dir_abs=`pwd`"/$gen_project_dir_rel"
+	local sources_dir_rel="../.."
+	echo -e "\tpp \"$source_rel\"\n\t\t> \"$target_rel\""
+	pre_dir=`pwd`
+	cd "$gen_src_dir"
+	pp \
+		-Dprojdir="$project_dir_rel" \
+		-Dsrcdir="$sources_dir_rel" \
+		-Dgensrcdir="$gen_project_dir_abs" \
+		"$source_abs" \
+		> "$target_abs" \
+		|| return $?
+	cd "$pre_dir"
+	if $rewrite_links
+	then
+		sed --in-place -e 's/\.pp\.md/\.md/g' "$target_rel" || return $?
+	fi
+}
+export -f process_ppmd
+
+find . \
+	-type f \
+	-name "*.pp.md" \
+	\( ! -regex '.*/\..*' \) \
+	\( ! -path "./${build_dir}*" \) \
+	\( ! -path "./_site/*" \) \
+	-exec bash -c 'process_ppmd "$0" || kill $PPID' "{}" \;
+

@@ -1,0 +1,37 @@
+#!/bin/sh
+# Generates visuals from Various text-based graph and diagram sources,
+# for example:
+# * myDiagram.puml -> myDiagram.svg
+# * myGraph.dot -> myGraph.svg
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools dot" # for generating GraphViz/DOT diagram visuals
+tools="$tools plantuml" # for generating PlantUML diagram visuals
+_check_tools $tools
+_check_env
+
+export rewrite_links=true
+export gen_src_dir
+
+echo
+echo "Generate GraphViz/DOT graph images ..."
+find . -type f -name "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
+	-exec dot -Tsvg {} -o ${gen_src_dir}/{}.svg \;
+find . -type f -name "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
+	-exec dot -Tpng {} -o ${gen_src_dir}/{}.png \;
+
+echo
+echo "Generate PlantUML graph images .."
+for dir in `find . -type f -name "*.puml" ! -path "./${build_dir}*" ! -path "./_site/*" \
+	-exec dirname {} \; | sort | uniq`
+do
+	plantuml -tsvg -o "`pwd`/${gen_src_dir}/$dir" "$dir/"*.puml
+done
+

@@ -1,0 +1,54 @@
+#!/bin/sh
+# Prepares the generated sources directory for
+# sources ot actually be generated.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools cpio" # for copying directory trees
+_check_tools $tools
+
+copy_source_files=true
+
+mkdir -p "$gen_src_dir"
+
+echo
+echo "Copy source *dir* structure to generated-sources dir ..."
+find . \
+		-type d \
+		\( ! -regex '.*/\..*' \) \
+		\( ! -path "./${build_dir}*" \) \
+		\( ! -path "./vendor/*" \) \
+		\( ! -path "./vendor" \) \
+		\( ! -path "./public/*" \) \
+		\( ! -path "./public" \) \
+		\( ! -path "./script/*" \) \
+		\( ! -path "./script" \) \
+		\( ! -path "./_site/*" \) \
+		\( ! -path "./_site" \) \
+	| cpio -pdvm --quiet "${gen_src_dir}" 2> /dev/null
+mkdir -p "${gen_src_dir}/assets/images" # HACK
+
+if $copy_source_files
+then
+	echo
+	echo "Copy source *files* to generated-sources dir ..."
+	find . \
+			-type f \
+			\( ! -regex '.*/\..*' \) \
+			\( ! -path "./${build_dir}*" \) \
+			\( ! -path "./vendor/*" \) \
+			\( ! -path "./public/*" \) \
+			\( ! -path "./_site/*" \) \
+			\( ! -path "./script/*" \) \
+			\( ! -name "*.pp.md" \) \
+			\( ! -name "doc.yml" \) \
+			\( ! -name "README.md" \) \
+		| cpio -pdvm "${gen_src_dir}" 2> /dev/null
+fi
+

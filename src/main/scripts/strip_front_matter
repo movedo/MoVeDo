@@ -1,0 +1,42 @@
+#!/bin/sh
+# Strips YAML FrontMattter from a file (usually Markdown).
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+# Exit immediately on each error and unset variable;
+# see: https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Ee
+
+replace=false
+in_file="-"
+out_file="/dev/stdout"
+
+if [ -n "$1" ]
+then
+	if [ "$1" = "-i" ] || [ "$1" = "--in-place" ]
+	then
+		replace=true
+		in_file="$2"
+		out_file="$in_file"
+	else
+		in_file="$1"
+		if [ -n "$2" ]
+		then
+			out_file="$2"
+		fi
+	fi
+fi
+
+#echo
+#echo -n "Stripping (YAML) Front-Matter "
+sed_expr='1{/^---$/!q;};1,/^\(---\|\.\.\.\)$/d'
+if $replace
+then
+	#echo "from \"$in_file\" in-place ..."
+	sed -e ''$sed_expr'' -i "$in_file"
+else
+	#echo " ..."
+	sed -e ''$sed_expr'' "$in_file" >> "$out_file"
+fi
+

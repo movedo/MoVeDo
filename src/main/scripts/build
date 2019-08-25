@@ -1,0 +1,19 @@
+#!/bin/sh
+# Builds everything:
+# * HTML version of the Markdown documentation.
+# * a linearized version of the Markdown documentation as a single document.
+# * PFD version of the Markdown documentation as a single document.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+"${script_dir}/generate"
+"${script_dir}/generate-md-index"
+"${script_dir}/linearize"
+"${script_dir}/make_pdf"
+#"${script_dir}/make_html"
+

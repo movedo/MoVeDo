@@ -1,0 +1,96 @@
+#!/bin/bash
+# Creates an index of Markdown files from an FS-tree of Markdown files.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir=$(cd $(dirname $0); pwd)
+source "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools jq" # for JSON parsing
+_check_tools $tools
+_check_env
+
+##################################################################
+#{
+#  "docs": {
+#    "Guide": [
+#      "01_Prepare.md"
+#    ],
+#    "images": [
+#      "00_getting_started.md"
+#    ],
+#    "Guide": [
+#      "02_Bla.md"
+#    ]
+#  }
+#}
+##################################################################
+
+function index_txt2json() {
+	in="$1"
+	out="$2"
+
+	cur_dir=""
+	echo "{" > "$out"
+	cat "$in" | while read -d $'\n' -r entry
+	do
+		entry_dir=$(dirname "$entry")/
+		entry_name=$(basename "$entry")
+
+		while [[ "$entry_dir" == "$cur_dir"* ]]
+		do
+			# `cd ..`
+			echo "},"
+			cur_dir=$(echo "$cur_dir" | sed -e 's|[^/]*/$||')
+		done
+
+		remaining_path=$(echo "$entry_dir" | sed -e 's|^'$cur_dir'||')
+		while [[ "$cur_dir" == "$entry_dir"* ]]
+		do
+			next_elem=$(echo "$remaining_path" | sed -e 's|/.*||')
+			remaining_path=$(echo "$remaining_path" | sed -e 's|^[^/]+/||')
+			# `cd $next_elem`
+			echo "\"$next_elem\": {"
+			cur_dir=$cur_dir/$next_elem
+		done
+
+		echo "\"$entry_name\": [],"
+	done | jq '.' >> "$out"
+
+	while [ -n "$cur_dir" ]
+	do
+		# `cd ..`
+		echo "},"
+		cur_dir=$(echo "$cur_dir" | sed -e 's|[^/]*/$||')
+	done
+}
+
+function index_json2txt() {
+	in="$1"
+	out="$2"
+
+	TODO (use jq)
+}
+
+cd "$gen_src_dir"
+
+echo "Generating single, linear Markdown file ..."
+Use global document meta-data
+cat "$doc_meta_file" > "$single_md"
+# 1. find Markdown sources, excluding hidden directories (recursively)
+#    and PP sources.
+# 2. output "directory-dept file-path".
+# 3. sort by these two, so deeper paths appear last,
+#    resulting in Breadth First Traversal (BDT, or Level Order Traversal)
+find . \
+	-type f \
+	\( -name "*.md" \) \
+	\( ! -name "*.pp.md" \) \
+	\( ! -regex '.*/\..*' \) \
+	-printf "%d %p\0" \
+		| sort -n --zero-terminated \
+		| tr '\0' '\n'
+	> index-md.txt
+

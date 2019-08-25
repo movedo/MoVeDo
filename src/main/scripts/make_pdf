@@ -1,0 +1,33 @@
+#!/bin/sh
+# Builds a PDF out of a Markdown file.
+# We do that with Pandoc.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools pandoc" # for PDF generation
+_check_tools $tools
+_check_env
+
+cd "$gen_src_dir"
+
+echo
+echo "Generating PDF ..."
+mkdir -p "$pdf_dir"
+# TODO remove extra/legacy resource paths (should be covered by pandoc filter url rewriting)
+pandoc \
+	--from markdown \
+	--to latex \
+	--standalone \
+	--table-of-contents \
+	--number-sections \
+	--top-level-division=chapter \
+	--resource-path=".:../..:../../chapters:./chapters:." \
+	--output="$single_pdf" \
+	"$single_md"
+
