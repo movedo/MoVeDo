@@ -6,9 +6,9 @@ set -e
 
 this_scripts_dir_rel=`dirname $0`
 this_scripts_dir=`cd "$this_scripts_dir_rel"; pwd`
-root_dir=`cd "$this_scripts_dir"; cd ../../..; pwd`
-filters_dir="$root_dir/src/main/filters"
-build_dir="$root_dir/build"
+movedo_root_dir=`cd "$this_scripts_dir"; cd ../..; pwd`
+filters_dir="$movedo_root_dir/filters"
+build_dir="$movedo_root_dir/build"
 tmp_dir="$build_dir/tmp"
 our_name=`basename -s '.sh' $0`
 

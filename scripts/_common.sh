@@ -8,8 +8,8 @@
 set -Eeuo pipefail
 
 script_dir=$(cd $(dirname $0); pwd)
-movedo_root_dir=$(cd "$script_dir/../../.."; pwd)
-filters_dir="$movedo_root_dir/src/main/filters"
+movedo_root_dir=$(cd "$script_dir/.."; pwd)
+filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
 proj_dir=$(pwd)
 build_dir="$proj_dir/build"
