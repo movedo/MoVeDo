@@ -32,8 +32,14 @@ do
 		title=$(grep "^title: " "$md_in" | head -n 1 | sed -e 's/^title:[[:space:]]\+//')
 		echo -e "# $title\n" >> "$single_md"
 	}
-	# strip front-matter, cleanup, filter,
-	# and write to the global document file
+	# here we do:
+	# * strip front-matter
+	# * cleanup
+	# * filter
+	#   * add_local_link_prefix
+	#   * normalize_links
+	#   * linearize_links
+	# * write to the global document file
 	"$script_dir/strip_front_matter" "$md_in" \
 		| pandoc \
 			--from markdown \
