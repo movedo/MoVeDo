@@ -15,6 +15,7 @@ out of a bunch of Markdown or HTML files scatered aroudn the filesystem.
 
 Usage example:
 $ pandoc -f markdown -t markdown --atx-headers \
+        -M ll_doc_path="dir/to/current.md" \
         --filter linearize_links.py \
         -o output.md \
         input.md
