@@ -82,7 +82,7 @@ def prepare(doc):
 
 def action(elem, doc):
     """The panflute filter main method, called once per element."""
-    if isinstance(elem, (pf.Link, pf.Image)):
+    if isinstance(elem, pf.Link):
         linearize_url(elem)
     if hasattr(elem, 'identifier') and elem.identifier != '':
         linearize_identifier(elem)
