@@ -43,9 +43,9 @@ do
 			--from markdown \
 			--to markdown \
 			--atx-headers \
-			-M allp_prefix="$(dirname $md_in)/" --filter add_local_link_prefix.py \
-			--filter normalize_links.py \
-			-M ll_doc_path="$md_in" --filter linearize_links.py \
+			-M allp_prefix="$(dirname $md_in)/" --filter "$filters_dir/add_local_link_prefix.py" \
+			--filter "$filters_dir/normalize_links.py" \
+			-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
 		>> "$single_md"
 	echo -e "\n" >> "$single_md"
 done

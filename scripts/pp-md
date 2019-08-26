@@ -18,6 +18,7 @@ _check_env
 export rewrite_links=true
 export proj_dir
 export gen_src_dir
+export filters_dir
 
 echo
 echo "Generate *.md from *.pp.md (Markdown with Pandoc pre-processor (PP) directives) ..."
@@ -47,7 +48,7 @@ function process_ppmd() {
 	if $rewrite_links
 	then
 		pandoc -f markdown -t markdown --atx-headers \
-			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter replace_link_suffixes.py \
+			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter "$filters_dir/replace_link_suffixes.py" \
 			-o "${target_rel}_out" \
 			"$target_rel"
 		mv "${target_rel}_out" "$target_rel"
