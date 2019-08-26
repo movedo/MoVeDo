@@ -5,7 +5,8 @@
 
 # Exit immediately on each error and unset variable;
 # see: https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
-set -Eeuo pipefail
+#set -Eeuo pipefail
+set -Eeu
 
 script_dir=$(cd $(dirname $0); pwd)
 movedo_root_dir=$(cd "$script_dir/.."; pwd)
