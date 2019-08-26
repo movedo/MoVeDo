@@ -19,13 +19,11 @@ cd "$gen_src_dir"
 
 echo
 echo "Generating single, linear Markdown file ..."
-Use global document meta-data
+# Use global document meta-data
 cat "$doc_meta_file" > "$single_md"
 cat index-md.txt | while read -d $'\n' -r md_in
 do
-	# stripp the preceeding directory depth away
-	md_in=$(echo "$md_in" | sed -z -e 's/^[0-9]\+\s//;' -e 's/^\.///')
-	echo "Processing $md_in ..."
+	echo "Linearizing $md_in ..."
 	# TODO put this in its own script:
 	# extract the document(-fragment)s title from the YAML meta-data
 	grep "^title: " "$md_in" > /dev/null && {

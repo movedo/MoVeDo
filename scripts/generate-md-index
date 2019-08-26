@@ -71,26 +71,29 @@ function index_json2txt() {
 	in="$1"
 	out="$2"
 
-	TODO (use jq)
+	#TODO (use jq)
 }
 
 cd "$gen_src_dir"
 
-echo "Generating single, linear Markdown file ..."
-Use global document meta-data
-cat "$doc_meta_file" > "$single_md"
 # 1. find Markdown sources, excluding hidden directories (recursively)
 #    and PP sources.
 # 2. output "directory-dept file-path".
 # 3. sort by these two, so deeper paths appear last,
 #    resulting in Breadth First Traversal (BDT, or Level Order Traversal)
+echo
+echo "Generate index of Markdown soures on the basis of the file-system structure ..."
+# HACK Ignoring "./movedo/*" might is only right for our specific (the default/intended) scenario.
 find . \
 	-type f \
 	\( -name "*.md" \) \
+	\( ! -path "\./build/*" \) \
+	\( ! -ipath "\./movedo/*" \) \
 	\( ! -name "*.pp.md" \) \
 	\( ! -regex '.*/\..*' \) \
 	-printf "%d %p\0" \
 		| sort -n --zero-terminated \
-		| tr '\0' '\n'
+		| sed -z -e 's/^[0-9]\+\s//;' -e 's|^\./||' \
+		| tr '\0' '\n' \
 	> index-md.txt
 
