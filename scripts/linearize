@@ -11,7 +11,7 @@ script_dir=`cd ${script_dir_rel}; pwd`
 
 tools=""
 tools="$tools pandoc" # for Markdown filterin/cleanup
-tools="$tools '$script_dir/strip_front_matter'"
+tools="$tools $script_dir/strip_front_matter"
 _check_tools $tools
 _check_env
 
