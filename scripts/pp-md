@@ -27,9 +27,9 @@ function process_ppmd() {
 	local rel_dir=`dirname "$ppmd"`
 	local base=`basename -s ".pp.md" "$ppmd"`
 	local source_rel="$rel_dir/${base}.pp.md"
-	local target_rel="$gen_src_dir/$rel_dir/${base}.md"
+	local target_abs="$gen_src_dir/$rel_dir/${base}.md"
+	local target_rel=`realpath --relative-to="$proj_dir" "$target_abs"`
 	local source_abs="`pwd`/$source_rel"
-	local target_abs="`pwd`/$target_rel"
 	local project_dir_rel=`realpath --relative-to="$proj_dir/$rel_dir" "$proj_dir"`
 	local gen_project_dir_rel=`dirname "$target_rel"`
 	local gen_project_dir_abs=`pwd`"/$gen_project_dir_rel"
