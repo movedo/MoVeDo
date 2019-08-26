@@ -22,6 +22,7 @@ echo
 echo "Generating HTML ..."
 bundle exec jekyll build
 mkdir -p "$html_dir"
-rm -Rf "$html_dir"*
+rm -Rf "$html_dir/"*
 mv -f "$gen_src_dir/_site/"* "$html_dir/"
+rmdir "$gen_src_dir/_site"
 
