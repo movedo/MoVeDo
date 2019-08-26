@@ -15,5 +15,5 @@ script_dir=`cd ${script_dir_rel}; pwd`
 "${script_dir}/generate-md-index"
 "${script_dir}/linearize"
 "${script_dir}/make_pdf"
-#"${script_dir}/make_html"
+"${script_dir}/make_html"
 
