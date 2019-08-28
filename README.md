@@ -1,7 +1,7 @@
 # MoVeDo - Modular, Versioned Documentation
 
 A build tool for your Markdown based, git hosted documentation.
-Think of it like `gradle`, `leiningen`, `maven`, `gulp`, or any other build tool that mainly relies on convention (over configuration) -- but for your documentation.
+Think of it like `gradle`, `leiningen`, `maven`, `grunt`, or any other build tool that mainly relies on convention (over configuration) -- but for your documentation.
 
 By default it:
 
