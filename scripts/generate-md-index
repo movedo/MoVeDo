@@ -95,5 +95,5 @@ find . \
 		| sort -n --zero-terminated \
 		| sed -z -e 's/^[0-9]\+\s//;' -e 's|^\./||' \
 		| tr '\0' '\n' \
-	> index-md.txt
+	> "$index_md_file_generated"
 

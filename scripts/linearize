@@ -21,7 +21,7 @@ echo
 echo "Generating single, linear Markdown file ..."
 # Use global document meta-data
 cat "$doc_meta_file" > "$single_md"
-cat index-md.txt | while read -d $'\n' -r md_in
+cat "$index_md_file" | while read -d $'\n' -r md_in
 do
 	echo "Linearizing $md_in ..."
 	# TODO put this in its own script:

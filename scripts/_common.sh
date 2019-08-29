@@ -37,6 +37,14 @@ _set_if_unset biblography_file "$proj_dir/citations.bib"
 # the original sources are copied in here too,
 # and the documentation is actually built from here
 _set_if_unset gen_src_dir "$build_dir/gen_sources"
+# Index file(s) containing the Markdonw sources
+# to be used for linearizing, in the correct order.
+_set_if_unset index_md_file_name "index-md.txt"
+_set_if_unset index_md_file_generated "$gen_src_dir/$index_md_file_name"
+_set_if_unset index_md_file_manual "$proj_dir/$index_md_file_name"
+# If the manually crafted file one is present,
+# it has precedence over the generated one.
+_set_if_unset index_md_file "`[ -f "$index_md_file_manual" ] && echo "$index_md_file_manual" || echo "$index_md_file_generated"`"
 _set_if_unset html_dir "$build_dir/html"
 _set_if_unset pdf_dir "$build_dir/pdf"
 _set_if_unset single_md "$build_dir/doc.md"
