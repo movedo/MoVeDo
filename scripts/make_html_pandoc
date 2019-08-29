@@ -1,0 +1,59 @@
+#!/bin/sh
+# Builds a HTML out of a Markdown files.
+# We do that with Pandoc, each source file separately.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools cpio" # for copying directory trees
+tools="$tools pandoc" # for per-file Markdown to HTML conversion
+_check_tools $tools
+_check_env
+
+copy_source_files=true
+
+cd "$gen_src_dir"
+
+echo
+echo "Copy generated-sources *dir* structure to HTML output dir ..."
+find . \
+		-type d \
+		\( ! -regex '.*/\..*' \) \
+	| cpio -pdvm --quiet "${html_dir}" 2> /dev/null
+
+if $copy_source_files
+then
+	echo
+	echo "Copy generated-sources *files* to HTML output dir ..."
+	find . \
+			-type f \
+		| cpio -pdvm "${html_dir}" 2> /dev/null
+fi
+
+cd "${html_dir}"
+
+echo
+echo "Generating HTML (using Pandoc native) ..."
+extra=""
+if [ -e "$biblography_file" ]
+then
+	 extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
+fi
+find -type f -name "*.md" | while read -r md_file
+do
+	html_file=`echo $md_file | sed -e 's/\.md$/.html/'`
+	pandoc \
+		--standalone \
+		--from=markdown \
+		--to=html \
+		--output="$html_file" \
+		$extra \
+		$@ \
+		"$md_file"
+done
+

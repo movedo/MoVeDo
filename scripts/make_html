@@ -1,0 +1,21 @@
+#!/bin/sh
+# Builds a HTML out of a Markdown files.
+# How we try to do that depends on the client repos content.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+mkdir -p "$html_dir"
+rm -Rf "$html_dir/"*
+
+if [ -f "_config.yml" ]
+then
+	"$script_dir/make_html_jekyll"
+else
+	"$script_dir/make_html_pandoc"
+fi
+
