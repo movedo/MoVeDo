@@ -25,5 +25,6 @@ pandoc \
 	--standalone \
 	--table-of-contents \
 	--output="$single_pdf" \
+	$@ \
 	"$single_md"
 
