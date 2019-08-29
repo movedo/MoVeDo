@@ -20,12 +20,19 @@ _set_if_unset() {
 }
 
 script_dir=$(cd $(dirname $0); pwd)
+# Root of the local MoVeDo (doc build tool) root directory
 _set_if_unset movedo_root_dir $(cd "$script_dir/.."; pwd)
+# Where to look for the Python panflute Pandoc filters
 filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
 _set_if_unset proj_dir $(pwd)
+# Root directory for all files created during the documentation build process
 _set_if_unset build_dir "$proj_dir/build"
+# YAML meta-data, to be usedin the single, fused Markdown file as FrontMatter
 _set_if_unset doc_meta_file "$proj_dir/doc.yml"
+# Root for all generated sources
+# the original sources are copied in here too,
+# and the documentation is actually built from here
 _set_if_unset gen_src_dir "$build_dir/gen_sources"
 _set_if_unset html_dir "$build_dir/html"
 _set_if_unset pdf_dir "$build_dir/pdf"
