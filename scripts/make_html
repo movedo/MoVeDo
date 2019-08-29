@@ -21,3 +21,8 @@ fi
 
 echo "HTML files generated under '$html_dir'"
 
+if [ -n "$OPEN_X11" ] && [ -f "index.html" ]
+then
+	xdg-open "index.html"
+fi
+

@@ -49,6 +49,10 @@ _set_if_unset html_dir "$build_dir/html"
 _set_if_unset pdf_dir "$build_dir/pdf"
 _set_if_unset single_md "$build_dir/doc.md"
 _set_if_unset single_pdf "$pdf_dir/doc.pdf"
+# Open results (like PDF files or index.html) with the systems default viewer/editor
+# default: "no"
+# set to any non empty value for "yes"
+_set_if_unset OPEN_X11 ""
 
 _check_tools() {
 	tools="$@"
