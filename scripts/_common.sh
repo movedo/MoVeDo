@@ -8,18 +8,29 @@
 #set -Eeuo pipefail
 set -Eeu
 
+_var_set() {
+	set | grep '^'"$1"'=' > /dev/null
+}
+
+_set_if_unset() {
+	if ! _var_set "$1"
+	then
+		eval "$1='$2'"
+	fi
+}
+
 script_dir=$(cd $(dirname $0); pwd)
-movedo_root_dir=$(cd "$script_dir/.."; pwd)
+_set_if_unset movedo_root_dir $(cd "$script_dir/.."; pwd)
 filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
-proj_dir=$(pwd)
-build_dir="$proj_dir/build"
-gen_src_dir="$build_dir/gen_sources"
-html_dir="$build_dir/html"
-pdf_dir="$build_dir/pdf"
-doc_meta_file="$proj_dir/doc.yml"
-single_md="$build_dir/doc.md"
-single_pdf="$pdf_dir/doc.pdf"
+_set_if_unset proj_dir $(pwd)
+_set_if_unset build_dir "$proj_dir/build"
+_set_if_unset doc_meta_file "$proj_dir/doc.yml"
+_set_if_unset gen_src_dir "$build_dir/gen_sources"
+_set_if_unset html_dir "$build_dir/html"
+_set_if_unset pdf_dir "$build_dir/pdf"
+_set_if_unset single_md "$build_dir/doc.md"
+_set_if_unset single_pdf "$pdf_dir/doc.pdf"
 
 _check_tools() {
 	tools="$@"
