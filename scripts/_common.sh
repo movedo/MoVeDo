@@ -30,6 +30,8 @@ _set_if_unset proj_dir $(pwd)
 _set_if_unset build_dir "$proj_dir/build"
 # YAML meta-data, to be usedin the single, fused Markdown file as FrontMatter
 _set_if_unset doc_meta_file "$proj_dir/doc.yml"
+# BibTex meta-data, to be usedin the PDF output (optional)
+_set_if_unset biblography_file "$proj_dir/citations.bib"
 # Root for all generated sources
 # the original sources are copied in here too,
 # and the documentation is actually built from here

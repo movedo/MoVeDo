@@ -19,12 +19,18 @@ cd "$gen_src_dir"
 echo
 echo "Generating PDF ..."
 mkdir -p "$pdf_dir"
+extra=""
+if [ -e "$biblography_file" ]
+then
+	 extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
+fi
 pandoc \
 	--from markdown \
 	--to latex \
 	--standalone \
 	--table-of-contents \
 	--output="$single_pdf" \
+	$extra \
 	$@ \
 	"$single_md"
 
