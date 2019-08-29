@@ -17,28 +17,23 @@ _check_env
 
 cd "$gen_src_dir"
 
+rm -f "$single_md"
+
 echo
 echo "Generating single, linear Markdown file ..."
-# Use global document meta-data
-cat "$doc_meta_file" > "$single_md"
-cat "$index_md_file" | while read -d $'\n' -r md_in
-do
-	echo "Linearizing $md_in ..."
-	# TODO put this in its own script:
-	# extract the document(-fragment)s title from the YAML meta-data
-	grep "^title: " "$md_in" > /dev/null && {
-		title=$(grep "^title: " "$md_in" | head -n 1 | sed -e 's/^title:[[:space:]]\+//')
-		echo -e "# $title\n" >> "$single_md"
-	}
-	# here we do:
-	# * strip front-matter
-	# * cleanup
-	# * filter
-	#   * add_local_link_prefix
-	#   * normalize_links
-	#   * linearize_links
-	# * write to the global document file
-	"$script_dir/strip_front_matter" "$md_in" \
+if [ `cat "$index_md_file" | wc -l` -eq 1 ]
+then
+	md_in="`cat "$index_md_file"`"
+	single_md_tmp="${single_md}_tmp"
+	# Build from a single source file
+	if [ -f "$doc_meta_file" ]
+	then
+		# Use global document meta-data
+		cat "$doc_meta_file" >> "$single_md_tmp"
+	fi
+	# Use the single source file as-is
+	cat "$md_in" >> "$single_md_tmp"
+	cat "$single_md_tmp" \
 		| pandoc \
 			--from markdown \
 			--to markdown \
@@ -47,6 +42,43 @@ do
 			--filter "$filters_dir/normalize_links.py" \
 			-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
 		>> "$single_md"
-	echo -e "\n" >> "$single_md"
-done
+	rm "$single_md_tmp"
+elif [ -f "$doc_meta_file" ]
+then
+	# Build from multiple source files
+
+	# Use global document meta-data
+	cat "$doc_meta_file" > "$single_md"
+	cat "$index_md_file" | while read -d $'\n' -r md_in
+	do
+		echo "Linearizing $md_in ..."
+		# TODO put this in its own script:
+		# extract the document(-fragment)s title from the YAML meta-data
+		grep "^title: " "$md_in" > /dev/null && {
+			title=$(grep "^title: " "$md_in" | head -n 1 | sed -e 's/^title:[[:space:]]\+//')
+			echo -e "# $title\n" >> "$single_md"
+		}
+		# here we do:
+		# * strip front-matter
+		# * cleanup
+		# * filter
+		#   * add_local_link_prefix
+		#   * normalize_links
+		#   * linearize_links
+		# * write to the global document file
+		"$script_dir/strip_front_matter" "$md_in" \
+			| pandoc \
+				--from markdown \
+				--to markdown \
+				--atx-headers \
+				-M allp_prefix="$(dirname $md_in)/" --filter "$filters_dir/add_local_link_prefix.py" \
+				--filter "$filters_dir/normalize_links.py" \
+				-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
+			>> "$single_md"
+		echo -e "\n" >> "$single_md"
+	done
+else
+	echo "ERROR: If you have more then one source file, you need '$doc_meta_file'" 1>&2
+	exit 1
+fi
 
