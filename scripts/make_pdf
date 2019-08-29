@@ -24,8 +24,6 @@ pandoc \
 	--to latex \
 	--standalone \
 	--table-of-contents \
-	--number-sections \
-	--top-level-division=chapter \
 	--output="$single_pdf" \
 	"$single_md"
 
