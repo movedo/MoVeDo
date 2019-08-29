@@ -27,7 +27,8 @@ filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
 _set_if_unset proj_dir $(pwd)
 # Root directory for all files created during the documentation build process
-_set_if_unset build_dir "$proj_dir/build"
+_set_if_unset build_dir_rel "build"
+_set_if_unset build_dir "$proj_dir/$build_dir_rel"
 # YAML meta-data, to be usedin the single, fused Markdown file as FrontMatter
 _set_if_unset doc_meta_file "$proj_dir/doc.yml"
 # BibTex meta-data, to be usedin the PDF output (optional)

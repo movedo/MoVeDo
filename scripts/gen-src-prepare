@@ -22,7 +22,7 @@ echo "Copy source *dir* structure to generated-sources dir ..."
 find . \
 		-type d \
 		\( ! -regex '.*/\..*' \) \
-		\( ! -path "./${build_dir}*" \) \
+		\( ! -path "./${build_dir_rel}*" \) \
 		\( ! -path "./vendor/*" \) \
 		\( ! -path "./vendor" \) \
 		\( ! -path "./public/*" \) \
@@ -41,7 +41,7 @@ then
 	find . \
 			-type f \
 			\( ! -regex '.*/\..*' \) \
-			\( ! -path "./${build_dir}*" \) \
+			\( ! -path "./${build_dir_rel}*" \) \
 			\( ! -path "./vendor/*" \) \
 			\( ! -path "./public/*" \) \
 			\( ! -path "./_site/*" \) \
