@@ -19,3 +19,5 @@ else
 	"$script_dir/make_html_pandoc"
 fi
 
+echo "HTML files generated under '$html_dir'"
+

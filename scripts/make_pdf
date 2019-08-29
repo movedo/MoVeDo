@@ -34,3 +34,5 @@ pandoc \
 	$@ \
 	"$single_md"
 
+echo "PDF file generated: '$single_pdf'"
+
