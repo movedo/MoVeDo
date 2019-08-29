@@ -19,7 +19,6 @@ cd "$gen_src_dir"
 echo
 echo "Generating PDF ..."
 mkdir -p "$pdf_dir"
-# TODO remove extra/legacy resource paths (should be covered by pandoc filter url rewriting)
 pandoc \
 	--from markdown \
 	--to latex \
@@ -27,7 +26,6 @@ pandoc \
 	--table-of-contents \
 	--number-sections \
 	--top-level-division=chapter \
-	--resource-path=".:../..:../../chapters:./chapters:." \
 	--output="$single_pdf" \
 	"$single_md"
 
