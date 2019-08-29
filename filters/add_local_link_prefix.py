@@ -46,7 +46,7 @@ def prepare(doc):
 
 def action(elem, doc):
     """The panflute filter main method, called once per element."""
-    if isinstance(elem, pf.Link):
+    if isinstance(elem, (pf.Link, pf.Image)):
         prefix_if_rel_path(elem)
     return elem
 
