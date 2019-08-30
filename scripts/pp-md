@@ -9,6 +9,23 @@ script_dir_rel=`dirname $0`
 script_dir=`cd ${script_dir_rel}; pwd`
 . "${script_dir}/_common.sh"
 
+function find_pp_sources() {
+
+	find . \
+		-type f \
+		-name "*.pp.md" \
+		\( ! -regex '.*/\..*' \) \
+		\( ! -path "./${build_dir}*" \) \
+		\( ! -path "./_site/*" \)
+}
+
+if [ `find_pp_sources | wc -l` -lt 1 ]
+then
+	# No PP sources found
+	exit 0
+fi
+
+
 tools=""
 tools="$tools pp" # for pre-processing Markdown sources
 tools="$tools realpath" # for calculating relative paths
@@ -56,11 +73,8 @@ function process_ppmd() {
 }
 export -f process_ppmd
 
-find . \
-	-type f \
-	-name "*.pp.md" \
-	\( ! -regex '.*/\..*' \) \
-	\( ! -path "./${build_dir}*" \) \
-	\( ! -path "./_site/*" \) \
-	-exec bash -c 'process_ppmd "$0" || kill $PPID' "{}" \;
+find_pp_sources | while read -d $'\n' -r pp_md_in
+do
+	bash -c 'process_ppmd "$0" || kill $PPID' "$pp_md_in"
+done
 
