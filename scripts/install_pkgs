@@ -1,0 +1,95 @@
+#!/bin/sh
+# Install and setup all requirements.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+
+# TODO This needs revising (compare ot other install scripts)
+
+script_dir_rel=`dirname $0`
+script_dir=`cd ${script_dir_rel}; pwd`
+. "${script_dir}/_common.sh"
+
+sys_pkgs=""
+sys_pkgs="$sys_pkgs git" # for fetching pdsite
+sys_pkgs="$sys_pkgs wget" # for getting a recent version of pandoc
+sys_pkgs="$sys_pkgs cpio" # for copying a directory tree
+sys_pkgs="$sys_pkgs texlive-latex-base" # for generating Latex/PDF with pandoc
+#sys_pkgs="$sys_pkgs jekyll"
+sys_pkgs="$sys_pkgs graphviz" # for PP
+sys_pkgs="$sys_pkgs python-blockdiag" # for PP
+sys_pkgs="$sys_pkgs asymptote" # for PP
+#sys_pkgs="$sys_pkgs ditaa" # for PP
+#sys_pkgs="$sys_pkgs plantuml" # for PP
+
+tools=""
+tools="$tools git"
+tools="$tools wget" # for getting a recent version of pandoc
+tools="$tools cpio" # for copying a directory tree
+tools="$tools pandoc" # for PDF generation
+tools="$tools pp" # for PP
+tools="$tools dot" # for PP
+tools="$tools blockdiag" # for PP
+tools="$tools asy" # for PP
+tools="$tools java" # for PP
+#tools="$tools ditaa" # for PP
+#tools="$tools plantuml" # for PP
+#tools="$tools pdsite" # for HTML site generation - handled separately
+tools="$tools bundle" # for ruby package handling (jekyll)
+tools="$tools jekyll" # for HTML site generation
+
+# install latest pre-requisites available as system packages
+# NOTE Only Debian/Ubuntu based systems are supported so far
+if `_is_deb`
+then
+	apt_cache_updated=false
+	update_apt_cache() {
+		# update apt-cache only once
+		if ! $apt_cache_updated
+		then
+			apt-get update
+			apt_cache_updated=true
+		fi
+	}
+	pkgs_install() {
+		local pkgs="$1"
+		# filter out already installed packages
+		local pkgs_missing=""
+		for pkg in $pkgs
+		do
+			if ! dpkg -s "$pkg" > /dev/null 2>&1
+			then
+				local sep=`[ -z "$pkgs_missing" ] && echo "" || echo " "`
+				pkgs_missing="$pkgs_missing$sep$pkg"
+			fi
+		done
+		# install if not yet installed
+		if [ -n "$pkgs_missing" ]
+		then
+echo "missing pkgs: '$pkgs_missing'"
+sleep 1
+			update_apt_cache
+			apt-get install -y -qq $pkgs_missing
+		fi
+	}
+	pkgs_install "$sys_pkgs"
+else
+	missing_tools=0
+	for tool in $tools
+	do
+		if ! which $tool > /dev/null 2>&1
+		then
+			echo "WARNING: Missing tool: '$tool'" 1>&2
+			missing_tools=`expr $missing_tools + 1`
+		fi
+	done
+	if [ $missing_tools -ne 0 ]
+	then
+		echo "WARNING: Automatic install is only supported for debian based systems as of now" 1>&2
+		exit 1
+	fi
+fi
+
+# Install jekyll dependencies
+bundle install --path vendor/bundle

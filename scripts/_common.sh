@@ -76,3 +76,22 @@ _check_env() {
 	fi
 }
 
+_is_deb() {
+	which apt-get > /dev/null 2>&1 && echo "true" || echo "false"
+}
+
+_contains_word() {
+	str="$1"
+	word="$2"
+	# we use printf instead of echo for better portability
+	printf '%s' "$str" \
+		| grep -q -e '\(^\|[ .,:;]\)'"$word"'\($\|[ .,:;]\)'
+}
+
+_permanently_add_to_path() {
+	add_path="$1"
+	# HACK We probably should not modify the users environment permanently and globally like that
+	echo '\nexport PATH="$PATH:'"$add_path"'"\n' >> "$HOME/.profile"
+	export PATH="$PATH:$add_path"
+}
+
