@@ -8,7 +8,7 @@ script_dir=$(cd $(dirname $0); pwd)
 source "${script_dir}/_common.sh"
 
 tools=""
-tools="$tools jq" # for JSON parsing
+#tools="$tools jq" # for JSON parsing
 _check_tools $tools
 _check_env
 
