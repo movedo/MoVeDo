@@ -10,7 +10,9 @@ script_dir=`cd ${script_dir_rel}; pwd`
 . "${script_dir}/_common.sh"
 
 tools=""
-tools="$tools pandoc" # for Markdown filterin/cleanup
+tools="$tools pandoc" # for Markdown filtering/cleanup
+tools="$tools python" # for Panflute
+tools="$tools panflute" # for Pandoc filters
 tools="$tools $script_dir/strip_front_matter"
 _check_tools $tools
 _check_env
