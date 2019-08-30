@@ -82,6 +82,8 @@ then
 	done
 else
 	echo "ERROR: If you have more then one source file, you need '$doc_meta_file'" 1>&2
+	echo "Your index:"
+	cat "$index_md_file"
 	exit 1
 fi
 
