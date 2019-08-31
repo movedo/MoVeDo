@@ -35,6 +35,7 @@ then
 	fi
 	# Use the single source file as-is
 	cat "$md_in" >> "$single_md_tmp"
+	echo "    adding '$md_in' ..."
 	cat "$single_md_tmp" \
 		| pandoc \
 			--from markdown \
@@ -69,6 +70,7 @@ then
 		#   * normalize_links
 		#   * linearize_links
 		# * write to the global document file
+		echo "    adding '$md_in' ..."
 		"$script_dir/strip_front_matter" "$md_in" \
 			| pandoc \
 				--from markdown \
