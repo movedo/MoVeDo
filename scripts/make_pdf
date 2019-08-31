@@ -14,6 +14,14 @@ tools="$tools pandoc" # for PDF generation
 _check_tools $tools
 _check_env
 
+# parameters
+h1_page_breaks=true
+
+if [ _contains_word "$@" "--no-h1-page-breaks" ]
+then
+	h1_page_breaks=false
+fi
+
 cd "$gen_src_dir"
 
 echo
@@ -24,6 +32,13 @@ if [ -e "$biblography_file" ]
 then
 	 extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
 fi
+
+if $h1_page_breaks
+then
+	# with this. Latex adds a page-break before every level 1 header
+	extra="$extra -V documentclass=report"
+fi
+
 pandoc \
 	--from markdown \
 	--to latex \
