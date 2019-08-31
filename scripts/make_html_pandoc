@@ -42,7 +42,7 @@ echo "Generating HTML (using Pandoc native) ..."
 extra=""
 if [ -e "$biblography_file" ]
 then
-	 extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
+	extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
 fi
 find -type f -name "*.md" | while read -r md_file
 do
