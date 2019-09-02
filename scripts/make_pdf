@@ -46,6 +46,7 @@ pandoc \
 	--standalone \
 	--atx-headers \
 	--table-of-contents \
+	--metadata date="`date -u '+%Y-%m-%d'`" \
 	--output="$single_pdf" \
 	$pandoc_extra \
 	$@ \

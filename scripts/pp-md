@@ -71,6 +71,7 @@ function process_ppmd() {
 			--to=markdown \
 			--standalone \
 			--atx-headers \
+			--metadata date="`date -u '+%Y-%m-%d'`" \
 			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter "$filters_dir/replace_link_suffixes.py" \
 			--output="${target_rel}_out" \
 			$pandoc_extra \
