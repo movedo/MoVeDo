@@ -27,25 +27,27 @@ cd "$gen_src_dir"
 echo
 echo "Generating PDF ..."
 mkdir -p "$pdf_dir"
-extra=""
+pandoc_extra=""
+
 if [ -e "$biblography_file" ]
 then
-	 extra="$extra --bibliography $biblography_file --filter pandoc-citeproc"
+	pandoc_extra="$pandoc_extra --bibliography $biblography_file --filter pandoc-citeproc"
 fi
 
 if $h1_page_breaks
 then
 	# with this. Latex adds a page-break before every level 1 header
-	extra="$extra -V documentclass=report"
+	pandoc_extra="$pandoc_extra -V documentclass=report"
 fi
 
 pandoc \
-	--from markdown \
-	--to latex \
+	--from=markdown \
+	--to=latex \
 	--standalone \
+	--atx-headers \
 	--table-of-contents \
 	--output="$single_pdf" \
-	$extra \
+	$pandoc_extra \
 	$@ \
 	"$single_md"
 

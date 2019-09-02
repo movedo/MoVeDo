@@ -21,6 +21,8 @@ cd "$gen_src_dir"
 
 rm -f "$single_md"
 
+pandoc_extra=""
+
 echo
 echo "Generating single, linear Markdown file ..."
 if [ `cat "$index_md_file" | wc -l` -eq 1 ]
@@ -38,13 +40,14 @@ then
 	echo "    adding '$md_in' ..."
 	cat "$single_md_tmp" \
 		| pandoc \
-			--from markdown \
-			--to markdown \
-			--atx-headers \
+			--from=markdown \
+			--to=markdown \
 			--standalone \
+			--atx-headers \
 			-M allp_prefix="$(dirname $md_in)/" --filter "$filters_dir/add_local_link_prefix.py" \
 			--filter "$filters_dir/normalize_links.py" \
 			-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
+			$pandoc_extra \
 		>> "$single_md"
 	rm "$single_md_tmp"
 elif [ -f "$doc_meta_file" ]
@@ -73,12 +76,13 @@ then
 		echo "    adding '$md_in' ..."
 		"$script_dir/strip_front_matter" "$md_in" \
 			| pandoc \
-				--from markdown \
-				--to markdown \
+				--from=markdown \
+				--to=markdown \
 				--atx-headers \
 				-M allp_prefix="$(dirname $md_in)/" --filter "$filters_dir/add_local_link_prefix.py" \
 				--filter "$filters_dir/normalize_links.py" \
 				-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
+				$pandoc_extra \
 			>> "$single_md"
 		echo -e "\n" >> "$single_md"
 	done
