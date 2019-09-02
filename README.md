@@ -19,17 +19,17 @@ By default it:
 A directory structure sketch of a sample project using MoVeDo:
 
 ```
-/about.md                           # part of the beginning of the docu
-/index.md                           # part of multi-file outputs like HTML, but not PDF
-/LICENSE.md                         # treated as repo file -> excluded from the docu
-/README.md                          # treated as repo file -> excluded from the docu
-/cptrs/01_intro/01_section1.md      # (Pandoc's) Markdown file, part of the docu
-/cptrs/01_intro/02_section2.pp.md   # PP pre-processor annotated Markdown file
-/cptrs/02_action/01_begining.pp.md
-/cptrs/02_action/02_end.md
-/index-md.txt                       # optional; It denotes which *.md files appear in which order
-                                    # in single-file outputs like PDF
-/movedo/                            # git sub-module linked to this repo
+/about.md                              # part of the beginning of the docu
+/index.md                              # part of multi-file outputs like HTML, but not PDF
+/LICENSE.md                            # treated as repo file -> excluded from the docu
+/README.md                             # treated as repo file -> excluded from the docu
+/chapters/01_intro/01_section1.md      # (Pandoc's) Markdown file, part of the docu
+/chapters/01_intro/02_section2.pp.md   # PP pre-processor annotated Markdown file
+/chapters/02_action/01_begining.pp.md
+/chapters/02_action/02_end.md
+/index-md.txt                          # optional; It denotes which *.md files appear in which order
+                                       # in single-file outputs like PDF
+/movedo/                               # git sub-module linked to this repo
 ```
 
 ### Sample Output
@@ -37,25 +37,25 @@ A directory structure sketch of a sample project using MoVeDo:
 by default, all output is generated in the `build` directory, and for the above project would look like:
 
 ```
-/build/gen-src/index-md.txt                    # either copied from the source, or auto-generated
-                                               # from the FS structure of the *.md files.
-                                               # It denotes which *.md files appear in which order
-                                               # in single-file outputs like PDF
+/build/gen-src/index-md.txt                       # either copied from the source, or auto-generated
+                                                  # from the FS structure of the *.md files.
+                                                  # It denotes which *.md files appear in which order
+                                                  # in single-file outputs like PDF
 /build/gen-src/index.md
 /build/gen-src/about.md
-/build/gen-src/cptrs/01_intro/01_section1.md
-/build/gen-src/cptrs/01_intro/02_section2.md   # PP pre-processing is done here
-/build/gen-src/cptrs/01_intro/03_section3.md
-/build/gen-src/cptrs/02_action/01_begining.md
-/build/gen-src/cptrs/02_action/02_end.md
-/build/gen-src/doc.md                          # all the above Markdown files fused into one
+/build/gen-src/chapters/01_intro/01_section1.md
+/build/gen-src/chapters/01_intro/02_section2.md   # PP pre-processing is done here
+/build/gen-src/chapters/01_intro/03_section3.md
+/build/gen-src/chapters/02_action/01_begining.md
+/build/gen-src/chapters/02_action/02_end.md
+/build/gen-src/doc.md                             # all the above Markdown files fused into one
 /build/html/index.html
-/build/html/cptrs/01_intro/01_section1.html
-/build/html/cptrs/01_intro/02_section2.html
-/build/html/cptrs/01_intro/03_section3.html
-/build/html/cptrs/02_action/01_begining.html
-/build/html/cptrs/02_action/02_end.html
-/build/pdf/doc.pdf                             # doc.md converted into a PDF
+/build/html/chapters/01_intro/01_section1.html
+/build/html/chapters/01_intro/02_section2.html
+/build/html/chapters/01_intro/03_section3.html
+/build/html/chapters/02_action/01_begining.html
+/build/html/chapters/02_action/02_end.html
+/build/pdf/doc.pdf                                # doc.md converted into a PDF
 ```
 
 ## How to use
