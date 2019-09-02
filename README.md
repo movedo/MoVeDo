@@ -32,13 +32,21 @@ A directory structure sketch of a sample project using MoVeDo:
 /movedo/                               # git sub-module linked to this repo
 ```
 
+One can use an arbitrary directory structure (including a flat one)
+for the Markdonw sources.
+With the exception of a few special files (like `README` and `LICENSE`),
+and directories (like `build` and hidden ones (`.*`)),
+all `*.md` files are considered sources for the documentation.
+
 ### Sample Output
 
-by default, all output is generated in the `build` directory, and for the above project would look like:
+By default, all output is generated in the `build` directory,
+and for the above project would look like:
 
 ```
 /build/gen-src/index-md.txt                       # either copied from the source, or auto-generated
-                                                  # from the FS structure of the *.md files.
+                                                  # from the FS structure of the *.md files
+                                                  # (alphabetically, with directories after files).
                                                   # It denotes which *.md files appear in which order
                                                   # in single-file outputs like PDF
 /build/gen-src/index.md
