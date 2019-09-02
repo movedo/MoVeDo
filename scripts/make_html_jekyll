@@ -19,7 +19,7 @@ _check_env
 cd "$gen_src_dir"
 
 echo
-echo "Generating HTML ..."
+echo "Generating HTML (using Jekyll) ..."
 bundle exec jekyll build
 mkdir -p "$html_dir"
 rm -Rf "$html_dir/"*

@@ -20,7 +20,10 @@ copy_source_files=true
 cd "$gen_src_dir"
 
 echo
-echo "Copy generated-sources *dir* structure to HTML output dir ..."
+echo "Generating HTML (using Pandoc native) ..."
+
+echo
+echo "    Copy generated-sources *dir* structure to HTML output dir ..."
 find . \
 		-type d \
 		\( ! -regex '.*/\..*' \) \
@@ -29,7 +32,7 @@ find . \
 if $copy_source_files
 then
 	echo
-	echo "Copy generated-sources *files* to HTML output dir ..."
+	echo "    Copy generated-sources *files* to HTML output dir ..."
 	find . \
 			-type f \
 		| cpio -pdvm "${html_dir}" 2> /dev/null
@@ -38,7 +41,7 @@ fi
 cd "${html_dir}"
 
 echo
-echo "Generating HTML (using Pandoc native) ..."
+echo "    Converting ..."
 pandoc_extra=""
 if [ -e "$biblography_file" ]
 then
