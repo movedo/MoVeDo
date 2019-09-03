@@ -51,7 +51,7 @@ then
 	pandoc_extra+=("--bibliography=$biblography_file")
 	pandoc_extra+=("--filter pandoc-citeproc")
 fi
-find -type f -name "*.md" | while read -r md_file
+cat "$index_md_file" | while read -r md_file
 do
 	html_file=`echo $md_file | sed -e 's/\.md$/.html/'`
 	pandoc \
