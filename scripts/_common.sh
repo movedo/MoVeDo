@@ -54,16 +54,22 @@ _set_if_unset single_pdf "$pdf_dir/doc.pdf"
 # set to any non empty value for "yes"
 _set_if_unset OPEN_X11 ""
 
+_check_tool() {
+	tool="$@"
+
+	if ! which "$tool" > /dev/null 2>&1
+	then
+		echo "$0: ERROR: '$tool' is not installed. Please install it manually, or run '`dirname $0`/setup'" 1>&2
+		exit 1
+	fi
+}
+
 _check_tools() {
 	tools="$@"
 
 	for tool in $tools
 	do
-		if ! which $tool > /dev/null 2>&1
-		then
-			echo "ERROR: '$tool' is not installed. Please install it manually, or run '`dirname $0`/setup'" 1>&2
-			exit 1
-		fi
+		_check_tool "$tool"
 	done
 }
 
@@ -71,7 +77,7 @@ _check_env() {
 
 	if [ ! -e "$gen_src_dir" ]
 	then
-		echo "ERROR: Generated sources dir not found, please run '`dirname $0`/generate'" 1>&2
+		echo "$0: ERROR: Generated sources dir not found, please run '`dirname $0`/generate'" 1>&2
 		exit 1
 	fi
 }
