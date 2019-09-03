@@ -22,7 +22,6 @@ cd "$gen_src_dir"
 echo
 echo "Generating HTML (using Pandoc native) ..."
 
-echo
 echo "    Copy generated-sources *dir* structure to HTML output dir ..."
 find . \
 		-type d \
@@ -31,7 +30,6 @@ find . \
 
 if $copy_source_files
 then
-	echo
 	echo "    Copy generated-sources *files* to HTML output dir ..."
 	find . \
 			-type f \
@@ -40,7 +38,6 @@ fi
 
 cd "${html_dir}"
 
-echo
 echo "    Converting ..."
 
 pandoc_extra=()
