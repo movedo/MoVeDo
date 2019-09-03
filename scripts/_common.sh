@@ -81,8 +81,9 @@ _is_deb() {
 }
 
 _contains_word() {
-	str="$1"
-	word="$2"
+	word="$1"
+	shift
+	str="$@"
 	# we use printf instead of echo for better portability
 	printf '%s' "$str" \
 		| grep -q -e '\(^\|[ .,:;]\)'"$word"'\($\|[ .,:;]\)'

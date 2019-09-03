@@ -17,7 +17,7 @@ _check_env
 # parameters
 h1_page_breaks=true
 
-if [ _contains_word "$@" "--no-h1-page-breaks" ]
+if _contains_word "--no-h1-page-breaks" "$@"
 then
 	h1_page_breaks=false
 fi
