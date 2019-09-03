@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 # Builds a PDF out of a Markdown file.
 # We do that with Pandoc.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir_rel=`dirname $0`
-script_dir=`cd ${script_dir_rel}; pwd`
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
 . "${script_dir}/_common.sh"
 
 tools=""
@@ -27,17 +27,20 @@ cd "$gen_src_dir"
 echo
 echo "Generating PDF ..."
 mkdir -p "$pdf_dir"
-pandoc_extra=""
+
+pandoc_extra=()
+pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 
 if [ -e "$biblography_file" ]
 then
-	pandoc_extra="$pandoc_extra --bibliography $biblography_file --filter pandoc-citeproc"
+	pandoc_extra+=("--bibliography=$biblography_file")
+	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
 
 if $h1_page_breaks
 then
 	# with this. Latex adds a page-break before every level 1 header
-	pandoc_extra="$pandoc_extra -V documentclass=report"
+	pandoc_extra+=("--variable=documentclass:report")
 fi
 
 pandoc \
@@ -46,9 +49,8 @@ pandoc \
 	--standalone \
 	--atx-headers \
 	--table-of-contents \
-	--metadata date="`date -u '+%Y-%m-%d'`" \
 	--output="$single_pdf" \
-	$pandoc_extra \
+	"$pandoc_extra" \
 	$@ \
 	"$single_md"
 

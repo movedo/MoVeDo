@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 # Builds a HTML out of a Markdown files.
 # We do that with Pandoc, each source file separately.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir_rel=`dirname $0`
-script_dir=`cd ${script_dir_rel}; pwd`
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
 . "${script_dir}/_common.sh"
 
 tools=""
@@ -42,10 +42,14 @@ cd "${html_dir}"
 
 echo
 echo "    Converting ..."
-pandoc_extra=""
+
+pandoc_extra=()
+pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
+
 if [ -e "$biblography_file" ]
 then
-	pandoc_extra="$pandoc_extra --bibliography $biblography_file --filter pandoc-citeproc"
+	pandoc_extra+=("--bibliography=$biblography_file")
+	pandoc_extra+=("--filter pandoc-citeproc")
 fi
 find -type f -name "*.md" | while read -r md_file
 do
@@ -55,9 +59,8 @@ do
 		--to=html \
 		--standalone \
 		--atx-headers \
-		--metadata date="`date -u '+%Y-%m-%d'`" \
 		--output="$html_file" \
-		$pandoc_extra \
+		"$pandoc_extra" \
 		$@ \
 		"$md_file"
 done

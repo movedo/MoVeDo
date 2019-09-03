@@ -4,8 +4,9 @@
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir=$(cd $(dirname $0); pwd)
-source "${script_dir}/_common.sh"
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
+. "${script_dir}/_common.sh"
 
 tools=""
 #tools="$tools jq" # for JSON parsing

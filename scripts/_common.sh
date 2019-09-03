@@ -13,19 +13,22 @@ _var_set() {
 }
 
 _set_if_unset() {
-	if ! _var_set "$1"
+	_var_name="$1"
+	shift
+	if ! _var_set "$_var_name"
 	then
-		eval "$1='$2'"
+		eval "$_var_name='$@'"
 	fi
 }
 
-script_dir=$(cd $(dirname $0); pwd)
+script_dir_rel=`dirname "$0"`
+script_dir="`cd "${script_dir_rel}"; pwd`"
 # Root of the local MoVeDo (doc build tool) root directory
-_set_if_unset movedo_root_dir $(cd "$script_dir/.."; pwd)
+_set_if_unset movedo_root_dir `cd "$script_dir/.."; pwd`
 # Where to look for the Python panflute Pandoc filters
 filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
-_set_if_unset proj_dir $(pwd)
+_set_if_unset proj_dir `pwd`
 # Root directory for all files created during the documentation build process
 _set_if_unset build_dir_rel "build"
 _set_if_unset build_dir "$proj_dir/$build_dir_rel"

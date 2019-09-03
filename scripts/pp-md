@@ -5,8 +5,8 @@
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir_rel=`dirname $0`
-script_dir=`cd ${script_dir_rel}; pwd`
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
 . "${script_dir}/_common.sh"
 
 function find_pp_sources() {
@@ -37,7 +37,8 @@ export proj_dir
 export gen_src_dir
 export filters_dir
 
-pandoc_extra=""
+pandoc_extra=()
+pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 
 echo
 echo "Generate *.md from *.pp.md (Markdown with Pandoc pre-processor (PP) directives) ..."
@@ -71,10 +72,9 @@ function process_ppmd() {
 			--to=markdown \
 			--standalone \
 			--atx-headers \
-			--metadata date="`date -u '+%Y-%m-%d'`" \
 			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter "$filters_dir/replace_link_suffixes.py" \
 			--output="${target_rel}_out" \
-			$pandoc_extra \
+			"$pandoc_extra" \
 			"$target_rel"
 		mv "${target_rel}_out" "$target_rel"
 	fi

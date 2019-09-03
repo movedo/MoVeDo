@@ -7,8 +7,8 @@
 
 # TODO This needs revising (compare ot other install scripts)
 
-script_dir_rel=`dirname $0`
-script_dir=`cd ${script_dir_rel}; pwd`
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
 . "${script_dir}/_common.sh"
 
 sys_pkgs=""
