@@ -83,7 +83,7 @@ cd "$gen_src_dir"
 # 3. sort by these two, so deeper paths appear last,
 #    resulting in Breadth First Traversal (BDT, or Level Order Traversal)
 echo
-echo "Generate index of Markdown soures on the basis of the file-system structure ..."
+echo "Generate index of Markdown sources on the basis of the file-system structure ..."
 # HACK Ignoring "./movedo/*" might is only right for our specific (the default/intended) scenario.
 find . \
 	-type f \
