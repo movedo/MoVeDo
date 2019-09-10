@@ -33,14 +33,22 @@ from _common import is_rel_path
 # should be something like 'some/static/prefix/'
 prefix = '<default-prefix>'
 
-def prefix_if_rel_path(elem):
+def prefix_if_rel_path(url):
     """
-    Prefixes an inputs URL with a given string,
-    if the input is a link/image with to a relative path.
+    Prefixes the input URL with the prefix,
+    if the URL is a link to/image with a relative path.
     """
     global prefix
-    if is_rel_path(elem.url):
-        elem.url = prefix + elem.url
+    if is_rel_path(url):
+        url = prefix + url
+    return url
+
+def prefix_elem_if_rel_path(elem):
+    """
+    Prefixes the URL of an input element with the prefix,
+    if the URL is a link to/image with a relative path.
+    """
+    elem.url = prefix_if_rel_path(elem.url)
 
 def prepare(doc):
     """The panflute filter init method."""
@@ -50,7 +58,7 @@ def prepare(doc):
 def action(elem, doc):
     """The panflute filter main method, called once per element."""
     if isinstance(elem, (pf.Link, pf.Image)):
-        prefix_if_rel_path(elem)
+        prefix_elem_if_rel_path(elem)
     return elem
 
 def finalize(doc):
