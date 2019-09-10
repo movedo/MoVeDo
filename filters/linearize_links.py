@@ -94,12 +94,6 @@ def action(elem, doc):
 def finalize(doc):
     """The panflute filter "destructor" method."""
     pass
-"""    global id_elems
-    for elem in id_elems:
-        eprint('')
-        eprint(elem.identifier)
-        elem.identifier = id_elems[elem]
-        eprint(elem.identifier)"""
 
 def main(doc=None):
     """
