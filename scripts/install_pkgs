@@ -5,7 +5,7 @@
 # See LICENSE.md for copyright information.
 
 
-# TODO This needs revising (compare ot other install scripts)
+# TODO This needs revising (compare to other install scripts)
 
 script_dir_rel=`dirname "$0"`
 script_dir=`cd "${script_dir_rel}"; pwd`
