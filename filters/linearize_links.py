@@ -26,6 +26,7 @@ from __future__ import unicode_literals
 
 import re
 import panflute as pf
+from bs4 import BeautifulSoup
 from _common import is_rel_path
 
 # constants
@@ -82,6 +83,31 @@ def linearize_identifier(elem):
             elem.identifier = '-' + elem.identifier
         elem.identifier = id_prefix + elem.identifier
 
+def linearize_html_anchor(elem):
+    """Prepends the reference-formatted relative file path to the identifier."""
+    parsed = BeautifulSoup(elem.text, 'html.parser')
+    replaced = False
+    anchors_with_href = parsed.findAll(
+        lambda tag:
+        tag.name == "a" and tag.get("href") != None)
+    for anchor in anchors_with_href:
+        new_href = '#' + linearize_link_path(anchor.get("href"))
+        if new_href != anchor.get("href"):
+            anchor["href"] = new_href
+            replaced = True
+    anchors_with_name = parsed.findAll(
+        lambda tag:
+        tag.name == "a" and tag.get("name") != None)
+    for anchor in anchors_with_name:
+        new_name = linearize_link_path(anchor.get("name"))
+        if new_name != anchor.get("name"):
+            anchor["name"] = new_name
+            replaced = True
+    if replaced:
+        elem.text = str(parsed)
+        # HACK Remove end-tag automatically inserted by BeautifulSoup as a sanitation matter, see https://stackoverflow.com/questions/57868615/how-to-disable-the-sanitizer-beautifulsoup
+        elem.text = re.sub('></[^>]+>$', '>', elem.text)
+
 def prepare(doc):
     """The panflute filter init method."""
     global doc_path, id_prefix
@@ -94,6 +120,8 @@ def action(elem, doc):
         linearize_url(elem)
     if hasattr(elem, 'identifier') and elem.identifier != '':
         linearize_identifier(elem)
+    if isinstance(elem, pf.RawInline) and elem.format == 'html':
+        linearize_html_anchor(elem)
     return elem
 
 def finalize(doc):
