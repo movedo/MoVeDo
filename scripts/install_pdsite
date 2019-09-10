@@ -27,7 +27,7 @@ else
 		git clone https://github.com/hoijui/pdsite "$install_dir_pdsite"
 		chmod 744 "$install_dir_pdsite/bin/pdsite"
 	fi
-	_permanently_add_to_path "$install_dir_pdsite"
+	_permanently_add_to_path "$install_dir_pdsite/bin"
 	echo "Done."
 fi
 
