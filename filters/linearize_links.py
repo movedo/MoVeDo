@@ -38,7 +38,7 @@ REGEX_NON_REF = re.compile(r'[^a-z0-9_-]')
 # parameters
 # relative path to the document currently being processed
 doc_path = '<DEFAULT_DOC_PATH>'
-id_prefix = '<DEFAULT_ID_PREFIX>'
+id_prefix = ''
 
 # globals
 #id_elems = {}
@@ -64,7 +64,9 @@ def linearize_link_path(link_path):
         path = re.sub(REGEX_BACK_REF, '_/', path)
         path = re.sub(REGEX_NON_REF, '-', path)
     if ref != None:
-        path = path + '-' + ref
+        if path != '':
+            path = path + '-'
+        path = path + ref
     return path
 
 def linearize_url(elem):
@@ -75,7 +77,10 @@ def linearize_url(elem):
 def linearize_identifier(elem):
     """Prepends the reference-formatted relative file path to the identifier."""
     global id_prefix
-    elem.identifier = id_prefix + (('-' + elem.identifier) if (elem.identifier != '') else '')
+    if id_prefix != '':
+        if elem.identifier != '':
+            elem.identifier = '-' + elem.identifier
+        elem.identifier = id_prefix + elem.identifier
 
 def prepare(doc):
     """The panflute filter init method."""
