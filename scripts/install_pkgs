@@ -67,8 +67,6 @@ then
 		# install if not yet installed
 		if [ -n "$pkgs_missing" ]
 		then
-echo "missing pkgs: '$pkgs_missing'"
-sleep 1
 			update_apt_cache
 			apt-get install -y -qq $pkgs_missing
 		fi
