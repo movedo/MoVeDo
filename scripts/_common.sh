@@ -8,6 +8,19 @@
 #set -Eeuo pipefail
 set -Eeu
 
+_error() {
+	msg="$@"
+
+	echo "$0: ERROR: $msg" 1>&2
+	exit 1
+}
+
+_warning() {
+	msg="$@"
+
+	echo "$0: WARNING: $msg" 1>&2
+}
+
 _var_set() {
 	set | grep '^'"$1"'=' > /dev/null
 }
@@ -62,8 +75,7 @@ _check_tool() {
 
 	if ! which "$tool" > /dev/null 2>&1
 	then
-		echo "$0: ERROR: '$tool' is not installed. Please install it manually, or run '`dirname $0`/setup'" 1>&2
-		exit 1
+		_error "'$tool' is not installed. Please install it manually, or run '`dirname $0`/setup'"
 	fi
 }
 
@@ -80,8 +92,7 @@ _check_env() {
 
 	if [ ! -e "$gen_src_dir" ]
 	then
-		echo "$0: ERROR: Generated sources dir not found, please run '`dirname $0`/generate'" 1>&2
-		exit 1
+		_error "Generated sources dir not found, please run '`dirname $0`/generate'"
 	fi
 }
 

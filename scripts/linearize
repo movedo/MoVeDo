@@ -88,9 +88,6 @@ then
 		echo -e "\n" >> "$single_md"
 	done
 else
-	echo "ERROR: If you have more then one source file, you need '$doc_meta_file'" 1>&2
-	echo "Your index:"
-	cat "$index_md_file"
-	exit 1
+	_error "If you have more then one source file, you need '$doc_meta_file'\nYour index:\n"`cat "$index_md_file"`
 fi
 

@@ -80,14 +80,13 @@ else
 	do
 		if ! which $tool > /dev/null 2>&1
 		then
-			echo "WARNING: Missing tool: '$tool'" 1>&2
+			_warning "Missing tool: '$tool'"
 			missing_tools=`expr $missing_tools + 1`
 		fi
 	done
 	if [ $missing_tools -ne 0 ]
 	then
-		echo "WARNING: Automatic install is only supported for debian based systems as of now" 1>&2
-		exit 1
+		_error "Automatic install is only supported for debian based systems as of now"
 	fi
 fi
 
