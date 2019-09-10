@@ -15,6 +15,9 @@ rm -Rf "$html_dir/"*
 if [ -f "_config.yml" ]
 then
 	"$script_dir/make_html_jekyll"
+elif [ -f ".pdsite.yml" ]
+then
+	"$script_dir/make_html_pdsite"
 else
 	"$script_dir/make_html_pandoc"
 fi
