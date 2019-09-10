@@ -49,6 +49,7 @@ _set_if_unset build_dir "$proj_dir/$build_dir_rel"
 _set_if_unset doc_meta_file "$proj_dir/doc.yml"
 # BibTex meta-data, to be usedin the PDF output (optional)
 _set_if_unset biblography_file "$proj_dir/citations.bib"
+_set_if_unset templates_dir "$movedo_root_dir/templates"
 # Root for all generated sources
 # the original sources are copied in here too,
 # and the documentation is actually built from here

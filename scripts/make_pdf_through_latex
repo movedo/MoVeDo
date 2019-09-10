@@ -35,6 +35,8 @@ if [ -e "$biblography_file" ]
 then
 	pandoc_extra+=("--bibliography=$biblography_file")
 	pandoc_extra+=("--filter=pandoc-citeproc")
+	#pandoc_extra="$pandoc_extra --bibliography $biblography_file --csl /home/hoijui/Projects/OSEG/repos/din_spec/chicago-fullnote-bibliography.csl --filter pandoc-citeproc"
+	#pandoc_extra="$pandoc_extra --bibliography $biblography_file --csl /home/hoijui/Projects/OSEG/repos/din_spec/din-1505-2-alphanumeric.csl --filter pandoc-citeproc"
 fi
 
 if $h1_page_breaks
@@ -50,14 +52,7 @@ pandoc \
 	--atx-headers \
 	--table-of-contents \
 	--output="$single_pdf" \
-	"$pandoc_extra" \
+	"${pandoc_extra[*]}" \
 	$@ \
 	"$single_md"
-
-echo "PDF file generated: '$single_pdf'"
-
-if [ -n "$OPEN_X11" ]
-then
-	xdg-open "$single_pdf"
-fi
 

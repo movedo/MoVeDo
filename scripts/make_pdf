@@ -1,0 +1,26 @@
+#!/bin/sh
+# Builds a PDF out of a Markdown file.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir_rel=`dirname "$0"`
+script_dir=`cd "${script_dir_rel}"; pwd`
+. "${script_dir}/_common.sh"
+
+mkdir -p "$pdf_dir"
+rm -Rf "$pdf_dir/"*
+
+if ! "$script_dir/make_pdf_through_latex"
+then
+	_warning "Failed to create a PDF through Latex; trying through HTML ..."
+	"$script_dir/make_pdf_through_html"
+fi
+
+echo "PDF file generated: '$single_pdf'"
+
+if [ -n "$OPEN_X11" ]
+then
+	xdg-open "$single_pdf"
+fi
+
