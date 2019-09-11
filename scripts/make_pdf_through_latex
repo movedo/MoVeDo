@@ -52,7 +52,7 @@ pandoc \
 	--atx-headers \
 	--table-of-contents \
 	--output="$single_pdf" \
-	"${pandoc_extra[*]}" \
+	${pandoc_extra[*]} \
 	$@ \
 	"$single_md"
 

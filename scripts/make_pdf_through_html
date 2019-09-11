@@ -41,7 +41,7 @@ pandoc \
 	--table-of-contents \
 	--output="$single_html" \
 	--css="$templates_dir/pandoc-github.css" \
-	"$pandoc_extra" \
+	${pandoc_extra[*]} \
 	$@ \
 	"$single_md"
 

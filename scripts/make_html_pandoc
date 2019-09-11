@@ -46,7 +46,7 @@ pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 if [ -e "$biblography_file" ]
 then
 	pandoc_extra+=("--bibliography=$biblography_file")
-	pandoc_extra+=("--filter pandoc-citeproc")
+	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
 cat "$index_md_file" | while read -r md_file
 do
@@ -57,7 +57,7 @@ do
 		--standalone \
 		--atx-headers \
 		--output="$html_file" \
-		"${pandoc_extra[*]}" \
+		${pandoc_extra[*]} \
 		$@ \
 		"$md_file"
 done
