@@ -42,7 +42,6 @@ then
 	echo "Copy source *files* to generated-sources dir ..."
 	find . \
 			-type f \
-			\( ! -regex '.*/\..*' \) \
 			\( ! -path "./${build_dir_rel}*" \) \
 			\( ! -path "./movedo/*" \) \
 			\( ! -path "./vendor/*" \) \
