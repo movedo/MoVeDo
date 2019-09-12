@@ -19,5 +19,5 @@ cd "$gen_src_dir"
 echo
 echo "Generating HTML (using pdsite) ..."
 
-pdsite build --output-folder "$html_dir"
+pdsite build --output-folder "$html_dir" $@
 
