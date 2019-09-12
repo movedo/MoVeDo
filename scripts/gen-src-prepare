@@ -23,6 +23,8 @@ find . \
 		-type d \
 		\( ! -regex '.*/\..*' \) \
 		\( ! -path "./${build_dir_rel}*" \) \
+		\( ! -path "./movedo/*" \) \
+		\( ! -path "./movedo" \) \
 		\( ! -path "./vendor/*" \) \
 		\( ! -path "./vendor" \) \
 		\( ! -path "./public/*" \) \
@@ -42,6 +44,7 @@ then
 			-type f \
 			\( ! -regex '.*/\..*' \) \
 			\( ! -path "./${build_dir_rel}*" \) \
+			\( ! -path "./movedo/*" \) \
 			\( ! -path "./vendor/*" \) \
 			\( ! -path "./public/*" \) \
 			\( ! -path "./_site/*" \) \
