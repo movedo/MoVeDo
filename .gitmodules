@@ -1,0 +1,15 @@
+[submodule "templates/pandoc-bootstrap-template"]
+	path = templates/pandoc-bootstrap-template
+	url = https://github.com/tonyblundell/pandoc-bootstrap-template.git
+[submodule "templates/pandoc-bootstrap-adaptive-template"]
+	path = templates/pandoc-bootstrap-adaptive-template
+	url = https://github.com/diversen/pandoc-bootstrap-adaptive-template.git
+[submodule "templates/pandoc-uikit"]
+	path = templates/pandoc-uikit
+	url = https://github.com/diversen/pandoc-uikit.git
+[submodule "templates/pandoc-mindoc"]
+	path = templates/pandoc-mindoc
+	url = https://github.com/bitfragment/mindoc.git
+[submodule "filters"]
+	path = filters
+	url = https://github.com/movedo/movedo-filters.git

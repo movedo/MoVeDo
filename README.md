@@ -72,13 +72,14 @@ In your git repo containing the Markdown sources, add this repo as a sub-module:
 
 ```bash
 git submodule add https://github.com/movedo/MoVeDo.git movedo
+git submodule update --init --recursive
 ```
 (and then commit this)
 
 other devs will then have to check the sub-module out as well:
 
 ```bash
-git submodule update --init
+git submodule update --init --recursive
 ```
 
 or do it right when cloning your repo:
