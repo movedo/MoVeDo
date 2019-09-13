@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Install the latest version of pdsite (single BASH script static site generator).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
@@ -14,16 +14,23 @@ tools=""
 tools="$tools git" # for getting a recent version of pdsite
 _check_tools $tools
 
+_update_pdsite() {
+	echo "Updating 'pdsite' ..."
+	pushd "$install_dir_pdsite"
+	git pull --recurse-submodules
+	popd
+}
+
 # install pdsite if not yet in PATH
 if which pdsite > /dev/null 2>&1
 then
 	echo "'pdsite' is already installed."
+	_update_pdsite
 else
 	if [ -e "${install_dir_pdsite}/bin/pdsite" ]
 	then
-		echo "'pdsite' already present. Trying to update ..."
-		pushd "$install_dir_pdsite"
-		git pull --recurse-submodules
+		echo "'pdsite' already present."
+		_update_pdsite
 	else
 		echo "Installing 'pdsite' at '$install_dir_pdsite' ..."
 		git clone --recurse-submodules https://github.com/hoijui/pdsite "$install_dir_pdsite"
