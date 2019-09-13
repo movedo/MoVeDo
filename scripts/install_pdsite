@@ -21,12 +21,14 @@ then
 else
 	if [ -e "${install_dir_pdsite}/bin/pdsite" ]
 	then
-		echo "'pdsite' already present."
+		echo "'pdsite' already present. Trying to update ..."
+		pushd "$install_dir_pdsite"
+		git pull --recurse-submodules
 	else
 		echo "Installing 'pdsite' at '$install_dir_pdsite' ..."
-		git clone https://github.com/hoijui/pdsite "$install_dir_pdsite"
-		chmod 744 "$install_dir_pdsite/bin/pdsite"
+		git clone --recurse-submodules https://github.com/hoijui/pdsite "$install_dir_pdsite"
 	fi
+	chmod 744 "$install_dir_pdsite/bin/pdsite"
 	_permanently_add_to_path "$install_dir_pdsite/bin"
 	echo "Done."
 fi
