@@ -1,12 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 # Prepares the generated sources directory for
 # sources ot actually be generated.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir_rel=`dirname "$0"`
-script_dir=`cd "${script_dir_rel}"; pwd`
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 tools=""

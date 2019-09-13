@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Generates visuals from Various text-based graph and diagram sources,
 # for example:
 # * myDiagram.puml -> myDiagram.svg
@@ -7,8 +7,7 @@
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
 
-script_dir_rel=`dirname "$0"`
-script_dir=`cd "${script_dir_rel}"; pwd`
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 tools=""

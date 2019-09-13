@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Install and setup all requirements.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
@@ -7,8 +7,7 @@
 
 # TODO This needs revising (compare to other install scripts)
 
-script_dir_rel=`dirname "$0"`
-script_dir=`cd "${script_dir_rel}"; pwd`
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 sys_pkgs=""

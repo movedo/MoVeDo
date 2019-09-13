@@ -34,8 +34,7 @@ _set_if_unset() {
 	fi
 }
 
-script_dir_rel=`dirname "$0"`
-script_dir="`cd "${script_dir_rel}"; pwd`"
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # Root of the local MoVeDo (doc build tool) root directory
 _set_if_unset movedo_root_dir `cd "$script_dir/.."; pwd`
 # Where to look for the Python panflute Pandoc filters
