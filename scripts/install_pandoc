@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install the latest version of Pandoc (Docuemnt file type converter).
+# Install the latest version of Pandoc (Document file type converter).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
@@ -35,7 +35,8 @@ else
 	fi
 fi
 
-# Check if `pandoc` can be found and log the version info
+# Check if `pandoc` can be found
 which pandoc
+# ... and log the version info
 pandoc -v | sed -e 's/^/\t/' | head -n 1 || true
 
