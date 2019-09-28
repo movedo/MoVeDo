@@ -112,7 +112,9 @@ _contains_word() {
 _permanently_add_to_path() {
 	add_path="$1"
 	# HACK We probably should not modify the users environment permanently and globally like that
-	echo '\nexport PATH="$PATH:'"$add_path"'"\n' >> "$HOME/.profile"
+	echo '' >> "$HOME/.profile"
+	echo 'export PATH="$PATH:'"$add_path"'"' >> "$HOME/.profile"
+	echo '' >> "$HOME/.profile"
 	export PATH="$PATH:$add_path"
 }
 
