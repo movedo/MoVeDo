@@ -24,8 +24,6 @@ find . \
 		\( ! -path "./${build_dir_rel}*" \) \
 		\( ! -path "./movedo/*" \) \
 		\( ! -path "./movedo" \) \
-		\( ! -path "./vendor/*" \) \
-		\( ! -path "./vendor" \) \
 		\( ! -path "./public/*" \) \
 		\( ! -path "./public" \) \
 		\( ! -path "./script/*" \) \
@@ -43,7 +41,6 @@ then
 			-type f \
 			\( ! -path "./${build_dir_rel}*" \) \
 			\( ! -path "./movedo/*" \) \
-			\( ! -path "./vendor/*" \) \
 			\( ! -path "./public/*" \) \
 			\( ! -path "./_site/*" \) \
 			\( ! -path "./script/*" \) \

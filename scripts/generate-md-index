@@ -88,6 +88,8 @@ find . \
 	-type f \
 	\( -name "*.md" \) \
 	\( ! -path "\./build/*" \) \
+	\( ! -path "\./vendor/*" \) \
+	\( ! -path "\./_vendor/*" \) \
 	\( ! -ipath "\./movedo/*" \) \
 	\( ! -name "*.pp.md" \) \
 	\( ! -regex '.*/\..*' \) \
