@@ -1,5 +1,5 @@
 #!/bin/bash
-# Builds a HTML out of a Markdown files.
+# Builds a HTML out of Markdown files.
 # We do that with `mdbook`.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
@@ -22,7 +22,7 @@ cd "$gen_src_dir"
 function generate_summary() {
 
 	cat "$index_md_file" \
-		| awk -e '{ printf "[%s](%s)\n", $0, $0; }' \
+		| awk '{ printf "[%s](%s)\n", $0, $0; }' \
 		> "$gen_src_dir/SUMMARY.md"
 }
 

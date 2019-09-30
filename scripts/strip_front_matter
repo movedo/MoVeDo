@@ -51,7 +51,7 @@ then
 	tmp_out_file="${in_file}_tmp"
 fi
 
-awk -e '
+awk '
 BEGIN {
 	is_first_line=1;
 	in_fm=0;
