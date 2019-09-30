@@ -24,7 +24,7 @@ fi
 cd "$gen_src_dir"
 
 echo
-echo "Generating PDF ..."
+echo "Generating PDF (through Latex with Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
