@@ -90,6 +90,8 @@ find . \
 	\( ! -path "\./build/*" \) \
 	\( ! -path "\./vendor/*" \) \
 	\( ! -path "\./_vendor/*" \) \
+	\( ! -path "\./themes/*" \) \
+	\( ! -path "\./archetypes/*" \) \
 	\( ! -ipath "\./movedo/*" \) \
 	\( ! -name "*.pp.md" \) \
 	\( ! -regex '.*/\..*' \) \
