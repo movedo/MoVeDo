@@ -1,0 +1,21 @@
+#!/bin/bash
+# Update to the latest version of MoVeDo (... this framework).
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+. "${script_dir}/_common.sh"
+
+tools=""
+tools="$tools git"
+_check_tools $tools
+
+echo
+echo "Updating local MoVeDo folder ..."
+
+cd "$movedo_root_dir"
+
+git pull
+git submodule update --init --recursive
+
