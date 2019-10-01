@@ -21,9 +21,14 @@ _check_env
 
 # parameters
 single_html="$pdf_dir/doc.html"
+verbose=false
+
+if [ "${VERBOSE:-}" != "" ] || _contains_word "--verbose" "$@"
+then
+	verbose=true
+fi
 
 cd "$gen_src_dir"
-
 
 echo
 echo "Generating single HTML (Pandoc) ..."
@@ -43,6 +48,15 @@ pandoc \
 	${pandoc_extra[*]} \
 	$@ \
 	"$single_md"
+
+if $verbose
+then
+	echo
+	echo DEBUG: Single HTML:
+	echo "################################################################################"
+	cat "$single_html"
+	echo "################################################################################"
+fi
 
 wkhtmltopdf_extra=()
 wkhtmltopdf_extra+=(--page-size A4)
