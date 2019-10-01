@@ -44,7 +44,7 @@ then
 			--to=markdown \
 			--standalone \
 			--atx-headers \
-			-M allp_prefix="$(dirname "$md_in")/" --filter "$filters_dir/add_local_link_prefix.py" \
+			-M allp_prefix="$(dirname "$md_in")/" -M allp_file="$(basename "$md_in")" --filter "$filters_dir/add_local_link_prefix.py" \
 			--filter "$filters_dir/normalize_links.py" \
 			-M ll_doc_path="" --filter "$filters_dir/linearize_links.py" \
 			${pandoc_extra[*]} \
@@ -79,7 +79,7 @@ then
 				--from=markdown \
 				--to=markdown \
 				--atx-headers \
-				-M allp_prefix="$(dirname "$md_in")/" --filter "$filters_dir/add_local_link_prefix.py" \
+				-M allp_prefix="$(dirname "$md_in")/" -M allp_file="$(basename "$md_in")" --filter "$filters_dir/add_local_link_prefix.py" \
 				--filter "$filters_dir/normalize_links.py" \
 				-M ll_doc_path="$md_in" --filter "$filters_dir/linearize_links.py" \
 				${pandoc_extra[*]} \
