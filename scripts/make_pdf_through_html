@@ -62,20 +62,24 @@ then
 		"$single_html" \
 		"$single_pdf"
 else
-	$h2p_tool \
-		${weasyprint_extra[*]} \
-		"$single_html" \
-		"$single_pdf"
-	echo	pandoc \
-		--from=markdown \
-		--to=html5 \
-		--pdf-engine=weasyprint \
-		--pdf-engine-opt=--presentational-hints \
-		--pdf-engine-opt=--media-type=screen \
-		--metadata link-citations=true \
-		--webtex=https://latex.codecogs.com/svg.latex? \
-		--css="$templates_dir/pandoc-github.css" \
-		--output="$single_pdf" \
-		"$single_md"
+	if true
+	then
+		$h2p_tool \
+			${weasyprint_extra[*]} \
+			"$single_html" \
+			"$single_pdf"
+	else
+		pandoc \
+			--from=markdown \
+			--to=html5 \
+			--pdf-engine=weasyprint \
+			--pdf-engine-opt=--presentational-hints \
+			--pdf-engine-opt=--media-type=screen \
+			--metadata link-citations=true \
+			--webtex=https://latex.codecogs.com/svg.latex? \
+			--css="$templates_dir/pandoc-github.css" \
+			--output="$single_pdf" \
+			"$single_md"
+	fi
 fi
 
