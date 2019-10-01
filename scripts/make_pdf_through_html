@@ -15,7 +15,7 @@ _check_tool pandoc       # for Markdown ot HTML conversion
 _check_tool $h2p_tool        # for HTML to PDF conversion
 if [ "$h2p_tool" = "wkhtmltopdf" ] && $tool -h | grep "Reduced Functionality"
 then
-	_error "The version of 'wkhtmltopdf' found in the PATH does not support links in PDFs (among other things).\nPlease install the static version instead."
+	_error "The version of 'wkhtmltopdf' found in the PATH does not support links in PDFs (among other things). Please install the static version instead."
 fi
 _check_env
 
