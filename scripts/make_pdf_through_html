@@ -52,6 +52,7 @@ wkhtmltopdf_extra+=(--minimum-font-size 16)
 
 weasyprint_extra=()
 weasyprint_extra+=(--media-type=screen)
+weasyprint_extra+=("--base-url=$gen_src_dir")
 
 echo
 echo "Generating single PDF ($h2p_tool) ..."
