@@ -34,7 +34,7 @@ else
 			archive="pp-linux-x86_64.txz"
 			wget --quiet "https://cdsoft.fr/pp/$archive"
 			tar vxf "$archive" pp > /dev/null
-			rm "$archive"
+			rm -f "$archive" "pp.html"
 		else
 			# more recent systems
 			wget --quiet --output-document=pp "https://fairkom.net/nextcloud/index.php/s/J5sLqJKtkGJkSE7/download"
