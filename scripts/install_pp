@@ -8,7 +8,7 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 install_dir_pp="$HOME/.pp"
-old_system=false
+old_system=true
 
 tools=""
 tools="$tools git"
