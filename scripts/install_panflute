@@ -9,7 +9,7 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 tools=""
-tools="$tools pip" # for getting a recent version of panflute
+tools="$tools pip3" # for getting a recent version of panflute
 _check_tools $tools
 
 including_locales=false
@@ -32,7 +32,7 @@ then
 	. $HOME/.profile
 fi
 
-pip install panflute
+pip3 install panflute
 
 # Check if `panflute` can be found
 which panflute
