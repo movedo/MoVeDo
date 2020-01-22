@@ -37,6 +37,6 @@ pip3 install panflute
 # Check if `panflute` can be found
 which panflute
 # ... and log the version info
-echo "import panflute; print(panflute.__version__)" | python 2> /dev/null \
+echo "import panflute; print(panflute.__version__)" | python3 2> /dev/null \
 	| sed -e 's/^/\t/' | head -n 1 || true
 
