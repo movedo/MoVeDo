@@ -14,17 +14,25 @@ _check_tools $tools
 _check_env
 
 # parameters
+args="$@"
 h1_page_breaks=true
+individual=false
 
-if _contains_word "--no-h1-page-breaks" "$@"
+if _contains_word "--no-h1-page-breaks" "$args"
 then
 	h1_page_breaks=false
+	args="${args//--no-h1-page-breaks/}"
+fi
+if _contains_word "--individual" "$args"
+then
+	individual=true
+	args="${args//--individual/}"
 fi
 
 cd "$gen_src_dir"
 
 echo
-echo "Generating PDF (through Latex with Pandoc) ..."
+echo "Generating combined PDF (through Latex with Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
@@ -52,6 +60,28 @@ pandoc \
 	--table-of-contents \
 	--output="$single_pdf" \
 	${pandoc_extra[*]} \
-	$@ \
+	$args \
 	"$single_md"
+
+if $individual
+then
+	echo
+	echo "Generating individual PDFs (through Latex with Pandoc) ..."
+
+	for file_md in $(cat "$index_md_file")
+	do
+		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
+		mkdir -p "$(dirname "$file_pdf")"
+		pandoc \
+			--from=markdown \
+			--to=latex \
+			--standalone \
+			--atx-headers \
+			--table-of-contents \
+			--output="$file_pdf" \
+			${pandoc_extra[*]} \
+			$args \
+			"$file_md"
+	done
+fi
 

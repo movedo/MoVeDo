@@ -20,81 +20,127 @@ fi
 _check_env
 
 # parameters
+args="$@"
 single_html="$pdf_dir/doc.html"
 verbose=false
+individual=false
 
-if [ "${VERBOSE:-}" != "" ] || _contains_word "--verbose" "$@"
+if [ "${VERBOSE:-}" != "" ] || _contains_word "--verbose" "$args"
 then
 	verbose=true
+	args="${args//--verbose/}"
 fi
+if _contains_word "--individual" "$args"
+then
+	individual=true
+	args="${args//--individual/}"
+fi
+export args
 
 cd "$gen_src_dir"
 
 echo
-echo "Generating single HTML (Pandoc) ..."
+echo "Generating combined HTML (Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
-
-pandoc \
-	--from=markdown \
-	--to=html \
-	--standalone \
-	--atx-headers \
-	--table-of-contents \
-	--output="$single_html" \
-	--css="$templates_dir/pandoc-github.css" \
-	${pandoc_extra[*]} \
-	$@ \
-	"$single_md"
-
-if $verbose
-then
-	echo
-	echo DEBUG: Single HTML:
-	echo "################################################################################"
-	cat "$single_html"
-	echo "################################################################################"
-fi
+export pandoc_extra
 
 wkhtmltopdf_extra=()
 wkhtmltopdf_extra+=(--page-size A4)
 wkhtmltopdf_extra+=(--margin-bottom 20mm)
 wkhtmltopdf_extra+=(--margin-top 20mm)
 wkhtmltopdf_extra+=(--minimum-font-size 16)
+export wkhtmltopdf_extra
 
 weasyprint_extra=()
 weasyprint_extra+=(--media-type=screen)
 weasyprint_extra+=("--base-url=$gen_src_dir")
+export weasyprint_extra
 
-echo
-echo "Generating single PDF ($h2p_tool) ..."
-if [ "$h2p_tool" = "wkhtmltopdf" ]
-then
-	$h2p_tool \
-		${wkhtmltopdf_extra[*]} \
-		"$single_html" \
-		"$single_pdf"
-else
-	if true
+export templates_dir
+export h2p_tool
+
+function generateHtml() {
+
+	file_md="$1"
+	file_html="$2"
+
+	pandoc \
+		--from=markdown \
+		--to=html \
+		--standalone \
+		--atx-headers \
+		--table-of-contents \
+		--output="$file_html" \
+		--css="$templates_dir/pandoc-github.css" \
+		${pandoc_extra[*]} \
+		$args \
+		"$file_md"
+
+	if $verbose
+	then
+		echo
+		echo DEBUG: HTML:
+		echo "################################################################################"
+		cat "$file_html"
+		echo "################################################################################"
+	fi
+}
+
+function generatePdf() {
+
+	file_html="$1"
+	file_pdf="$2"
+
+	if [ "$h2p_tool" = "wkhtmltopdf" ]
 	then
 		$h2p_tool \
-			${weasyprint_extra[*]} \
-			"$single_html" \
-			"$single_pdf"
+			${wkhtmltopdf_extra[*]} \
+			"$file_html" \
+			"$file_pdf"
 	else
-		pandoc \
-			--from=markdown \
-			--to=html5 \
-			--pdf-engine=weasyprint \
-			--pdf-engine-opt=--presentational-hints \
-			--pdf-engine-opt=--media-type=screen \
-			--metadata link-citations=true \
-			--webtex=https://latex.codecogs.com/svg.latex? \
-			--css="$templates_dir/pandoc-github.css" \
-			--output="$single_pdf" \
-			"$single_md"
+		if true
+		then
+			$h2p_tool \
+				${weasyprint_extra[*]} \
+				"$file_html" \
+				"$file_pdf"
+		else
+			pandoc \
+				--from=markdown \
+				--to=html5 \
+				--pdf-engine=weasyprint \
+				--pdf-engine-opt=--presentational-hints \
+				--pdf-engine-opt=--media-type=screen \
+				--metadata link-citations=true \
+				--webtex=https://latex.codecogs.com/svg.latex? \
+				--css="$templates_dir/pandoc-github.css" \
+				--output="$file_pdf" \
+				"$file_md"
+		fi
 	fi
-fi
+}
 
+echo
+echo "Generating combined PDF ($h2p_tool) ..."
+
+generateHtml "$single_md" "$single_html"
+generatePdf "$single_html" "$single_pdf"
+
+if $individual
+then
+	echo
+	echo "Generating individual HTML and PDFs (Pandoc & $h2p_tool) ..."
+
+	for file_md in $(cat "$index_md_file")
+	do
+		file_html="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.html/')"
+		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
+		mkdir -p "$(dirname "$file_html")"
+		mkdir -p "$(dirname "$file_pdf")"
+		generateHtml "$file_md" "$file_html"
+		generatePdf "$file_html" "$file_pdf"
+	done
+fi
