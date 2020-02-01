@@ -16,6 +16,7 @@ including_locales=false
 if [ "${1:-}" = "--locales" ]
 then
 	including_locales=true
+	args="${args//--locales/}"
 fi
 
 if $including_locales
