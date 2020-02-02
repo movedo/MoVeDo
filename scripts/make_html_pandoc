@@ -14,6 +14,8 @@ tools="$tools pandoc" # for per-file Markdown to HTML conversion
 _check_tools $tools
 _check_env
 
+# parameters
+args="$@"
 copy_source_files=true
 
 cd "$gen_src_dir"
@@ -57,7 +59,7 @@ do
 		--atx-headers \
 		--output="$html_file" \
 		${pandoc_extra[*]} \
-		$@ \
+		$args \
 		"$md_file"
 done
 

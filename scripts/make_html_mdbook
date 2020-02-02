@@ -13,6 +13,9 @@ tools="$tools mdbook" # for Markdown to HTML conversion
 _check_tools $tools
 _check_env
 
+# parameters
+args="$@"
+
 cd "$gen_src_dir"
 
 # mdbook requires a file called SUMMARY.md,
@@ -34,6 +37,6 @@ then
 	generate_summary
 fi
 
-mdbook build --dest-dir "$html_dir" $@
+mdbook build --dest-dir "$html_dir" $args
 mdbook test --dest-dir "$html_dir"
 

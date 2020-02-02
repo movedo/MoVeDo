@@ -10,9 +10,12 @@
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
-"${script_dir}/generate"
-"${script_dir}/generate-md-index"
-"${script_dir}/linearize"
-"${script_dir}/make_pdf"
-"${script_dir}/make_html"
+# parameters
+args="$@"
+
+"${script_dir}/generate" $args
+"${script_dir}/generate-md-index" $args
+"${script_dir}/linearize" $args
+"${script_dir}/make_pdf" $args
+"${script_dir}/make_html" $args
 
