@@ -23,7 +23,7 @@ then
 	h1_page_breaks=false
 	args="${args//--no-h1-page-breaks/}"
 fi
-if _contains_word "--individual" "$args"
+if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
 	individual=true
 	args="${args//--individual/}"

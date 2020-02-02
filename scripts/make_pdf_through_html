@@ -30,7 +30,7 @@ then
 	verbose=true
 	args="${args//--verbose/}"
 fi
-if _contains_word "--individual" "$args"
+if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
 	individual=true
 	args="${args//--individual/}"
