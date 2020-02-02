@@ -120,6 +120,8 @@ function generatePdf() {
 				--output="$file_pdf" \
 				"$file_md"
 		fi
+		echo "PDF file generated: '$file_pdf'"
+		echo
 	fi
 }
 

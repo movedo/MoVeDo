@@ -82,6 +82,8 @@ then
 			${pandoc_extra[*]} \
 			$args \
 			"$file_md"
+		echo "PDF file generated: '$file_pdf'"
+		echo
 	done
 fi
 
