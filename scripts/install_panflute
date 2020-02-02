@@ -12,6 +12,8 @@ tools=""
 tools="$tools pip3" # for getting a recent version of panflute
 _check_tools $tools
 
+# parameters
+args="$@"
 including_locales=false
 if [ "${1:-}" = "--locales" ]
 then
