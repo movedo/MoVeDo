@@ -55,17 +55,26 @@ fi
 function pandoc_convert2pdf() {
 	file_md="$1"
 	file_pdf="$2"
+	file_tex="$(echo "$file_pdf" | sed -e 's/[.]pdf$/.tex/')"
 
+	# Convert from Markdown to Latex
 	pandoc \
 		--from=markdown \
 		--to=latex \
 		--standalone \
 		--atx-headers \
 		--table-of-contents \
-		--output="$file_pdf" \
+		--output="$file_tex" \
 		${pandoc_extra[*]} \
 		$args \
 		"$file_md"
+
+	# Convert from Latex to PDF
+	pandoc \
+		--from=latex \
+		--to=latex \
+		--output="$file_pdf" \
+		"$file_tex"
 }
 
 pandoc_convert2pdf "$single_md" "$single_pdf"
