@@ -52,16 +52,23 @@ then
 	pandoc_extra+=("--variable=documentclass:report")
 fi
 
-pandoc \
-	--from=markdown \
-	--to=latex \
-	--standalone \
-	--atx-headers \
-	--table-of-contents \
-	--output="$single_pdf" \
-	${pandoc_extra[*]} \
-	$args \
-	"$single_md"
+function pandoc_convert2pdf() {
+	file_md="$1"
+	file_pdf="$2"
+
+	pandoc \
+		--from=markdown \
+		--to=latex \
+		--standalone \
+		--atx-headers \
+		--table-of-contents \
+		--output="$file_pdf" \
+		${pandoc_extra[*]} \
+		$args \
+		"$file_md"
+}
+
+pandoc_convert2pdf "$single_md" "$single_pdf"
 
 if $individual
 then
@@ -72,16 +79,7 @@ then
 	do
 		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
 		mkdir -p "$(dirname "$file_pdf")"
-		pandoc \
-			--from=markdown \
-			--to=latex \
-			--standalone \
-			--atx-headers \
-			--table-of-contents \
-			--output="$file_pdf" \
-			${pandoc_extra[*]} \
-			$args \
-			"$file_md"
+		pandoc_convert2pdf "$file_md" "$file_pdf"
 		echo "PDF file generated: '$file_pdf'"
 		echo
 	done
