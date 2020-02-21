@@ -125,11 +125,23 @@ function generatePdf() {
 	fi
 }
 
+function generateHtmlAndPdf() {
+
+	file_md="$1"
+	file_html="$2"
+	file_pdf="$3"
+
+	mkdir -p "$(dirname "$file_html")"
+	generateHtml "$file_md" "$file_html"
+
+	mkdir -p "$(dirname "$file_pdf")"
+	generatePdf "$file_html" "$file_pdf"
+}
+
 echo
 echo "Generating combined PDF ($h2p_tool) ..."
 
-generateHtml "$single_md" "$single_html"
-generatePdf "$single_html" "$single_pdf"
+generateHtmlAndPdf "$single_md" "$single_html" "$single_pdf"
 
 if $individual
 then
@@ -140,9 +152,6 @@ then
 	do
 		file_html="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.html/')"
 		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
-		mkdir -p "$(dirname "$file_html")"
-		mkdir -p "$(dirname "$file_pdf")"
-		generateHtml "$file_md" "$file_html"
-		generatePdf "$file_html" "$file_pdf"
+		generateHtmlAndPdf "$file_md" "$file_html" "$file_pdf"
 	done
 fi
