@@ -78,15 +78,6 @@ function generateHtml() {
 		${pandoc_extra[*]} \
 		$args \
 		"$file_md"
-
-	if $debug
-	then
-		echo
-		echo DEBUG: HTML:
-		echo "################################################################################"
-		cat "$file_html"
-		echo "################################################################################"
-	fi
 }
 
 function generatePdf() {
@@ -136,6 +127,13 @@ function generateHtmlAndPdf() {
 
 	mkdir -p "$(dirname "$file_pdf")"
 	generatePdf "$file_html" "$file_pdf"
+
+	if $debug
+	then
+		echo "DEBUG: Created intermediary file '$file_html'"
+	else
+		rm "$file_html"
+	fi
 }
 
 echo
