@@ -63,14 +63,6 @@ function pandoc_convert2pdf() {
 	file_md="$1"
 	file_out="$2" # this is either .tex or .pdf
 
-	if $debug && echo "$file_out" | grep -q '.pdf$'
-	then
-		file_tex="$(echo "$file_out" | sed -e 's/[.]pdf$/.tex/')"
-		echo "DEBUG: Creating intermediary file '$file_tex' ..."
-		# Convert from Markdown to LaTex
-		pandoc_convert2pdf "$file_md" "$file_tex"
-	fi
-
 	# Convert from Markdown to LaTex or PDF
 	pandoc \
 		--from=markdown \
@@ -82,6 +74,14 @@ function pandoc_convert2pdf() {
 		${pandoc_extra[*]} \
 		$args \
 		"$file_md"
+
+	if $debug && echo "$file_out" | grep -q '.pdf$'
+	then
+		file_tex="$(echo "$file_out" | sed -e 's/[.]pdf$/.tex/')"
+		echo "DEBUG: Creating intermediary file '$file_tex' ..."
+		# Convert from Markdown to LaTex
+		pandoc_convert2pdf "$file_md" "$file_tex"
+	fi
 }
 
 pandoc_convert2pdf "$single_md" "$single_pdf"
