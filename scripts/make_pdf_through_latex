@@ -16,6 +16,7 @@ _check_env
 # parameters
 args="$@"
 h1_page_breaks=true
+debug=false
 individual=false
 
 if _contains_word "--no-h1-page-breaks" "$args"
@@ -27,6 +28,11 @@ if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
 	individual=true
 	args="${args//--individual/}"
+fi
+if [ "${DEBUG:-}" != "" ] || _contains_word "--debug" "$args"
+then
+	debug=true
+	args="${args//--debug/}"
 fi
 
 cd "$gen_src_dir"
@@ -53,28 +59,29 @@ then
 fi
 
 function pandoc_convert2pdf() {
-	file_md="$1"
-	file_pdf="$2"
-	file_tex="$(echo "$file_pdf" | sed -e 's/[.]pdf$/.tex/')"
 
-	# Convert from Markdown to Latex
+	file_md="$1"
+	file_out="$2" # this is either .tex or .pdf
+
+	if $debug && echo "$file_out" | grep -q '.pdf$'
+	then
+		file_tex="$(echo "$file_out" | sed -e 's/[.]pdf$/.tex/')"
+		echo "DEBUG: Creating intermediary file '$file_tex' ..."
+		# Convert from Markdown to LaTex
+		pandoc_convert2pdf "$file_md" "$file_tex"
+	fi
+
+	# Convert from Markdown to LaTex or PDF
 	pandoc \
 		--from=markdown \
 		--to=latex \
 		--standalone \
 		--atx-headers \
 		--table-of-contents \
-		--output="$file_tex" \
+		--output="$file_out" \
 		${pandoc_extra[*]} \
 		$args \
 		"$file_md"
-
-	# Convert from Latex to PDF
-	pandoc \
-		--from=latex \
-		--to=latex \
-		--output="$file_pdf" \
-		"$file_tex"
 }
 
 pandoc_convert2pdf "$single_md" "$single_pdf"
