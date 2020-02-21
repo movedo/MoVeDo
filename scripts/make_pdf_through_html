@@ -22,13 +22,13 @@ _check_env
 # parameters
 args="$@"
 single_html="$pdf_dir/doc.html"
-verbose=false
+debug=false
 individual=false
 
-if [ "${VERBOSE:-}" != "" ] || _contains_word "--verbose" "$args"
+if [ "${DEBUG:-}" != "" ] || _contains_word "--debug" "$args"
 then
-	verbose=true
-	args="${args//--verbose/}"
+	debug=true
+	args="${args//--debug/}"
 fi
 if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
@@ -79,7 +79,7 @@ function generateHtml() {
 		$args \
 		"$file_md"
 
-	if $verbose
+	if $debug
 	then
 		echo
 		echo DEBUG: HTML:
