@@ -30,6 +30,8 @@ find . \
 		\( ! -path "./script" \) \
 		\( ! -path "./_site/*" \) \
 		\( ! -path "./_site" \) \
+		\( ! -path "./.git/*" \) \
+		\( ! -path "./.git" \) \
 	| cpio -pdvm --quiet "${gen_src_dir}" 2> /dev/null
 mkdir -p "${gen_src_dir}/assets/images" # HACK
 
@@ -44,6 +46,7 @@ then
 			\( ! -path "./public/*" \) \
 			\( ! -path "./_site/*" \) \
 			\( ! -path "./script/*" \) \
+			\( ! -path "./.git*" \) \
 			\( ! -name "*.pp.md" \) \
 			\( ! -name "doc.yml" \) \
 			\( ! -name "README.md" \) \
