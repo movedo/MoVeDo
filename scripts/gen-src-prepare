@@ -1,6 +1,6 @@
 #!/bin/bash
 # Prepares the generated sources directory for
-# sources ot actually be generated.
+# sources to actually be generated.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
