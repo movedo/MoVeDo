@@ -1,0 +1,28 @@
+#!/bin/bash
+# Builds a HTML out of a Markdown files.
+# We do that with VuePress.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+. "${script_dir}/_common.sh"
+
+tools=""
+#tools="$tools vuepress" # for HTML site generation
+_check_tools $tools
+_check_env
+
+cd "$gen_src_dir"
+
+# TODO Implement actual vuepress script
+exit 1
+
+echo
+echo "Generating HTML (using VuePress) ..."
+bundle exec jekyll build
+mkdir -p "$html_dir"
+rm -Rf "$html_dir/"*
+mv -f "$gen_src_dir/_site/"* "$html_dir/"
+rmdir "$gen_src_dir/_site"
+

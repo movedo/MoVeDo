@@ -23,6 +23,9 @@ then
 elif [ -f "config.toml" ] || [ -d "config" ]
 then
 	"$script_dir/make_html_hugo" $args
+elif [ -d ".vuepress" ]
+then
+	"$script_dir/make_html_vuepress" $args
 elif [ -f ".pdsite.yml" ]
 then
 	"$script_dir/make_html_pdsite" $args
