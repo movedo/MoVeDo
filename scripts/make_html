@@ -20,6 +20,9 @@ then
 elif [ -f "book.toml" ]
 then
 	"$script_dir/make_html_mdbook" $args
+elif [ -f "config.toml" ] || [ -d "config" ]
+then
+	"$script_dir/make_html_hugo" $args
 elif [ -f ".pdsite.yml" ]
 then
 	"$script_dir/make_html_pdsite" $args
