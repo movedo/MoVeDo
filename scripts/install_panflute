@@ -15,7 +15,7 @@ _check_tools $tools
 # parameters
 args="$@"
 including_locales=false
-if [ "${1:-}" = "--locales" ]
+if [ "${LOCALES:-}" != "" ] || _contains_word "--locales" "$args"
 then
 	including_locales=true
 	args="${args//--locales/}"
