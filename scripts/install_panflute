@@ -15,10 +15,16 @@ _check_tools $tools
 # parameters
 args="$@"
 including_locales=false
+from_source=false
 if [ "${LOCALES:-}" != "" ] || _contains_word "--locales" "$args"
 then
 	including_locales=true
 	args="${args//--locales/}"
+fi
+if [ "${FROM_SOURCE:-}" != "" ] || _contains_word "--from-source" "$args"
+then
+	from_source=true
+	args="${args//--from-source/}"
 fi
 
 if $including_locales
@@ -35,7 +41,18 @@ then
 	. $HOME/.profile
 fi
 
-pip3 install panflute
+if [ "$from_source" = "true" ]
+then
+	prev_dir="`pwd`"
+	mkdir -p "$build_dir"
+	cd "$build_dir"
+	git clone "https://github.com/sergiocorreia/panflute.git"
+	cd panflute
+	python3 setup.py install
+	cd "$prev_dir"
+else
+	pip3 install panflute
+fi
 
 # Check if `panflute` can be found
 which panflute
