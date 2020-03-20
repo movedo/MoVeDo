@@ -1,0 +1,16 @@
+#!/bin/sh
+
+pandoc \
+	--to=odt \
+	--standalone \
+	--reference-odt=style.odt \
+	--from=markdown+mmd_title_block+pipe_tables+grid_tables+tex_math_dollars+raw_tex+footnotes+inline_notes+citations+link_attributes \
+	--output=tst.odt \
+	DIN_SPEC_3105-1.md
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+	--headless \
+	--convert-to pdf:writer_pdf_Export \
+	--outdir . \
+	tst.odt
+
