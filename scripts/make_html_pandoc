@@ -17,6 +17,13 @@ _check_env
 # parameters
 args="$@"
 copy_source_files=true
+#template="bootstrap-template"
+#template="bootstrap-adaptive-template"
+#template="uikit"
+#template="mdbook"
+#template="mindoc"
+#template=""
+template=${HTML_TEMPLATE_NAME:-}"
 
 cd "$gen_src_dir"
 
@@ -49,6 +56,24 @@ then
 	pandoc_extra+=("--bibliography=$biblography_file")
 	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
+
+if [ -n "$template" ]
+then
+	if [ -f "$movedo_root_dir/templates/pandoc-$template/standalone.html" ]
+	then
+		pandoc_extra+=("--template=$movedo_root_dir/templates/pandoc-$template/standalone.html")
+	else
+		pandoc_extra+=("--template=$movedo_root_dir/templates/pandoc-$template/template.html")
+		pandoc_extra+=("--self-contained")
+	fi
+	if [ -f "$movedo_root_dir/templates/pandoc-$template/template.css" ]
+	then
+		pandoc_extra+=("--css=$movedo_root_dir/templates/pandoc-$template/template.css")
+	fi
+else
+	pandoc_extra+=("--css=$templates_dir/pandoc-github.css")
+fi
+
 cat "$index_md_file" | while read -r md_file
 do
 	html_file=`echo $md_file | sed -e 's/\.md$/.html/'`
