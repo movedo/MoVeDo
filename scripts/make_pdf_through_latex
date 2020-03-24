@@ -50,8 +50,6 @@ if [ -e "$biblography_file" ]
 then
 	pandoc_extra+=("--bibliography=$biblography_file")
 	pandoc_extra+=("--filter=pandoc-citeproc")
-	#pandoc_extra="$pandoc_extra --bibliography $biblography_file --csl /home/hoijui/Projects/OSEG/repos/din_spec/chicago-fullnote-bibliography.csl --filter pandoc-citeproc"
-	#pandoc_extra="$pandoc_extra --bibliography $biblography_file --csl /home/hoijui/Projects/OSEG/repos/din_spec/din-1505-2-alphanumeric.csl --filter pandoc-citeproc"
 fi
 
 if $h1_page_breaks
