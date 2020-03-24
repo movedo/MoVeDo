@@ -43,6 +43,8 @@ mkdir -p "$pdf_dir"
 
 pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
+pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/scholarly-metadata/scholarly-metadata.lua")
+pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/author-info-blocks/author-info-blocks.lua")
 
 if [ -e "$biblography_file" ]
 then
