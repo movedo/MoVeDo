@@ -23,7 +23,7 @@ copy_source_files=true
 #template="mdbook"
 #template="mindoc"
 #template=""
-template=${HTML_TEMPLATE_NAME:-}"
+template="${HTML_TEMPLATE_NAME:-}"
 
 cd "$gen_src_dir"
 
