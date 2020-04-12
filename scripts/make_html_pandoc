@@ -50,6 +50,8 @@ echo "    Converting ..."
 
 pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
+doc_version="$(_fetch_version)"
+pandoc_extra+=(--metadata=version:"$doc_version")
 
 if [ -e "$biblography_file" ]
 then

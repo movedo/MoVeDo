@@ -118,3 +118,14 @@ _permanently_add_to_path() {
 	export PATH="$PATH:$add_path"
 }
 
+# If the `git` tool is installed, and we are inside a git repo,
+# return the git commit description.
+# Else, return "<UNKNOWN>".
+_fetch_version() {
+	doc_version="<UNKNOWN>"
+	if which git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null
+	then
+		doc_version="$(git describe --always --dirty --broken)"
+	fi
+	echo "$doc_version"
+}
