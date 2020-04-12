@@ -75,7 +75,7 @@ function generateHtml() {
 		--table-of-contents \
 		--output="$file_html" \
 		--css="$templates_dir/pandoc-github.css" \
-		${pandoc_extra[*]} \
+		"${pandoc_extra[@]}" \
 		$args \
 		"$file_md"
 }

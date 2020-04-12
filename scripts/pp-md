@@ -74,7 +74,7 @@ function process_ppmd() {
 			--atx-headers \
 			-M rls_relative_only=True -M rls_ext_from=".pp.md" -M rls_ext_to=".md" --filter "$filters_dir/replace_link_suffixes.py" \
 			--output="${target_rel}_out" \
-			${pandoc_extra[*]} \
+			"${pandoc_extra[@]}" \
 			"$target_rel"
 		mv "${target_rel}_out" "$target_rel"
 	fi

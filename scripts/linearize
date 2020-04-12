@@ -50,7 +50,7 @@ then
 			--filter "$filters_dir/normalize_links.py" \
 			-M ll_doc_path="" \
 			--filter "$filters_dir/linearize_links.py" \
-			${pandoc_extra[*]} \
+			"${pandoc_extra[@]}" \
 		>> "$single_md"
 	rm "$single_md_tmp"
 elif [ -f "$doc_meta_file" ]
@@ -88,7 +88,7 @@ then
 				--filter "$filters_dir/normalize_links.py" \
 				-M ll_doc_path="$md_in" \
 				--filter "$filters_dir/linearize_links.py" \
-				${pandoc_extra[*]} \
+				"${pandoc_extra[@]}" \
 			>> "$single_md"
 		echo -e "\n" >> "$single_md"
 	done

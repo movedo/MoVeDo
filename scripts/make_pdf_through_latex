@@ -71,7 +71,7 @@ function pandoc_convert2pdf() {
 		--atx-headers \
 		--table-of-contents \
 		--output="$file_out" \
-		${pandoc_extra[*]} \
+		"${pandoc_extra[@]}" \
 		$args \
 		"$file_md"
 

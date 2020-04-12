@@ -83,7 +83,7 @@ do
 		--standalone \
 		--atx-headers \
 		--output="$html_file" \
-		${pandoc_extra[*]} \
+		"${pandoc_extra[@]}" \
 		$args \
 		"$md_file"
 done
