@@ -24,6 +24,7 @@ args="$@"
 single_html="$pdf_dir/doc.html"
 debug=false
 individual=false
+version_as_subtitle=false
 
 if [ "${DEBUG:-}" != "" ] || _contains_word "--debug" "$args"
 then
@@ -34,6 +35,11 @@ if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
 	individual=true
 	args="${args//--individual/}"
+fi
+if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
+then
+	version_as_subtitle=true
+	args="${args//--version-as-subtitle/}"
 fi
 export args
 
@@ -47,6 +53,10 @@ pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
+if $version_as_subtitle
+then
+	pandoc_extra+=(--metadata=subtitle:version:\ $doc_version)
+fi
 export pandoc_extra
 
 wkhtmltopdf_extra=()

@@ -17,6 +17,7 @@ _check_env
 # parameters
 args="$@"
 copy_source_files=true
+version_as_subtitle=false
 #template="bootstrap-template"
 #template="bootstrap-adaptive-template"
 #template="uikit"
@@ -24,6 +25,12 @@ copy_source_files=true
 #template="mindoc"
 #template=""
 template="${HTML_TEMPLATE_NAME:-}"
+
+if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
+then
+	version_as_subtitle=true
+	args="${args//--version-as-subtitle/}"
+fi
 
 cd "$gen_src_dir"
 
@@ -52,6 +59,10 @@ pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
+if $version_as_subtitle
+then
+	pandoc_extra+=(--metadata=subtitle:version:\ $doc_version)
+fi
 
 if [ -e "$biblography_file" ]
 then

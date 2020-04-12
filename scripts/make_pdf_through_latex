@@ -18,6 +18,7 @@ args="$@"
 h1_page_breaks=true
 debug=false
 individual=false
+version_as_subtitle=false
 
 if _contains_word "--no-h1-page-breaks" "$args"
 then
@@ -28,6 +29,11 @@ if [ "${INDIVIDUAL_PDFS:-}" != "" ] || _contains_word "--individual" "$args"
 then
 	individual=true
 	args="${args//--individual/}"
+fi
+if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
+then
+	version_as_subtitle=true
+	args="${args//--version-as-subtitle/}"
 fi
 if [ "${DEBUG:-}" != "" ] || _contains_word "--debug" "$args"
 then
@@ -45,6 +51,10 @@ pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
+if $version_as_subtitle
+then
+	pandoc_extra+=(--metadata=subtitle:version:\ $doc_version)
+fi
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/scholarly-metadata/scholarly-metadata.lua")
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/author-info-blocks/author-info-blocks.lua")
 

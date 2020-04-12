@@ -16,6 +16,16 @@ _check_tool "$script_dir/strip_front_matter"
 _check_tools $tools
 _check_env
 
+# parameters
+args="$@"
+version_as_subtitle=false
+
+if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
+then
+	version_as_subtitle=true
+	args="${args//--version-as-subtitle/}"
+fi
+
 cd "$gen_src_dir"
 
 rm -f "$single_md"
@@ -24,6 +34,10 @@ pandoc_extra=()
 pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
 doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
+if $version_as_subtitle
+then
+	pandoc_extra+=(--metadata=subtitle:version:\ $doc_version)
+fi
 
 echo
 echo "Generating single, linear Markdown file ..."
