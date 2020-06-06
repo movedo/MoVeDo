@@ -32,7 +32,7 @@ else
 		then
 			# older systems (with GLIBC 2.29)
 			archive="pp-linux-x86_64.txz"
-			wget --quiet "https://cdsoft.fr/pp/$archive"
+			wget --quiet "http://christophe.delord.free.fr/pp/$archive"
 			tar vxf "$archive" pp > /dev/null
 			rm -f "$archive" "pp.html"
 		else
