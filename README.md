@@ -37,7 +37,7 @@ A directory structure sketch of a sample project using MoVeDo:
 ```
 
 One can use an arbitrary directory structure (including a flat one)
-for the Markdonw sources.
+for the Markdown sources.
 With the exception of a few special files (like `README` and `LICENSE`),
 and directories (like `build` and hidden ones (`.*`)),
 all `*.md` files are considered sources for the documentation.
