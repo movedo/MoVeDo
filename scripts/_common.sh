@@ -125,7 +125,7 @@ _fetch_version() {
 	doc_version="<UNKNOWN>"
 	if which git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null
 	then
-		doc_version="$(git describe --always --dirty --broken)"
+		doc_version="$(git describe --always --dirty)"
 	fi
 	echo "$doc_version"
 }
