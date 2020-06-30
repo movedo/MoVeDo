@@ -5,12 +5,16 @@ Think of it like `gradle`, `leiningen`, `maven`, `grunt`, or any other build too
 
 By default it:
 
-* supports pre-processing with PP
+* supports pre-processing with [MarkdownPP][MDPP]
 * produces one HTML file per Markdown file
 * produces a single, fused Markdown file
 * produces a single PDF file
-* uses YAML Front-Matter document meta-data
-* promotes/suggests/uses *Pandoc's Markdown* (a Markdown flavor)
+* uses [YAML Front-Matter document meta-data][YFM]
+* promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor)
+
+[MDPP]: https://github.com/jreese/markdown-pp
+[YFM]: https://assemble.io/docs/YAML-front-matter.html
+[PANDOC-MD]: https://pandoc.org/MANUAL.html#pandocs-markdown
 
 ## Use-Case
 
