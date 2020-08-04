@@ -36,9 +36,9 @@ _set_if_unset() {
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # Root of the local MoVeDo (doc build tool) root directory
-_set_if_unset movedo_root_dir `cd "$script_dir/.."; pwd`
+_set_if_unset movedo_root_dir "`cd "$script_dir/.."; pwd`"
 # Where to look for the Python panflute Pandoc filters
-filters_dir="$movedo_root_dir/filters"
+export filters_dir="$movedo_root_dir/filters"
 # The Projects root dir
 _set_if_unset proj_dir `pwd`
 # Root directory for all files created during the documentation build process
