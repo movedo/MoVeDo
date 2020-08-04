@@ -8,6 +8,7 @@
 # TODO This needs revising (compare to other install scripts)
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
 sys_pkgs=""
