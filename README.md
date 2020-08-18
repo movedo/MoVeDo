@@ -5,12 +5,16 @@ Think of it like `gradle`, `leiningen`, `maven`, `grunt`, or any other build too
 
 By default it:
 
-* supports pre-processing with PP
+* supports pre-processing with [PP][PP]
 * produces one HTML file per Markdown file
 * produces a single, fused Markdown file
 * produces a single PDF file
-* uses YAML Front-Matter document meta-data
-* promotes/suggests/uses *Pandoc's Markdown* (a Markdown flavor)
+* uses [YAML Front-Matter document meta-data][YFM]
+* promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor)
+
+[PP]: https://github.com/CDSoft/pp
+[YFM]: https://assemble.io/docs/YAML-front-matter.html
+[PANDOC-MD]: https://pandoc.org/MANUAL.html#pandocs-markdown
 
 ## Use-Case
 
@@ -33,7 +37,7 @@ A directory structure sketch of a sample project using MoVeDo:
 ```
 
 One can use an arbitrary directory structure (including a flat one)
-for the Markdonw sources.
+for the Markdown sources.
 With the exception of a few special files (like `README` and `LICENSE`),
 and directories (like `build` and hidden ones (`.*`)),
 all `*.md` files are considered sources for the documentation.
