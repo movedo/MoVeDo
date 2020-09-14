@@ -55,7 +55,7 @@ doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
 if $version_as_subtitle
 then
-	pandoc_extra+=(--metadata=subtitle:$doc_version)
+	pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
 fi
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/scholarly-metadata/scholarly-metadata.lua")
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/author-info-blocks/author-info-blocks.lua")

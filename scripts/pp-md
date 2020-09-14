@@ -58,7 +58,7 @@ function process_ppmd() {
 	pandoc_extra+=(--metadata=version:"$doc_version")
 	if $version_as_subtitle
 	then
-		pandoc_extra+=(--metadata=subtitle:$doc_version)
+		pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
 	fi
 
 	local ppmd="$1"
