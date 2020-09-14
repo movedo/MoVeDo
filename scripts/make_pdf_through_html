@@ -51,7 +51,8 @@ echo "Generating combined HTML (Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
-pandoc_extra+=(--metadata=date:"`date -u '+%Y-%m-%d'`")
+doc_date="$(_fetch_document_date)"
+pandoc_extra+=(--metadata=date:"$doc_date")
 doc_version="$(_fetch_version)"
 pandoc_extra+=(--metadata=version:"$doc_version")
 if $version_as_subtitle

@@ -129,3 +129,46 @@ _fetch_version() {
 	fi
 	echo "$doc_version"
 }
+
+# If the `git` tool is installed, and we are inside a git repo,
+# return true if the repo is clean,
+# meaning that no uncommitted or changed files are around.
+# Else, return false.
+_is_repo_clean() {
+	doc_version="$(_fetch_version)"
+	repo_clean=0
+	if [ "$doc_version" = "<UNKNOWN>" ] || [[ "$doc_version" = *-dirty ]] || [[ "$doc_version" = *-broken ]]
+	then
+		repo_clean=1
+	fi
+	return $repo_clean
+}
+
+# If the `git` tool is installed, and we are inside a git repo,
+# return the git commit date.
+# Else, return "<UNKNOWN>".
+_fetch_commit_date() {
+	commit_date="<UNKNOWN>"
+	if which git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null
+	then
+		commit_date="$(git show -s --format=%ci HEAD | sed -e 's/ .*//')"
+	fi
+	echo "$commit_date"
+}
+
+# Returns the current date in the format YYYY-MM-DD.
+_fetch_date() {
+	date -u '+%Y-%m-%d'
+}
+
+# Returns the best estimate of the date of the last edit of the repo,
+# which is the commit date in case of a clean repo,
+# or the current date in case of a dirty repo.
+_fetch_document_date() {
+	if _is_repo_clean
+	then
+		_fetch_commit_date
+	else
+		_fetch_date
+	fi
+}
