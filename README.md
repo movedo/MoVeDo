@@ -1,5 +1,7 @@
 # MoVeDo - Modular, Versioned Documentation
 
+(pronounciation of *MoVeDo* is in Italian)
+
 A build tool for your Markdown based, git hosted documentation.
 Think of it like `gradle`, `leiningen`, `maven`, `grunt`, or any other build tool that mainly relies on convention (over configuration) -- but for your documentation.
 
