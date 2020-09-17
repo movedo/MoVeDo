@@ -24,7 +24,7 @@ script_name="$(basename "$0")"
 # parameters
 single_html="$pdf_dir/doc.html"
 debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
-individual=$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL:-false}")
+individual=$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL_PDFS:-$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL:-false}")}")
 
 function print_help() {
 
@@ -37,11 +37,11 @@ function print_help() {
 	echo "Options:"
 	echo "  -h, --help              Show this help message"
 	echo "  --mvd-debug             Create (do not delete) the intermediary *.html file."
-	echo "                          Equivalent to command-line: MVN_DEBUG=1"
-	echo "  --mvd-individual        Create individual PDFs"
+	echo "                          Equivalent to command-line: MVD_DEBUG=1"
+	echo "  --mvd-individual(-pdfs) Create individual PDFs"
 	echo "                          (one per Markdwn source file),"
 	echo "                          in addition to the merged one."
-	echo "                          Equivalent to command-line: MVN_INDIVIDUAL=1"
+	echo "                          Equivalent to command-line: MVD_INDIVIDUAL=1"
 	echo "Examples:"
 	echo "  $script_name --mvd-individual"
 }
@@ -61,7 +61,7 @@ do
 		--mvd-debug)
 			debug=true
 			;;
-		--mvd-individual)
+		--mvd-individual|--mvd-individual-pdfs)
 			individual=true
 			;;
 		--mvd-*)
