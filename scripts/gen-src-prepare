@@ -13,7 +13,16 @@ tools=""
 tools="$tools cpio" # for copying directory trees
 _check_tools $tools
 
+# parameters
+args="$@"
 copy_source_files=true
+version_as_subtitle=false
+
+if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
+then
+	version_as_subtitle=true
+	args="${args//--version-as-subtitle/}"
+fi
 
 mkdir -p "$gen_src_dir"
 
@@ -39,7 +48,7 @@ mkdir -p "${gen_src_dir}/assets/images" # HACK
 if $copy_source_files
 then
 	echo
-	echo "Copy source *files* to generated-sources dir ..."
+	echo "Copy source *files* (except *.md) to generated-sources dir ..."
 	find . \
 			-type f \
 			\( ! -path "./${build_dir_rel}*" \) \
@@ -49,8 +58,27 @@ then
 			\( ! -path "./script/*" \) \
 			\( ! -path "./.git*" \) \
 			\( ! -name "*.pp.md" \) \
-			\( ! -name "$(basename $doc_meta_file)" \) \
+			\( ! -name "$(basename "$doc_meta_file")" \) \
 			\( ! -name "README.md" \) \
 		| cpio -pdvm "${gen_src_dir}" 2> /dev/null
+
+	echo
+	echo "Copy (and pre-process) *.md source files to generated-sources dir ..."
+	doc_version="$(_fetch_version)"
+	find "${gen_src_dir}" \
+		-type f \
+		\( ! -path "${gen_src_dir}/${build_dir_rel}*" \) \
+		\( ! -path "${gen_src_dir}/movedo/*" \) \
+		\( ! -path "${gen_src_dir}/public/*" \) \
+		\( ! -path "${gen_src_dir}/_site/*" \) \
+		\( ! -path "${gen_src_dir}/script/*" \) \
+		\( ! -path "${gen_src_dir}/.git*" \) \
+		\( ! -name "*.pp.md" \) \
+		\( ! -name "README.md" \) \
+		\( -name "*.md" \
+		-o -name "$(basename "$doc_meta_file")" \) \
+		| sort -u \
+		| xargs sed -i \
+			-e "s|\${PROJECT_VERSION}|[$doc_version](https://gitlab.com)|"
 fi
 
