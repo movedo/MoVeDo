@@ -35,7 +35,7 @@ function index_txt2json() {
 
 	cur_dir=""
 	echo "{" > "$out"
-	cat "$in" | while read -d $'\n' -r entry
+	while read -d $'\n' -r entry
 	do
 		entry_dir=$(dirname "$entry")/
 		entry_name=$(basename "$entry")
@@ -58,7 +58,7 @@ function index_txt2json() {
 		done
 
 		echo "\"$entry_name\": [],"
-	done | jq '.' >> "$out"
+	done | jq '.' >> "$out" < "$in"
 
 	while [ -n "$cur_dir" ]
 	do

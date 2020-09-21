@@ -8,17 +8,18 @@
 # see: https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -Ee
 
-script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+script_name="$(basename "$0")"
 
 print_help() {
+
 	echo "Strips YAML FrontMattter from a file (usually Markdown)."
 	echo
 	echo "Usage:"
-	echo "    `basename $0` -h"
-	echo "    `basename $0` --help"
-	echo "    `basename $0` -i <file-with-front-matter>"
-	echo "    `basename $0` --in-place <file-with-front-matter>"
-	echo "    `basename $0` <file-with-front-matter> <file-to-be-without-front-matter>"
+	echo "    $script_name -h"
+	echo "    $script_name --help"
+	echo "    $script_name -i <file-with-front-matter>"
+	echo "    $script_name --in-place <file-with-front-matter>"
+	echo "    $script_name <file-with-front-matter> <file-to-be-without-front-matter>"
 }
 
 replace=false

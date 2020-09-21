@@ -29,9 +29,9 @@ find . -type f -name "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
 
 echo
 echo "Generate PlantUML graph images .."
-for dir in `find . -type f -name "*.puml" ! -path "./${build_dir}*" ! -path "./_site/*" \
-	-exec dirname {} \; | sort | uniq`
+for dir in $(find . -type f -name "*.puml" ! -path "./${build_dir}*" ! -path "./_site/*" \
+	-exec dirname {} \; | sort | uniq)
 do
-	plantuml -tsvg -o "`pwd`/${gen_src_dir}/$dir" "$dir/"*.puml
+	plantuml -tsvg -o "$(pwd)/${gen_src_dir}/$dir" "$dir/"*.puml
 done
 

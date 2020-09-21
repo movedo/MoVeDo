@@ -160,10 +160,10 @@ then
 	echo
 	echo "Generating individual HTML and PDFs (Pandoc & $h2p_tool) ..."
 
-	for file_md in $(cat "$index_md_file")
+	while read -r file_md
 	do
-		file_html="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.html/')"
-		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
+		file_html="$pdf_dir/${file_md%.md}.html"
+		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		generateHtmlAndPdf "$file_md" "$file_html" "$file_pdf"
-	done
+	done < "$index_md_file"
 fi

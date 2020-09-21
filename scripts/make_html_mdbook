@@ -25,8 +25,8 @@ cd "$gen_src_dir"
 # if no SUMMARY.md is provided in the sources.
 function generate_summary() {
 
-	cat "$index_md_file" \
-		| awk '{ printf "[%s](%s)\n", $0, $0; }' \
+	awk '{ printf "[%s](%s)\n", $0, $0; }' \
+		< "$index_md_file" \
 		> "$gen_src_dir/SUMMARY.md"
 }
 

@@ -19,7 +19,7 @@ function find_pp_sources() {
 		\( ! -path "./_site/*" \)
 }
 
-if [ `find_pp_sources | wc -l` -lt 1 ]
+if [ "$(find_pp_sources | wc -l)" -lt 1 ]
 then
 	# No PP sources found
 	exit 0
@@ -61,19 +61,32 @@ function process_ppmd() {
 		pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
 	fi
 
-	local ppmd="$1"
-	local rel_dir=`dirname "$ppmd"`
-	local base=`basename -s ".pp.md" "$ppmd"`
-	local source_rel="$rel_dir/${base}.pp.md"
-	local target_abs="$gen_src_dir/$rel_dir/${base}.md"
-	local target_rel=`realpath --relative-to="$proj_dir" "$target_abs"`
-	local source_abs="`pwd`/$source_rel"
-	local project_dir_rel=`realpath --relative-to="$proj_dir/$rel_dir" "$proj_dir"`
-	local gen_project_dir_rel=`dirname "$target_rel"`
-	local gen_project_dir_abs=`pwd`"/$gen_project_dir_rel"
-	local sources_dir_rel="../.."
+	local \
+		ppmd \
+		rel_dir \
+		base \
+		source_rel \
+		target_abs \
+		target_rel \
+		source_abs \
+		project_dir_rel \
+		gen_project_dir_rel \
+		gen_project_dir_abs \
+		sources_dir_rel pre_dir
+
+	ppmd="$1"
+	rel_dir=$(dirname "$ppmd")
+	base=$(basename -s ".pp.md" "$ppmd")
+	source_rel="$rel_dir/${base}.pp.md"
+	target_abs="$gen_src_dir/$rel_dir/${base}.md"
+	target_rel=$(realpath --relative-to="$proj_dir" "$target_abs")
+	source_abs="$(pwd)/$source_rel"
+	project_dir_rel=$(realpath --relative-to="$proj_dir/$rel_dir" "$proj_dir")
+	gen_project_dir_rel=$(dirname "$target_rel")
+	gen_project_dir_abs=$(pwd)"/$gen_project_dir_rel"
+	sources_dir_rel="../.."
 	echo -e "\tpp \"$source_rel\"\n\t\t> \"$target_rel\""
-	local pre_dir=`pwd`
+	pre_dir="$(pwd)"
 	cd "$gen_src_dir"
 	pp \
 		-Dprojdir="$project_dir_rel" \

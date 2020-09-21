@@ -43,9 +43,9 @@ fi
 
 echo
 echo "Generating single, linear Markdown file ..."
-if [ `cat "$index_md_file" | wc -l` -eq 1 ]
+if [ "$(wc -l < "$index_md_file")" -eq 1 ]
 then
-	md_in="`cat "$index_md_file"`"
+	md_in="$(cat "$index_md_file")"
 	single_md_tmp="${single_md}_tmp"
 	# Build from a single source file
 	if [ -f "$doc_meta_file" ]
@@ -56,8 +56,7 @@ then
 	# Use the single source file as-is
 	cat "$md_in" >> "$single_md_tmp"
 	echo "    adding '$md_in' ..."
-	cat "$single_md_tmp" \
-		| pandoc \
+	pandoc \
 			--from=markdown \
 			--to=markdown \
 			--standalone \
@@ -69,6 +68,7 @@ then
 			-M ll_doc_path="" \
 			--filter "$filters_dir/linearize_links.py" \
 			"${pandoc_extra[@]}" \
+		< "$single_md_tmp" \
 		>> "$single_md"
 	rm "$single_md_tmp"
 elif [ -f "$doc_meta_file" ]
@@ -77,13 +77,15 @@ then
 
 	# Use global document meta-data
 	cat "$doc_meta_file" > "$single_md"
-	cat "$index_md_file" | while read -d $'\n' -r md_in
+	while read -d $'\n' -r md_in
 	do
 		echo "Linearizing $md_in ..."
 		# TODO put this in its own script:
 		# extract the document(-fragment)s title from the YAML meta-data
 		grep "^title: " "$md_in" > /dev/null && {
-			title=$(grep "^title: " "$md_in" | head -n 1 | sed -e 's/^title:[[:space:]]\+//')
+			title=$(grep "^title: " "$md_in" \
+				| head -n 1 \
+				| sed -e 's/^title:[[:space:]]\+//')
 			echo -e "# $title\n" >> "$single_md"
 		}
 		# here we do:
@@ -109,8 +111,8 @@ then
 				"${pandoc_extra[@]}" \
 			>> "$single_md"
 		echo -e "\n" >> "$single_md"
-	done
+	done < "$index_md_file"
 else
-	_error "If you have more then one source file, you need '$doc_meta_file'\nYour index:\n"`cat "$index_md_file"`
+	_error "If you have more then one source file, you need '$doc_meta_file'\nYour index:\n$(cat "$index_md_file")"
 fi
 

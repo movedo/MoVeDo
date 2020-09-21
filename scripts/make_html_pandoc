@@ -89,9 +89,9 @@ else
 	pandoc_extra+=("--css=$templates_dir/pandoc-github.css")
 fi
 
-cat "$index_md_file" | while read -r md_file
+while read -r md_file
 do
-	html_file=`echo $md_file | sed -e 's/\.md$/.html/'`
+	html_file="${md_file%.md}.html"
 	pandoc \
 		--from=markdown \
 		--to=html \
@@ -101,5 +101,5 @@ do
 		"${pandoc_extra[@]}" \
 		$args \
 		"$md_file"
-done
+done < "$index_md_file"
 

@@ -18,18 +18,24 @@ pandoc_ver_required="${PANDOC_VERSION:-}"
 
 if [ "${PANDOC_VERSION:-}" = "" ]
 then
-	pandoc_ver_latest=`wget -O - --max-redirect 0 https://github.com/jgm/pandoc/releases/latest 2>&1 | grep "Location:" | sed 's/.*\/tag\/\([^ "]*\).*/\1/'`
+	pandoc_ver_latest=$(wget -O - --max-redirect 0 https://github.com/jgm/pandoc/releases/latest 2>&1 \
+		| grep "Location:" \
+		| sed 's/.*\/tag\/\([^ "]*\).*/\1/')
 	pandoc_ver_required="$pandoc_ver_latest"
 fi
 
 # install pandoc if the latest version is not in PATH
-pandoc_ver_installed=`which pandoc > /dev/null 2>&1 && pandoc -v | head -n 1 | sed -e 's/.* //' || echo "NONE"`
+pandoc_ver_installed=$(which pandoc > /dev/null 2>&1 \
+	&& pandoc -v \
+	| head -n 1 \
+	| sed -e 's/.* //' \
+	|| echo "NONE")
 if [ "$pandoc_ver_installed" = "$pandoc_ver_required" ]
 then
 	echo "'pandoc' required version ($pandoc_ver_required) is already installed."
 else
 	echo "Installing pandoc $pandoc_ver_required ..."
-	if `_is_deb`
+	if $(_is_deb)
 	then
 		pandoc_deb="pandoc-${pandoc_ver_required}-1-amd64.deb"
 		wget --quiet "https://github.com/jgm/pandoc/releases/download/$pandoc_ver_required/$pandoc_deb"

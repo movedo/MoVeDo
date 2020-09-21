@@ -91,7 +91,7 @@ function pandoc_convert2pdf() {
 
 	if $debug && echo "$file_out" | grep -q '.pdf$'
 	then
-		file_tex="$(echo "$file_out" | sed -e 's/[.]pdf$/.tex/')"
+		file_tex="${file_out%.pdf}.tex"
 		echo "DEBUG: Creating intermediary file '$file_tex' ..."
 		# Convert from Markdown to LaTex
 		pandoc_convert2pdf "$file_md" "$file_tex"
@@ -105,13 +105,13 @@ then
 	echo
 	echo "Generating individual PDFs (through Latex with Pandoc) ..."
 
-	for file_md in $(cat "$index_md_file")
+	while read -r file_md
 	do
-		file_pdf="$pdf_dir/$(echo "$file_md" | sed -e 's/[.]md$/.pdf/')"
+		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		mkdir -p "$(dirname "$file_pdf")"
 		pandoc_convert2pdf "$file_md" "$file_pdf"
 		echo "PDF file generated: '$file_pdf'"
 		echo
-	done
+	done < "$index_md_file"
 fi
 

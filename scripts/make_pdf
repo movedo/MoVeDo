@@ -9,7 +9,7 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 mkdir -p "$pdf_dir"
-rm -Rf "$pdf_dir/"*
+rm -Rf "${pdf_dir:?}/"*
 
 # parameters
 args="$@"

@@ -26,7 +26,7 @@ else
 		echo "'pp' already present."
 	else
 		echo "Installing 'pp' at '$install_dir_pp' ..."
-		pre_dir=`pwd`
+		pre_dir=$(pwd)
 		mkdir -p "$install_dir_pp"
 		cd "$install_dir_pp"
 		if $old_system
