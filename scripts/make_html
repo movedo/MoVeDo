@@ -13,19 +13,20 @@ mkdir -p "$html_dir"
 rm -Rf "${html_dir:?}/"*
 
 # parameters
-args="$@"
+args=()
+[ "$#" -gt 0 ] && args=("$@")
 
 if [ -f "_config.yml" ]
 then
-	"$script_dir/make_html_jekyll" $args
+	"$script_dir/make_html_jekyll" "${args[@]}"
 elif [ -f "book.toml" ]
 then
-	"$script_dir/make_html_mdbook" $args
+	"$script_dir/make_html_mdbook" "${args[@]}"
 elif [ -f ".pdsite.yml" ]
 then
-	"$script_dir/make_html_pdsite" $args
+	"$script_dir/make_html_pdsite" "${args[@]}"
 else
-	"$script_dir/make_html_pandoc" $args
+	"$script_dir/make_html_pandoc" "${args[@]}"
 fi
 
 echo "HTML files generated under '$html_dir'"

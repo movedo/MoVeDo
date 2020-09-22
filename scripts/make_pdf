@@ -12,12 +12,13 @@ mkdir -p "$pdf_dir"
 rm -Rf "${pdf_dir:?}/"*
 
 # parameters
-args="$@"
+args=()
+[ "$#" -gt 0 ] && args=("$@")
 
-if ! "$script_dir/make_pdf_through_latex" $args
+if ! "$script_dir/make_pdf_through_latex" "${args[@]}"
 then
 	_warning "Failed to create a PDF through Latex; trying through HTML ..."
-	"$script_dir/make_pdf_through_html" $args
+	"$script_dir/make_pdf_through_html" "${args[@]}"
 fi
 
 echo "PDF file generated: '$single_pdf'"

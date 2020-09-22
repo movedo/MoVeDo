@@ -8,8 +8,9 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-#_check_tools $tools
+tools=()
+#tools+=("pip3") # for copying directory trees
+_check_tools "${tools[@]}"
 
 apt-get install -y -qq python3-pip libffi6 libffi-dev libcairo2 libpango-1.0-0 libpangocairo-1.0-0 > /dev/null
 pip3 install pip cffi cairocffi WeasyPrint

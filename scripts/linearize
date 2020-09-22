@@ -9,23 +9,16 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools pandoc" # for Markdown filtering/cleanup
-tools="$tools python3" # for Panflute
-tools="$tools panflute" # for Pandoc filters
+tools=()
+tools+=("pandoc") # for Markdown filtering/cleanup
+tools+=("python3") # for Panflute
+tools+=("panflute") # for Pandoc filters
 _check_tool "$script_dir/strip_front_matter"
-_check_tools $tools
+_check_tools "${tools[@]}"
 _check_env
 
 # parameters
-args="$@"
-version_as_subtitle=false
-
-if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
-then
-	version_as_subtitle=true
-	args="${args//--version-as-subtitle/}"
-fi
+version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 
 cd "$gen_src_dir"
 

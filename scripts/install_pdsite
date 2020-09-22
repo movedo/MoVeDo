@@ -10,9 +10,9 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 
 install_dir_pdsite="$HOME/.pdsite"
 
-tools=""
-tools="$tools git" # for getting a recent version of pdsite
-_check_tools $tools
+tools=()
+tools+=("git") # for getting a recent version of pdsite
+_check_tools "${tools[@]}"
 
 _update_pdsite() {
 	echo "Updating 'pdsite' ..."

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Common SH(/BASH) functions, to be sourced.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
@@ -9,29 +10,20 @@
 set -Eeu
 
 _error() {
-	msg="$@"
+	local msg="$*"
 
 	echo "$0: ERROR: $msg" 1>&2
 	exit 1
 }
 
 _warning() {
-	msg="$@"
+	local msg="$*"
 
 	echo "$0: WARNING: $msg" 1>&2
 }
 
 _var_set() {
 	set | grep '^'"$1"'=' > /dev/null
-}
-
-_set_if_unset() {
-	_var_name="$1"
-	shift
-	if ! _var_set "$_var_name"
-	then
-		eval "$_var_name='$@'"
-	fi
 }
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
@@ -80,9 +72,9 @@ _check_tool() {
 }
 
 _check_tools() {
-	tools="$@"
+	local tools=("$@")
 
-	for tool in $tools
+	for tool in "${tools[@]}"
 	do
 		_check_tool "$tool"
 	done
@@ -100,13 +92,20 @@ _is_deb() {
 	which apt-get > /dev/null 2>&1 && echo "true" || echo "false"
 }
 
-_contains_word() {
-	word="$1"
-	shift
-	str="$@"
-	# we use printf instead of echo for better portability
-	printf '%s' "$str" \
-		| grep -q -e '\(^\|[ .,:;]\)'"$word"'\($\|[ .,:;]\)'
+_movedo_common_arg_is() {
+	arg="$1"
+	[[ "$arg" = --mvd-* ]] || [ "$arg" = "-h" ] || [ "$arg" = "--help" ]
+}
+
+_movedo_common_arg_has_value() {
+	arg="$1"
+	false
+}
+
+_movedo_shell_var_to_bool() {
+	val="$1"
+	{ [ -z "$val" ] || [ "$val" = "0" ] || [ "${val^^}" = "NO" ] || [ "${val^^}" = "FALSE" ]; } \
+		&& echo false || echo true
 }
 
 _permanently_add_to_path() {

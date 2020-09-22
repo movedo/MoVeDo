@@ -1,6 +1,5 @@
 #!/bin/bash
-# Prepares the generated sources directory for
-# sources to actually be generated.
+# Prepares the generated sources directory.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See LICENSE.md for copyright information.
@@ -9,20 +8,56 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools cpio" # for copying directory trees
-_check_tools $tools
+tools=()
+tools+=("cpio") # for copying directory trees
+_check_tools "${tools[@]}"
 
+app_name="Generate Sources Preparer"
+script_name="$(basename "$0")"
 # parameters
-args="$@"
-copy_source_files=true
-version_as_subtitle=false
+copy_source_files=$(_movedo_shell_var_to_bool "${MVD_COPY_SOURCE_FILES:-true}")
 
-if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
-then
-	version_as_subtitle=true
-	args="${args//--version-as-subtitle/}"
-fi
+function print_help() {
+
+	echo "$app_name - Prepares the generated sources directory"
+	echo "for sources to actually be generated."
+	echo
+	echo "Usage:"
+	echo "  $script_name [OPTIONS]"
+	echo "Options:"
+	echo "  -h, --help              Show this help message"
+	echo "  --mvd-no-copy-sources   Do not copy the original source files into the generated-sources dir as well."
+	echo "                          Equivalent to command-line: MVD_COPY_SOURCE_FILES=0"
+	echo "Examples:"
+	echo "  $script_name"
+}
+
+# read command-line args
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	arg="$1"
+	shift # $2 -> $1, $3 -> $2, ...
+
+	case "$arg" in
+		-h|--help)
+			print_help
+			exit 0
+			;;
+		--mvd-no-copy-sources)
+			copy_source_files=false
+			;;
+		--mvd-*)
+			# Ignore this option; it is used in other MoVeDo scripts
+			_movedo_common_arg_has_value "$arg" && shift
+			;;
+		*) # non-/unknown option
+			POSITIONAL+=("$arg") # save it in an array for later
+			;;
+	esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
 
 mkdir -p "$gen_src_dir"
 

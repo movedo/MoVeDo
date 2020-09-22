@@ -8,15 +8,14 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools wget" # for getting a recent version of pandoc
-_check_tools $tools
+tools=()
+tools+=("wget") # for getting a recent version of pandoc
+_check_tools "${tools[@]}"
 
 # parameters
-args="$@"
-pandoc_ver_required="${PANDOC_VERSION:-}"
+pandoc_ver_required="${MVD_PANDOC_VERSION:-}"
 
-if [ "${PANDOC_VERSION:-}" = "" ]
+if [ -z "$pandoc_ver_required" ]
 then
 	pandoc_ver_latest=$(wget -O - --max-redirect 0 https://github.com/jgm/pandoc/releases/latest 2>&1 \
 		| grep "Location:" \

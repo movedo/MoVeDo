@@ -11,10 +11,10 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools dot" # for generating GraphViz/DOT diagram visuals
-tools="$tools plantuml" # for generating PlantUML diagram visuals
-_check_tools $tools
+tools=()
+tools+=("dot") # for generating GraphViz/DOT diagram visuals
+tools+=("plantuml") # for generating PlantUML diagram visuals
+_check_tools "${tools[@]}"
 _check_env
 
 export rewrite_links=true

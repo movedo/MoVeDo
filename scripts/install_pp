@@ -11,10 +11,10 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 install_dir_pp="$HOME/.pp"
 old_system=true
 
-tools=""
-tools="$tools git"
-tools="$tools wget" # for getting a recent version of pp
-_check_tools $tools
+tools=()
+tools+=("git")
+tools+=("wget") # for getting a recent version of pp
+_check_tools "${tools[@]}"
 
 # install pp if not yet in PATH
 if which pp > /dev/null 2>&1

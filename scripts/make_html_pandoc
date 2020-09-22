@@ -9,16 +9,17 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools cpio" # for copying directory trees
-tools="$tools pandoc" # for per-file Markdown to HTML conversion
-_check_tools $tools
+tools=()
+tools+=("cpio") # for copying directory trees
+tools+=("pandoc") # for per-file Markdown to HTML conversion
+_check_tools "${tools[@]}"
 _check_env
 
 # parameters
-args="$@"
+args=()
+[ "$#" -gt 0 ] && args=("$@")
 copy_source_files=true
-version_as_subtitle=false
+version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 #template="bootstrap-template"
 #template="bootstrap-adaptive-template"
 #template="uikit"
@@ -26,12 +27,6 @@ version_as_subtitle=false
 #template="mindoc"
 #template=""
 template="${HTML_TEMPLATE_NAME:-}"
-
-if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
-then
-	version_as_subtitle=true
-	args="${args//--version-as-subtitle/}"
-fi
 
 cd "$gen_src_dir"
 
@@ -72,6 +67,24 @@ then
 	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
 
+switch_next=false
+for arg in "${args[@]}"
+do
+	if $switch_next
+	then
+		switch_next=false
+		continue
+	fi
+	switch_next=false
+	if ! _movedo_common_arg_is "$arg"
+	then
+		pandoc_extra+=("$arg")
+	elif _movedo_common_arg_has_value "$arg"
+	then
+		switch_next=true
+	fi
+done
+
 if [ -n "$template" ]
 then
 	if [ -f "$movedo_root_dir/templates/pandoc-$template/standalone.html" ]
@@ -99,7 +112,6 @@ do
 		--atx-headers \
 		--output="$html_file" \
 		"${pandoc_extra[@]}" \
-		$args \
 		"$md_file"
 done < "$index_md_file"
 

@@ -26,21 +26,14 @@ then
 fi
 
 
-tools=""
-tools="$tools pp" # for pre-processing Markdown sources
-tools="$tools realpath" # for calculating relative paths
-_check_tools $tools
+tools=()
+tools+=("pp") # for pre-processing Markdown sources
+tools+=("realpath") # for calculating relative paths
+_check_tools "${tools[@]}"
 _check_env
 
 # parameters
-args="$@"
-version_as_subtitle=false
-
-if [ "${VERSION_AS_SUBTITLE:-}" != "" ] || _contains_word "--version-as-subtitle" "$args"
-then
-	version_as_subtitle=true
-	args="${args//--version-as-subtitle/}"
-fi
+version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 
 export rewrite_links=true
 export proj_dir

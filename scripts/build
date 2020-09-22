@@ -12,11 +12,12 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 # parameters
-args="$@"
+args=()
+[ "$#" -gt 0 ] && args=("$@")
 
-"${script_dir}/generate" $args
-"${script_dir}/generate-md-index" $args
-"${script_dir}/linearize" $args
-"${script_dir}/make_pdf" $args
-"${script_dir}/make_html" $args
+"${script_dir}/generate" "${args[@]}"
+"${script_dir}/generate-md-index" "${args[@]}"
+"${script_dir}/linearize" "${args[@]}"
+"${script_dir}/make_pdf" "${args[@]}"
+"${script_dir}/make_html" "${args[@]}"
 

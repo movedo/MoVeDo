@@ -9,18 +9,38 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
-tools=""
-tools="$tools pdsite" # for Markdown to HTML conversion
-_check_tools $tools
+tools=()
+tools+=("pdsite") # for Markdown to HTML conversion
+_check_tools "${tools[@]}"
 _check_env
 
 # parameters
-args="$@"
+args=()
+[ "$#" -gt 0 ] && args=("$@")
 
 cd "$gen_src_dir"
+
+pdsite_extra=()
+switch_next=false
+for arg in "${args[@]}"
+do
+	if $switch_next
+	then
+		switch_next=false
+		continue
+	fi
+	switch_next=false
+	if ! _movedo_common_arg_is "$arg"
+	then
+		pdsite_extra+=("$arg")
+	elif _movedo_common_arg_has_value "$arg"
+	then
+		switch_next=true
+	fi
+done
 
 echo
 echo "Generating HTML (using pdsite) ..."
 
-pdsite build --output-folder "$html_dir" $args
+pdsite build --output-folder "$html_dir" "${pdsite_extra[@]}"
 
