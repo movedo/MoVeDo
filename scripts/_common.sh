@@ -98,8 +98,8 @@ _movedo_common_arg_is() {
 }
 
 _movedo_common_arg_has_value() {
-	arg="$1"
-	false
+	val="$1"
+	[ "$val" = "--mvd-repo-url" ]
 }
 
 _movedo_shell_var_to_bool() {
@@ -173,4 +173,39 @@ _fetch_document_date() {
 	else
 		_fetch_date
 	fi
+}
+
+_git_local_branch() {
+
+	repo_path="${1:-.}"
+	git -C "$repo_path" rev-parse --abbrev-ref HEAD
+}
+
+# Returns the remote- and branch-name of the remote tracking branch.
+# Example:
+# $ _git_remote_tracking_branch . master
+# origin/master
+_git_remote_tracking_branch() {
+
+	repo_path="${1:-.}"
+	local_branch="${2:-"$(_git_local_branch "$repo_path")"}"
+	git -C "$repo_path" branch -vv \
+		| sed -e 's/^..//' \
+		| grep -E "^${local_branch} " \
+		| sed -e 's/^[^ ]\+ \+[^ ]\+ \+\[//' -e 's/. .*//'
+}
+
+_git_remote_web_url() {
+
+	repo_path="${1:-.}"
+	remote="${2:-"$(_git_remote_tracking_branch "$repo_path" | sed -e 's|/.*||')"}"
+	git -C "$repo_path" remote -v \
+		| grep -e '^'"$remote"'[[:space:]].* (fetch)$' \
+		| sed \
+			-e 's|'"$remote"'.||' \
+			-e 's|^git@|https://|' \
+			-e 's|^git:|https:|' \
+			-e 's|com:|com/|' \
+			-e 's| (fetch)$||' \
+			-e 's|\.git$||'
 }

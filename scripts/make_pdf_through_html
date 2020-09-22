@@ -25,7 +25,6 @@ script_name="$(basename "$0")"
 single_html="$pdf_dir/doc.html"
 debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
 individual=$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL:-false}")
-version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 
 function print_help() {
 
@@ -85,14 +84,6 @@ echo "Generating combined HTML (Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
-doc_date="$(_fetch_document_date)"
-pandoc_extra+=(--metadata=date:"$doc_date")
-doc_version="$(_fetch_version)"
-pandoc_extra+=(--metadata=version:"$doc_version")
-if $version_as_subtitle
-then
-	pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
-fi
 export pandoc_extra
 
 wkhtmltopdf_extra=()

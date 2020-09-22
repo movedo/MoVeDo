@@ -16,6 +16,7 @@ app_name="Generate Sources Preparer"
 script_name="$(basename "$0")"
 # parameters
 copy_source_files=$(_movedo_shell_var_to_bool "${MVD_COPY_SOURCE_FILES:-true}")
+repo_url="${MVD_REPO_URL:-$(_git_remote_web_url)}"
 
 function print_help() {
 
@@ -28,6 +29,8 @@ function print_help() {
 	echo "  -h, --help              Show this help message"
 	echo "  --mvd-no-copy-sources   Do not copy the original source files into the generated-sources dir as well."
 	echo "                          Equivalent to command-line: MVD_COPY_SOURCE_FILES=0"
+	echo "  --mvd-repo-url [URL]    Use this as the repo URL, instead of extracting it from the git repo."
+	echo "                          Equivalent to command-line: MVD_REPO_URL=[URL]"
 	echo "Examples:"
 	echo "  $script_name"
 }
@@ -46,6 +49,10 @@ do
 			;;
 		--mvd-no-copy-sources)
 			copy_source_files=false
+			;;
+		--mvd-repo-url)
+			repo_url="$1"
+			shift
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
@@ -98,8 +105,20 @@ then
 		| cpio -pdvm "${gen_src_dir}" 2> /dev/null
 
 	echo
-	echo "Copy (and pre-process) *.md source files to generated-sources dir ..."
-	doc_version="$(_fetch_version)"
+	echo "Copy (and pre-process) *.md source files to generated-sources dir,"
+	echo "replacing these variables:"
+	project_repo_url="$repo_url"
+	project_version="$(_fetch_version)"
+	project_version_url="${project_repo_url}/-/tree/${project_version}/"
+	project_version_date="$(_fetch_document_date)"
+	project_build_date="$(_fetch_date)"
+	project_source_url="${project_repo_url}"
+	echo "  \${PROJECT_VERSION}:      '$project_version'"
+	echo "  \${PROJECT_VERSION_URL}:  '$project_version_url'"
+	echo "  \${PROJECT_VERSION_DATE}: '$project_version_date'"
+	echo "  \${PROJECT_BUILD_DATE}:   '$project_build_date'"
+	echo "  \${PROJECT_SOURCE_URL}:   '$project_source_url'"
+	echo "Processing ..."
 	find "${gen_src_dir}" \
 		-type f \
 		\( ! -path "${gen_src_dir}/${build_dir_rel}*" \) \
@@ -114,6 +133,10 @@ then
 		-o -name "$(basename "$doc_meta_file")" \) \
 		| sort -u \
 		| xargs sed -i \
-			-e "s|\${PROJECT_VERSION}|[$doc_version](https://gitlab.com)|"
+			-e "s|\${PROJECT_VERSION}|$project_version|" \
+			-e "s|\${PROJECT_VERSION_URL}|$project_version_url|" \
+			-e "s|\${PROJECT_VERSION_DATE}|$project_version_date|" \
+			-e "s|\${PROJECT_BUILD_DATE}|$project_build_date|" \
+			-e "s|\${PROJECT_SOURCE_URL}|$project_source_url|"
 fi
 

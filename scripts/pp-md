@@ -33,7 +33,6 @@ _check_tools "${tools[@]}"
 _check_env
 
 # parameters
-version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 
 export rewrite_links=true
 export proj_dir
@@ -45,14 +44,6 @@ echo "Generate *.md from *.pp.md (Markdown with Pandoc pre-processor (PP) direct
 function process_ppmd() {
 	# HACK required inside the function, because BASH can not export arrays
 	pandoc_extra=()
-	doc_date="$(_fetch_document_date)"
-	pandoc_extra+=(--metadata=date:"$doc_date")
-	doc_version="$(_fetch_version)"
-	pandoc_extra+=(--metadata=version:"$doc_version")
-	if $version_as_subtitle
-	then
-		pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
-	fi
 
 	local \
 		ppmd \

@@ -18,21 +18,12 @@ _check_tools "${tools[@]}"
 _check_env
 
 # parameters
-version_as_subtitle="${MVN_VERSION_AS_SUBTITLE:-false}"
 
 cd "$gen_src_dir"
 
 rm -f "$single_md"
 
 pandoc_extra=()
-doc_date="$(_fetch_document_date)"
-pandoc_extra+=(--metadata=date:"$doc_date")
-doc_version="$(_fetch_version)"
-pandoc_extra+=(--metadata=version:"$doc_version")
-if $version_as_subtitle
-then
-	pandoc_extra+=(--metadata=subtitle:"version: $doc_version")
-fi
 
 echo
 echo "Generating single, linear Markdown file ..."
