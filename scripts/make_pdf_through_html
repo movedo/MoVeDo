@@ -199,5 +199,7 @@ then
 		file_html="$pdf_dir/${file_md%.md}.html"
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		generateHtmlAndPdf "$file_md" "$file_html" "$file_pdf"
+		echo "PDF file generated: '$file_pdf'"
 	done < "$index_md_file"
+	echo
 fi
