@@ -18,12 +18,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: hoijui/movedo
           tag_with_ref: true
-      - name: Push to GitHub Packages
-        uses: docker/build-push-action@v2
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          #repository: my-org/my-repo/my-image
-          repository: movedo/movedo/movedo
-          tag_with_ref: true
+      #- name: Push to GitHub Packages
+      #  uses: docker/build-push-action@v2
+      #  with:
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
+      #    registry: docker.pkg.github.com
+      #    #repository: my-org/my-repo/my-image
+      #    repository: movedo/movedo/movedo
+      #    tag_with_ref: true
