@@ -31,6 +31,16 @@ WORKDIR "$WORKDIR"
 ENV MVD_HOME="$WORKDIR/movedo"
 COPY . movedo
 
+# Workaround to get tags, until this bug is solved:
+# https://gitlab.com/gitlab-org/gitlab-runner/-/issues/25373
+# This also fetches the whole history, as apparently GitLab
+# does a shallow clone by default on its runners.
+RUN if $(git rev-parse --is-shallow-repository); \
+	then \
+		git fetch --tags --unshallow; \
+	fi
+RUN git submodule update --init --recursive
+
 # HACK: As of 4. August 2020, panflute (1.12.5) does not support latest pandoc (2.10.x),
 # so we install the latest compatible version
 # Relevant discussions can be found here:
