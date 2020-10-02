@@ -1,11 +1,11 @@
 #FROM ubuntu:18.04
 FROM debian:latest
-COPY . /movedo
-ENV MVD_HOME="$(pwd)/movedo"
+
+
 
 RUN apt-get update
 
-RUN apt-get install -y -qq ruby > /dev/null
+RUN apt-get install -y -qq ruby ruby-dev > /dev/null
 RUN gem install mdl
 RUN mdl --version
 
@@ -22,17 +22,28 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN apt-get install -y default-jre > /dev/null
 RUN apt-get install -y -qq texlive-latex-base texlive-fonts-recommended texlive-latex-extra librsvg2-bin > /dev/null
 
+RUN gem install minima bundler jekyll
+
+
+ENV WORKDIR="/home/user/code"
+WORKDIR "$WORKDIR"
+
+ENV MVD_HOME="$WORKDIR/movedo"
+COPY . movedo
+
 # HACK: As of 4. August 2020, panflute (1.12.5) does not support latest pandoc (2.10.x),
 # so we install the latest compatible version
 # Relevant discussions can be found here:
 # * https://github.com/manubot/rootstock/pull/354
 # * https://github.com/sergiocorreia/panflute/issues/142
 RUN export MVD_PANDOC_VERSION=2.9.2.1
+RUN pwd
+RUN ls movedo/scripts/install_pandoc || true
+RUN ls "$MVD_HOME/scripts/install_pandoc" || true
 RUN "$MVD_HOME/scripts/install_pandoc"
 RUN "$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
-RUN gem install minima bundler jekyll
 
 
 
@@ -42,4 +53,9 @@ RUN gem install minima bundler jekyll
 
 
 
+
+LABEL maintainer="Robin Vobruba <TODO>"
+LABEL version="1.0"
+LABEL description="This text illustrates \
+ a multi-line text"
 
