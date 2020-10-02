@@ -46,11 +46,8 @@ RUN git submodule update --init --recursive
 # Relevant discussions can be found here:
 # * https://github.com/manubot/rootstock/pull/354
 # * https://github.com/sergiocorreia/panflute/issues/142
-RUN export MVD_PANDOC_VERSION=2.9.2.1
-RUN pwd
-RUN ls movedo/scripts/install_pandoc || true
-RUN ls "$MVD_HOME/scripts/install_pandoc" || true
-RUN "$MVD_HOME/scripts/install_pandoc"
+RUN export MVD_PANDOC_VERSION=2.9.2.1; \
+	"$MVD_HOME/scripts/install_pandoc"
 RUN "$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
