@@ -24,6 +24,12 @@ RUN apt-get install -y -qq texlive-latex-base texlive-fonts-recommended texlive-
 
 RUN gem install minima bundler jekyll
 
+# Allows to create nice HTML diffs betwen git refs,
+# more freely (and accurately) then github or gitlab show them
+# (as of late 2020).
+RUN apt-get install -y -qq nodejs > /dev/null
+RUN npm install -g diff2html-cli
+
 
 ENV WORKDIR="/home/user/code"
 WORKDIR "$WORKDIR"
