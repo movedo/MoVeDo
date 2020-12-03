@@ -67,7 +67,13 @@ _check_tool() {
 
 	if ! which "$tool" > /dev/null 2>&1
 	then
-		_error "'$tool' is not installed. Please install it manually, or run '$(dirname "$0")/setup'"
+		install_script="$(dirname "$0")/install_$tool"
+		additional_info=""
+		if [ -f "$install_script" ]
+		then
+			additional_info=", or run '$install_script'"
+		fi
+		_error "'$tool' is not installed. Please install it manually${additional_info}."
 	fi
 }
 
