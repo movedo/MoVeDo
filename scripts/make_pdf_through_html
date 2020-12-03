@@ -95,7 +95,7 @@ export wkhtmltopdf_extra
 
 weasyprint_extra=()
 weasyprint_extra+=(--media-type=screen)
-weasyprint_extra+=("--base-url=$gen_src_dir")
+weasyprint_extra+=(--base-url="$gen_src_dir")
 export weasyprint_extra
 
 export templates_dir
@@ -127,14 +127,14 @@ function generatePdf() {
 	if [ "$h2p_tool" = "wkhtmltopdf" ]
 	then
 		$h2p_tool \
-			${wkhtmltopdf_extra[*]} \
+			"${wkhtmltopdf_extra[@]}" \
 			"$file_html" \
 			"$file_pdf"
 	else
 		if true
 		then
 			$h2p_tool \
-				${weasyprint_extra[*]} \
+				"${weasyprint_extra[@]}" \
 				"$file_html" \
 				"$file_pdf"
 		else
