@@ -6,6 +6,7 @@ FROM debian:latest
 RUN apt-get update
 
 RUN apt-get install -y -qq ruby ruby-dev > /dev/null
+RUN gem install chef-utils -v 16.6.14
 RUN gem install mdl
 RUN mdl --version
 
