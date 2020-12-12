@@ -50,10 +50,10 @@ do
 			exit 0
 			;;
 		--mvd-locales)
-			debug=true
+			including_locales=true
 			;;
 		--mvd-from-source)
-			individual=true
+			from_source=true
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
