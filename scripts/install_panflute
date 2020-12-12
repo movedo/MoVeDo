@@ -17,6 +17,7 @@ script_name="$(basename "$0")"
 # parameters
 including_locales=$(_movedo_shell_var_to_bool "${MVD_LOCALES:-false}")
 from_source=$(_movedo_shell_var_to_bool "${MVD_FROM_SOURCE:-false}")
+panflute_ver_required="${MVD_PANFLUTE_VERSION:-}"
 
 function print_help() {
 
@@ -92,7 +93,12 @@ then
 	python3 setup.py install
 	cd "$prev_dir"
 else
-	pip3 install panflute
+	if [ -z "$panflute_ver_required" ]
+	then
+		pip3 install panflute
+	else
+		pip3 install -Iv panflute=="$panflute_ver_required"
+	fi
 fi
 
 # Check if `panflute` can be found
