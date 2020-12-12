@@ -56,7 +56,8 @@ RUN cd "$MVD_HOME"; \
 # * https://github.com/sergiocorreia/panflute/issues/142
 RUN export MVD_PANDOC_VERSION=2.9.2.1; \
 	"$MVD_HOME/scripts/install_pandoc"
-RUN "$MVD_HOME/scripts/install_panflute" --locales
+RUN export MVD_PANFLUTE_VERSION=1.12; \
+	"$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
 
