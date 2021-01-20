@@ -100,7 +100,7 @@ from then on, you can use MoVeDo for building your docu like this:
 movedo/scripts/build
 ```
 
-This would generate output like shown in [Sample Output].
+This would generate output like shown in [Sample Output](#sample-output).
 
 ## Directory Structure
 
