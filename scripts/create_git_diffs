@@ -72,6 +72,8 @@ def create_git_diffs(ref, repo_path, other_branches):
     if commit_sha is None:
         raise RuntimeError('ERROR: CI_COMMIT_SHA is not set!')
     for other_branch in other_branches:
+        if other_branch == '':
+            continue
         other_sha = repo.git.rev_parse('--short', 'origin/' + other_branch)
         print('other SHA: %s' % other_sha)
         for style in ['side', 'line']:
