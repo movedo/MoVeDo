@@ -1,0 +1,15 @@
+#!/bin/bash
+# Prints the version of PanFlute that is currently installed.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "${script_dir}/_common.sh"
+
+echo "import panflute; print(panflute.__version__)" \
+	| python 2> /dev/null \
+	| sed -e 's/^/\t/' \
+	| head -n 1 \
+	|| true
