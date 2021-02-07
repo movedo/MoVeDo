@@ -1,0 +1,22 @@
+#!/bin/bash
+# Ensures that:
+# * we have a non-shallow repo (-> the full history is available)
+# * all git sub-modules are checked out, recursively
+#
+# This serves as a workaround to get tags, until this bug is solved:
+# https://gitlab.com/gitlab-org/gitlab-runner/-/issues/25373
+# This also fetches the whole history, as apparently GitLab
+# does a shallow clone by default on its runners.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See LICENSE.md for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "${script_dir}/_common.sh"
+
+if $(git rev-parse --is-shallow-repository)
+then
+	git fetch --tags --unshallow
+fi
+git submodule update --init --recursive
