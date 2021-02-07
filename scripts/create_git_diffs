@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+"""
+Tool to create git diffs in HTML form
+"""
+
+import os
+import sys
+import click
+from datetime import datetime
+import subprocess
+from git import Repo
+from git.exc import InvalidGitRepositoryError
+
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+#@click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option()
+def git_version_token():
+    pass
+
+def replace_in_file(file_path, search, replacement):
+    # Read in the file
+    with open(file_path, 'r') as fle:
+        file_data = fle.read()
+
+    # Replace the target string
+    bef = file_data
+    file_data = file_data.replace(search, replacement)
+    if bef == file_data:
+        raise RuntimeError('ERROR: Content of %s before (len: %d) and after (len: %d) are the same!' % (file_path, len(bef), len(file_data)))
+
+    # Write the file out again
+    with open(file_path, 'w') as fle:
+        fle.write(file_data)
+
+def git_diff(ref='HEAD', repo_path='.'):
+    now = datetime.now()
+    comp_time = now.strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        repo = Repo(repo_path)
+        #vers = repo.git.describe('--tags', '--dirty', '--broken', '--always')
+        if ref == 'HEAD':
+            last_arg = '--dirty'
+        else:
+            last_arg = ref
+        vers = repo.git.describe('--long', '--candidates=99',
+                '--always', '--first-parent', last_arg)
+    except InvalidGitRepositoryError as err:
+        #if empty_on_error:
+        #    vers = ""
+        #else:
+        #    raise err
+        raise err
+    return vers
+
+
+
+def create_git_diffs(ref, repo_path, other_branches):
+    '''
+    Create diffs to the other branches.
+    '''
+    now = datetime.now()
+    comp_time = now.strftime('%Y-%m-%d %H:%M:%S')
+    repo = Repo(repo_path)
+    this_sha = repo.git.rev_parse('--short', 'HEAD')
+    print('other SHA: %s' % this_sha)
+    project_url = os.getenv('CI_PROJECT_URL')
+    if project_url is None:
+        raise RuntimeError('ERROR: CI_PROJECT_URL is not set!')
+    #commit_sha = os.getenv('CI_COMMIT_SHA')
+    commit_sha = this_sha
+    if commit_sha is None:
+        raise RuntimeError('ERROR: CI_COMMIT_SHA is not set!')
+    for other_branch in other_branches:
+        other_sha = repo.git.rev_parse('--short', 'origin/' + other_branch)
+        print('other SHA: %s' % other_sha)
+        for style in ['side', 'line']:
+            out_file = 'build/html/git_diff_%s_%s-%s.html' % (style, other_branch, ref)
+            print('Creating git diff in HTML (style: %s) from \'%s\' -> \'%s\' ...'
+                    % (style, other_branch, ref))
+            with open(out_file, 'w') as out_h:
+                rc = subprocess.call(['diff2html',
+                    '--style', style,
+                    '--output', 'stdout',
+                    '--', 'origin/' + other_branch, commit_sha],
+                    stdout=out_h)
+            if other_sha == this_sha:
+                raise RuntimeError('ERROR: start and end refs are the same: %s!' % this_sha)
+            start_ref_dates = repo.git.show('-s',
+                    '--format=\'authored: %ai - committed: %ci\'', other_sha)
+            end_ref_dates = repo.git.show('-s',
+                    '--format=\'authored: %ai - committed: %ci\'', this_sha)
+            header = "\
+              <h1>git diff " + other_branch + ' ' + this_sha + '</h1>\n\n\
+              created with <a href="https://github.com/rtfpessoa/diff2html">diff2html-cli</a>\
+              by <a href="https://github.com/rtfpessoa">rtfpessoa</a><br/>\n\n\
+              <table align="left">\n\
+              <tr><td align="left"><i>diff vis. style</i></td><td align="left">' + style + '</td></tr>\n\
+              <tr><td align="left"><i>start ref</i></td><td align="left"><a href="' \
+                  + project_url + '/-/tree/' + other_branch + '">'  + other_branch + '</a> \
+                  (<a href="' + project_url + '/-/commit/' + other_sha + '">' + other_sha \
+                  + '</a>) - ' + start_ref_dates + '</td></tr>\n\
+              <tr><td align="left"><i>end ref</i></td><td align="left"><a href="' \
+                  + project_url + '/-/tree/' + ref + '">' + ref + '</a> \
+                  (<a href="' + project_url + '/-/commit/' + this_sha + '">' + this_sha + '</a>) - \
+                  ' + end_ref_dates + '</td></tr>\n\
+              <tr><td align="left"><i>time of comparison</i></td><td align="left">' \
+                  + comp_time + '</td></tr>\n\
+              </table>\n\
+              <br/>\n\
+              <h6>.</h6>\n\
+              <br/>\n'
+            replace_in_file(out_file,
+                    '<h1>Diff to HTML by <a href="https://github.com/rtfpessoa">rtfpessoa</a></h1>',
+                    header)
+
+@click.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('ref', type=click.STRING, envvar='GIT_REF', default='HEAD')
+@click.argument('other-branches', type=click.STRING, envvar='OTHER_BRANCHES', nargs=-1, default=None)
+#@click.argument('repo_path', type=click.Path(), envvar='GIT_REPO', default='.')
+@click.option('--repo-path', '-C', type=click.Path(), envvar='GIT_REPO',
+        default='.', help='The path to the local git repo')
+@click.option('--empty-on-error', '-e', is_flag=True, default=None,
+        help='Return an empty string, instead of an error, \
+                when the supplied dir is not a valid git repo')
+@click.version_option(git_version_token())
+def create_git_diffs_cli(ref='HEAD', repo_path='.', other_branches=None, empty_on_error=False):
+    '''
+    Compiles a git based version string for the project.
+    It is based on 'git describe'.
+    '''
+    create_git_diffs(ref, repo_path, other_branches)
+
+if __name__ == '__main__':
+    create_git_diffs_cli()
