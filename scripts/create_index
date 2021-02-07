@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+'''
+Given a directory, creates an index.html file
+listing all the generated files (like HTML fiels, PDFs and images)
+within a dir (optionally recursively),
+and linking to them in an HTML file.
+'''
+
+import os
+import click
+
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+LINK_ONLY_EXTENSIONS = ['html', 'pdf', 'md']
+IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg']
+
+#@click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option()
+def git_version_token():
+    pass
+
+@click.command(context_settings=CONTEXT_SETTINGS)
+@click.argument('scan-dir', type=click.Path(), default='.')
+@click.argument('index-file', type=click.Path(), default='./index.html')
+#@click.argument('repo_path', type=click.Path(), envvar='GIT_REPO', default='.')
+#@click.option('--repo-path', '-C', type=click.Path(), envvar='GIT_REPO',
+#        default='.', help='The path to the local git repo')
+#@click.option('--empty-on-error', '-e', is_flag=True, default=None,
+#        help='Return an empty string, instead of an error, when the supplied dir is not a valid git repo')
+@click.version_option(git_version_token())
+def create_index_cli(scan_dir, index_file):
+    create_index(scan_dir, index_file)
+
+def is_link_only_file(file_path):
+    for ext in LINK_ONLY_EXTENSIONS:
+        if file_path.endswith(ext):
+            return True
+    return False
+
+def is_image_file(file_path):
+    for ext in IMAGE_EXTENSIONS:
+        if file_path.endswith(ext):
+            return True
+    return False
+
+def create_index(scan_dir, index_file):
+    '''
+    Creates an index.html file, linking to all the generated files.
+    '''
+    ci_project_title = os.getenv('CI_PROJECT_TITLE')
+    ci_project_url = os.getenv('CI_PROJECT_URL')
+    ci_project_visibility = os.getenv('CI_PROJECT_VISIBILITY')
+    ci_commit_title = os.getenv('CI_COMMIT_TITLE')
+    ci_commit_description = os.getenv('CI_COMMIT_DESCRIPTION')
+    ci_commit_ref_name = os.getenv('CI_COMMIT_REF_NAME')
+    ci_commit_short_sha = os.getenv('CI_COMMIT_SHORT_SHA')
+    ci_commit_branch = os.getenv('CI_COMMIT_BRANCH')
+    ci_commit_tag = os.getenv('CI_COMMIT_TAG')
+    ci_commit_timestamp = os.getenv('CI_COMMIT_TIMESTAMP')
+    ci_job_url = os.getenv('CI_JOB_URL')
+    ci_job_id = os.getenv('CI_JOB_ID')
+    ci_job_name = os.getenv('CI_JOB_NAME')
+    ci_config_path = os.getenv('CI_CONFIG_PATH')
+
+    ind_f = open(index_file, 'w')
+
+    os.chdir(scan_dir)
+
+    # HTML header/intro
+    ind_f.write('<html>\n')
+    ind_f.write('<head>\n')
+    ind_f.write('<title>%s - CI generated output</title>\n'
+          % ci_project_title)
+    ind_f.write('</head>\n')
+    ind_f.write('<body>\n')
+    ind_f.write('<h1>%s - CI generated output</h1>\n'
+          % ci_project_title)
+
+    # HTML (git) meta-data table
+    ind_f.write('<table>\n')
+    ind_f.write('<tr><td>project name</td><td><a href="%s">%s</a></td></tr>\n'
+          % (ci_project_url, ci_project_title))
+    ind_f.write('<tr><td>project visibility</td><td>%s</td></tr>\n'
+          % ci_project_visibility)
+    ind_f.write('<tr><td>commit title</td><td>%s</td></tr>\n'
+          % ci_commit_title)
+    ind_f.write('<tr><td>commit description</td><td>%s</td></tr>\n'
+          % ci_commit_description)
+    ind_f.write('<tr><td>commit ref-name</td><td>%s</td></tr>\n'
+          % ci_commit_ref_name)
+    ind_f.write('<tr><td>commit sha</td><td>%s</td></tr>\n'
+          % ci_commit_short_sha)
+    ind_f.write('<tr><td>commit branch</td><td>%s</td></tr>\n'
+          % ci_commit_branch)
+    ind_f.write('<tr><td>commit tag</td><td>%s</td></tr>\n'
+          % ci_commit_tag)
+    ind_f.write('<tr><td>commit timestamp</td><td>%s</td></tr>\n'
+          % ci_commit_timestamp)
+    ind_f.write('<tr><td>job id</td><td><a href="%s">%s</a>'
+          % (ci_job_url, ci_job_id))
+    ind_f.write('(<- link to the output of the job)</td></tr>\n')
+    ind_f.write('<tr><td>job name</td><td>%s</td></tr>\n'
+          % ci_job_name)
+    ind_f.write('<tr><td>CI config</td><td><a href="%s/-/blob/%s/%s">%s</a></td></tr>\n'
+          % (ci_project_url, ci_commit_ref_name, ci_config_path, ci_config_path))
+    ind_f.write('</table>\n')
+
+    # HTML list of indexed files
+    ind_f.write('<ul>\n')
+    link_only_files = []
+    image_files = []
+    for root, _, files in os.walk(scan_dir): # returns (root, dirs, files)
+        for fle in files:
+            if os.path.isfile(fle):
+                if is_link_only_file(fle):
+                    link_only_files += [os.path.join(root, fle)]
+                elif is_image_file(fle):
+                    image_files += [os.path.join(root, fle)]
+
+    link_only_files.sort()
+    for fle in link_only_files:
+        ind_f.write('<li><a href="%s">%s</a></li>\n' % (fle, fle))
+    image_files.sort()
+    for fle in image_files:
+        ind_f.write('<li><a href="%s"><img src="%s"/><br/>%s</a></li>\n'
+                % (fle, fle, fle))
+    ind_f.write('</ul>\n')
+
+    # HTML outro
+    ind_f.write('</body>\n')
+    ind_f.write('</html>\n')
+
+    ind_f.close()
+
+if __name__ == '__main__':
+    create_index_cli()
