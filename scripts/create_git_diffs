@@ -131,6 +131,7 @@ def create_git_diffs_cli(ref='HEAD', repo_path='.', other_branches=None, empty_o
     Compiles a git based version string for the project.
     It is based on 'git describe'.
     '''
+    print(str(other_branches))
     create_git_diffs(ref, repo_path, other_branches)
 
 if __name__ == '__main__':
