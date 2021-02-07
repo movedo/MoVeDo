@@ -31,6 +31,8 @@ RUN gem install minima bundler jekyll
 RUN apt-get install -y -qq npm > /dev/null
 RUN npm install -g diff2html-cli
 
+# Dependencies of some of our more common scripts
+RUN pip3 install click gitpython svgwrite
 
 ENV WORKDIR="/home/user/code"
 WORKDIR "$WORKDIR"
