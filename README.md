@@ -3,7 +3,9 @@
 (pronounciation of *MoVeDo* is in Italian)
 
 A build tool for your Markdown based, git hosted documentation.
-Think of it like `gradle`, `leiningen`, `maven`, `grunt`, or any other build tool that mainly relies on convention (over configuration) -- but for your documentation.
+Think of it like `gradle`, `leiningen`, `maven`, `grunt`,
+or any other build tool that mainly relies on convention
+(over configuration) -- but for your documentation.
 
 By default it:
 
@@ -80,6 +82,7 @@ In your git repo containing the Markdown sources, add this repo as a sub-module:
 git submodule add https://github.com/movedo/MoVeDo.git movedo
 git submodule update --init --recursive # to install MoVeDo submodules
 ```
+
 (and then commit this)
 
 other devs will then have to check the sub-module out as well:
