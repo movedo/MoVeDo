@@ -84,7 +84,7 @@ cd "$gen_src_dir"
 #    resulting in Breadth First Traversal (BDT, or Level Order Traversal)
 echo
 echo "Generate index of Markdown sources on the basis of the file-system structure ..."
-# HACK Ignoring "./movedo/*" might is only right for our specific (the default/intended) scenario.
+# HACK Ignoring "./movedo/*" might only be right for our specific (the default/intended) scenario.
 find . \
 	-type f \
 	\( -name "*.md" \) \
