@@ -78,7 +78,7 @@ In your git repo containing the Markdown sources, add this repo as a sub-module:
 
 ```bash
 git submodule add https://github.com/movedo/MoVeDo.git movedo
-git submodule update --init --recursive
+git submodule update --init --recursive # to install MoVeDo submodules
 ```
 (and then commit this)
 
