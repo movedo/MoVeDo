@@ -178,7 +178,10 @@ function generateHtmlAndPdf() {
 echo
 echo "Generating combined PDF ($h2p_tool) ..."
 
-generateHtmlAndPdf "$single_md" "$single_html" "$single_pdf"
+if [ -f "$single_md" ]
+then
+	generateHtmlAndPdf "$single_md" "$single_html" "$single_pdf"
+fi
 
 if $individual
 then

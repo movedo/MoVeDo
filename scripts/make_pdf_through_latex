@@ -124,7 +124,10 @@ function pandoc_convert2pdf() {
 	fi
 }
 
-pandoc_convert2pdf "$single_md" "$single_pdf"
+if [ -f "$single_md" ]
+then
+	pandoc_convert2pdf "$single_md" "$single_pdf"
+fi
 
 if $individual
 then
