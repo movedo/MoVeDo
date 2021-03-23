@@ -97,6 +97,6 @@ then
 		echo -e "\n" >> "$single_md"
 	done < "$index_md_file"
 else
-	_error -e "If you have more then one source file, you need '$doc_meta_file', containing the YAML front-Matter for the combined document.\nYour index:\n$(cat "$index_md_file")"
+	_error "If you have more then one source file, you need '$doc_meta_file', containing the YAML front-Matter for the combined document.\nYour index:\n$(cat "$index_md_file")"
 fi
 

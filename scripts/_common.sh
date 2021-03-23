@@ -12,14 +12,14 @@ set -Eeu
 _error() {
 	local msg="$*"
 
-	echo "$0: ERROR: $msg" 1>&2
+	echo -e "$0: ERROR: $msg" 1>&2
 	exit 1
 }
 
 _warning() {
 	local msg="$*"
 
-	echo "$0: WARNING: $msg" 1>&2
+	echo -e "$0: WARNING: $msg" 1>&2
 }
 
 _var_set() {
