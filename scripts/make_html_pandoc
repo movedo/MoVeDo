@@ -51,6 +51,7 @@ cd "${html_dir}"
 echo "    Converting ..."
 
 pandoc_extra=()
+pandoc_extra+=("--citeproc")
 
 if [ -e "$biblography_file" ]
 then

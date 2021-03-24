@@ -24,6 +24,7 @@ cd "$gen_src_dir"
 rm -f "$single_md"
 
 pandoc_extra=()
+pandoc_extra+=("--citeproc")
 
 echo
 echo "Generating single, linear Markdown file ..."

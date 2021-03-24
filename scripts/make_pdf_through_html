@@ -84,6 +84,7 @@ echo "Generating combined HTML (Pandoc) ..."
 mkdir -p "$pdf_dir"
 
 pandoc_extra=()
+pandoc_extra+=("--citeproc")
 export pandoc_extra
 
 wkhtmltopdf_extra=()
