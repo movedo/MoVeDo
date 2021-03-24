@@ -111,7 +111,7 @@ function generateHtml() {
 		--from=markdown \
 		--to=html \
 		--standalone \
-		--atx-headers \
+		--markdown-headings=atx \
 		--table-of-contents \
 		--output="$file_html" \
 		--css="$templates_dir/pandoc-github.css" \

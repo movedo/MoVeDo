@@ -101,7 +101,7 @@ do
 		--from=markdown \
 		--to=html \
 		--standalone \
-		--atx-headers \
+		--markdown-headings=atx \
 		--output="$html_file" \
 		"${pandoc_extra[@]}" \
 		"$md_file"

@@ -45,7 +45,7 @@ then
 			--from=markdown \
 			--to=markdown \
 			--standalone \
-			--atx-headers \
+			--markdown-headings=atx \
 			-M allp_prefix="$(dirname "$md_in")/" \
 			-M allp_file="$md_in" \
 			--filter "$filters_dir/add_local_link_prefix.py" \
@@ -86,7 +86,7 @@ then
 			| pandoc \
 				--from=markdown \
 				--to=markdown \
-				--atx-headers \
+				--markdown-headings=atx \
 				-M allp_prefix="$(dirname "$md_in")/" \
 				-M allp_file="$md_in" \
 				--filter "$filters_dir/add_local_link_prefix.py" \
