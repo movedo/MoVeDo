@@ -51,15 +51,8 @@ RUN cd "$MVD_HOME"; \
 	fi; \
 	git submodule update --init --recursive
 
-# HACK: As of 4. August 2020, panflute (1.12.5) does not support latest pandoc (2.10.x),
-# so we install the latest compatible version
-# Relevant discussions can be found here:
-# * https://github.com/manubot/rootstock/pull/354
-# * https://github.com/sergiocorreia/panflute/issues/142
-RUN export MVD_PANDOC_VERSION=2.9.2.1; \
-	"$MVD_HOME/scripts/install_pandoc"
-RUN export MVD_PANFLUTE_VERSION=1.12; \
-	"$MVD_HOME/scripts/install_panflute" --locales
+RUN "$MVD_HOME/scripts/install_pandoc"
+RUN "$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
 
