@@ -65,8 +65,8 @@ RUN "$MVD_HOME/scripts/install_pp"
 
 
 
-LABEL maintainer="Robin Vobruba <TODO>"
-LABEL version="1.0"
-LABEL description="This text illustrates \
- a multi-line text"
+LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
+LABEL version="1.x"
+LABEL description="This can be used as a CI base image when generating documents using MoVeDo - \
+https://github.com/movedo/MoVeDo/"
 
