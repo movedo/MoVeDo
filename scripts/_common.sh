@@ -153,13 +153,21 @@ _is_repo_clean() {
 }
 
 # If the `git` tool is installed, and we are inside a git repo,
-# return the git commit date.
+# return the git commit (or author) date.
 # Else, return "<UNKNOWN>".
+# _fetch_commit_date        # returns the commit date
+# _fetch_commit_date 'c'    # returns the commit date
+# _fetch_commit_date 'a'    # returns the author date (original date of the commit)
 _fetch_commit_date() {
 	commit_date="<UNKNOWN>"
+	# date_type:
+	# * 'c': committer date - when the commit was actually *last* committed,
+	#   potentially the time of the last amend
+	# * 'a': author date - this is the commits original date
+	date_type="${1:-c}"
 	if which git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null
 	then
-		commit_date="$(git show -s --format=%ci HEAD | sed -e 's/ .*//')"
+		commit_date="$(git show -s --format="%${date_type}i" HEAD | sed -e 's/ .*//')"
 	fi
 	echo "$commit_date"
 }
@@ -175,7 +183,7 @@ _fetch_date() {
 _fetch_document_date() {
 	if _is_repo_clean
 	then
-		_fetch_commit_date
+		_fetch_commit_date c
 	else
 		_fetch_date
 	fi
