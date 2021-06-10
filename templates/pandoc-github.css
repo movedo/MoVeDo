@@ -1,4 +1,10 @@
 /*
+ * SPDX-FileCopyrightText: 2016 Pascal Hertleif
+ *
+ * SPDX-License-Identifier: CC0-1.0
+ */
+
+/*
  * This CSS makes pandoc generated HTML output look MUCH nicer!
  * Use like this:
  *     pandoc --standalone -f markdown -t html --css pandoc.css in-file.markdown > $out-file.html
