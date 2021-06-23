@@ -53,6 +53,7 @@ function generate_summary() {
 	awk '{ printf "[%s](%s)\n", $0, $0; }' \
 		< "$index_md_file" \
 		> "$gen_src_dir/SUMMARY.md"
+		|| exit 1
 }
 
 echo

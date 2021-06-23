@@ -70,6 +70,10 @@ then
 	while read -d $'\n' -r md_in
 	do
 		echo "Linearizing $md_in ..."
+		if [ ! -e "$md_in" ]
+		then
+			_error "File '$md_in' not found! It is specified in the index file '$index_md_file'."
+		fi
 		# TODO put this in its own script:
 		# extract the document(-fragment)s title from the YAML meta-data
 		grep "^title: " "$md_in" > /dev/null && {

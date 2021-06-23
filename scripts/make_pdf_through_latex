@@ -143,6 +143,10 @@ then
 
 	while read -r file_md
 	do
+		if [ ! -e "$file_md" ]
+		then
+			_error "File '$file_md' not found! It is specified in the index file '$index_md_file'."
+		fi
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		mkdir -p "$(dirname "$file_pdf")"
 		pandoc_convert2pdf "$file_md" "$file_pdf"

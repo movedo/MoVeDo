@@ -101,6 +101,10 @@ fi
 
 while read -r md_file
 do
+	if [ ! -e "$file_md" ]
+	then
+		_error "File '$file_md' not found! It is specified in the index file '$index_md_file'."
+	fi
 	html_file="${md_file%.md}.html"
 	pandoc \
 		--from=markdown \
