@@ -6,8 +6,12 @@ SPDX-License-Identifier: CC0-1.0
 
 # MoVeDo - Modular, Versioned Documentation
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![REUSE status](https://api.reuse.software/badge/github.com/movedo/MoVeDo)](https://api.reuse.software/info/github.com/movedo/MoVeDo)
+[![License: GPL v3](
+    https://img.shields.io/badge/License-GPLv3-blue.svg)](
+    https://www.gnu.org/licenses/gpl-3.0)
+[![REUSE status](
+    https://api.reuse.software/badge/github.com/movedo/MoVeDo)](
+    https://api.reuse.software/info/github.com/movedo/MoVeDo)
 
 (pronounciation of *MoVeDo* is in Italian)
 
