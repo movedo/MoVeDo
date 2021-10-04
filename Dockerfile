@@ -26,6 +26,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # For PP PlantUML
 RUN apt-get install -y default-jre > /dev/null
 RUN apt-get install -y -qq texlive-latex-base texlive-fonts-recommended texlive-latex-extra librsvg2-bin > /dev/null
+RUN apt-get install -y -qq mkdocs > /dev/null
 
 RUN gem install minima bundler jekyll
 
