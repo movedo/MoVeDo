@@ -30,6 +30,9 @@ then
 elif [ -f ".pdsite.yml" ]
 then
 	"$script_dir/make_html_pdsite" "${args[@]}"
+elif [ -f "mkdocs.yml" ]
+then
+	"$script_dir/make_html_mkdocs" "${args[@]}"
 else
 	"$script_dir/make_html_pandoc" "${args[@]}"
 fi
