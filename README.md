@@ -37,6 +37,20 @@ By default it:
 [COMMON-MARK]: https://commonmark.org
 [GFM]: https://help.github.com/articles/github-flavored-markdown/)
 
+### Why Markdown
+
+> ... oh boy!
+
+Compared to other clear-text, simple markdown formats
+like [reText](https://github.com/retext-project/retext)
+and [AsciiDoc](https://asciidoc.org):
+
+* + It is "industry" standard for documentation in Open Source software \
+  -> many people know it already & there are lots of examples
+* + It is supported by a *lot* of tools and platforms
+* - There is no *one* standard for it; many non-marginal sub-standards \
+  -> compatibility issues
+
 ## Use-Case
 
 ### Expected Input
