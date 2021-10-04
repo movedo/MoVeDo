@@ -37,6 +37,43 @@ By default it:
 [COMMON-MARK]: https://commonmark.org
 [GFM]: https://help.github.com/articles/github-flavored-markdown/)
 
+## Philosophy & Psychology
+
+The main idea behind MoVeDo is:
+
+> Write your documentation in standard Markdown on git;
+> nothing more.
+
+Though it also optionally supports pre-processing,
+it is discouraged, and it is applied in a way
+that makes the output digestible by any (locally executed) tool,
+for further processing/generating docs in other formats.
+
+It wants you to not worry about how the documents are post-processed that much,
+but rather on using standard formats an idioms.
+That way of thinking nudges one to keep it simple,
+using only basic Markdown syntax, whenever possible.
+
+This allows anyone working on the docs
+to use their preferred tool for editing, previewing
+and even post-processing into distributable document formats.
+It also allows for easy switching between post-processing tools,
+like [pandoc](https://pandoc.org),
+[jekyll](https://jekyllrb.com),
+[hugo](https://gohugo.io)\*,
+[vue.js](https://vuejs.org)\*,
+[docsify](https://docsify.js.org/)\*
+or whatever tool that supports Markdown as sources;
+no additional requirements.
+
+(\*_Not yet supported_)
+
+It might also make one think twice or three times,
+before Markdown extensions supported only by this tool or that platform.
+If it manages to do only that, it met it's highest goal,
+as this leads to more social thinking,
+both for fellow co-workers and the community as a whole.
+
 ### Why Markdown
 
 > ... oh boy!
