@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Builds a HTML out of Markdown files.
+# Builds HTML out of Markdown files.
 # We do that with `mdbook`.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.

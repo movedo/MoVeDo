@@ -20,7 +20,7 @@ _check_tools "${tools[@]}"
 apt-get install -y -qq python3-pip libffi6 libffi-dev libcairo2 libpango-1.0-0 libpangocairo-1.0-0 > /dev/null
 pip3 install pip cffi cairocffi WeasyPrint
 
-# Check if `weasyprint` can be found
+# Check if it can be found
 which weasyprint
 # ... and log the version info
 weasyprint --version | sed -e 's/^/\t/' | head -n 1 || true

@@ -45,7 +45,7 @@ else
 	echo "Done."
 fi
 
-# Check if `pdsite` can be found and log the version info
+# Check if it can be found and log the version info
 which pdsite
 pdsite -v | sed -e 's/^/\t/' | head -n 1
 

@@ -14,7 +14,7 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "${script_dir}/_common.sh"
 
 tools=()
-tools+=("cargo") # for getting a recent version of mdbook
+tools+=("cargo") # for getting a recent version of cargo, the rust build tool and package manager
 _check_tools "${tools[@]}"
 
 #if [ ! -x "$HOME/.cargo/bin/cargo-install-update" ]
@@ -32,7 +32,7 @@ fi
 #echo "Updating all cargo packages ..."
 #cargo install-update -a
 
-# Check if `pandoc` can be found
+# Check if it can be found
 which mdbook
 # ... and log the version info
 mdbook -V | sed -e 's/^/\t/' | head -n 1 || true

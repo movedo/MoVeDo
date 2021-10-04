@@ -55,7 +55,7 @@ else
 	fi
 fi
 
-# Check if `pandoc` can be found
+# Check if it can be found
 which pandoc
 # ... and log the version info
 pandoc -v | sed -e 's/^/\t/' | head -n 1 || true

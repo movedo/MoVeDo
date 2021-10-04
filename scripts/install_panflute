@@ -106,7 +106,7 @@ else
 	fi
 fi
 
-# Check if `panflute` can be found
+# Check if it can be found
 which panflute
 # ... and log the version info
 echo "import panflute; print(panflute.__version__)" \
