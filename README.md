@@ -27,11 +27,15 @@ By default it:
 * produces a single, fused Markdown file
 * produces a single PDF file
 * uses [YAML Front-Matter document meta-data][YFM]
-* promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor)
+* promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor),
+  though it also works well with [CommonMark][COMMON-MARK]
+  and [GFM (GitHub's Markdown)][GFM]
 
 [PP]: https://github.com/CDSoft/pp
 [YFM]: https://assemble.io/docs/YAML-front-matter.html
 [PANDOC-MD]: https://pandoc.org/MANUAL.html#pandocs-markdown
+[COMMON-MARK]: https://commonmark.org
+[GFM]: https://help.github.com/articles/github-flavored-markdown/)
 
 ## Use-Case
 
