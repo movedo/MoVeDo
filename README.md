@@ -78,14 +78,18 @@ both for fellow co-workers and the community as a whole.
 
 > ... oh boy!
 
-Compared to other clear-text, simple markdown formats
+Compared to other [lightweight markup formats](
+    https://en.wikipedia.org/wiki/Lightweight_markup_language)
 like [reText](https://github.com/retext-project/retext)
 and [AsciiDoc](https://asciidoc.org):
 
-* + It is "industry" standard for documentation in Open Source software \
-  -> many people know it already & there are lots of examples
-* + It is supported by a *lot* of tools and platforms
-* - There is no *one* standard for it; many non-marginal sub-standards \
+* **\+** It is "industry" standard for documentation in Open Source software,
+  many people know it already and there are lots of examples
+* **\+** It is supported by [a *lot* of tools and platforms](
+  https://www.markdownguide.org/tools/)
+* **\-** many non-marginal, parallel ["flavors"](
+  https://github.com/commonmark/commonmark-spec/wiki/markdown-flavors)
+  exist, so there is no *one* standard for it \
   -> compatibility issues
 
 ## Use-Case
