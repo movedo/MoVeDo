@@ -22,7 +22,9 @@ args=()
 
 if ! "$script_dir/make_pdf_through_latex" "${args[@]}"
 then
-	_warning "Failed to create a PDF through Latex; trying through HTML ..."
+	_warning "Failed to create a PDF through Latex."
+	_warning "Use --mvd-debug to create an intermediary LaTeX file."
+	_warning "Trying to create PDF through HTML ..."
 	"$script_dir/make_pdf_through_html" "${args[@]}"
 fi
 
