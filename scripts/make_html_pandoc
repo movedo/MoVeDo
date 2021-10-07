@@ -99,13 +99,13 @@ else
 	pandoc_extra+=("--css=$templates_dir/pandoc-github.css")
 fi
 
-while read -r md_file
+while read -r file_md
 do
 	if [ ! -e "$file_md" ]
 	then
 		_error "File '$file_md' not found! It is specified in the index file '$index_md_file'."
 	fi
-	html_file="${md_file%.md}.html"
+	html_file="${file_md%.md}.html"
 	pandoc \
 		--from=markdown \
 		--to=html \
@@ -113,6 +113,6 @@ do
 		--markdown-headings=atx \
 		--output="$html_file" \
 		"${pandoc_extra[@]}" \
-		"$md_file"
+		"$file_md"
 done < "$index_md_file"
 
