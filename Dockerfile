@@ -5,8 +5,6 @@
 #FROM ubuntu:18.04
 FROM debian:latest
 
-
-
 RUN apt-get update
 
 RUN apt-get install -y -qq ruby ruby-dev > /dev/null
@@ -64,17 +62,9 @@ RUN export MVD_PANDOC_VERSION=2.13; \
 	"$MVD_HOME/scripts/install_pandoc"
 RUN export MVD_PANFLUTE_VERSION=2.1; \
 	"$MVD_HOME/scripts/install_panflute" --locales
+
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
-
-
-
-
-
-#CMD "$MVD_HOME/scripts/build"
-
-
-
 
 LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
 LABEL version="1.x"
