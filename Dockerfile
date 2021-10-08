@@ -54,14 +54,19 @@ RUN cd "$MVD_HOME"; \
 	fi; \
 	git submodule update --init --recursive
 
-# HACK: As of 1. June 2021, latest pandoc (2.14.x) has a bug
-# where it fails producing PDFs from Markdown if there are SVG files.
-# Thus we install the latest working version,
-# and a panflute version compatible with it.
-RUN export MVD_PANDOC_VERSION=2.13; \
-	"$MVD_HOME/scripts/install_pandoc"
-RUN export MVD_PANFLUTE_VERSION=2.1; \
-	"$MVD_HOME/scripts/install_panflute" --locales
+# As of August 2021 (pandoc 2.14.2),
+# the below mentioned problem was fixed,
+# so we resolve to use the latest version again.
+RUN "$MVD_HOME/scripts/install_pandoc"
+RUN "$MVD_HOME/scripts/install_panflute" --locales
+# As of 1. June 2021, latest pandoc (2.14.1) had a bug
+# where it failed producing PDFs from Markdown if there are SVG files.
+# Thus we installed the latest working version,
+# and a panflute version compatible with it:
+#RUN export MVD_PANDOC_VERSION=2.13; \
+#	"$MVD_HOME/scripts/install_pandoc"
+#RUN export MVD_PANFLUTE_VERSION=2.1; \
+#	"$MVD_HOME/scripts/install_panflute" --locales
 
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
