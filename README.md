@@ -158,7 +158,7 @@ echo "/build/" >> .gitignore # to git ignore the MoVeDo generated files
 
 (and then commit this)
 
-other devs will then have to check the sub-module out as well:
+Other devs will then have to check the sub-module out as well:
 
 ```bash
 git submodule update --init --recursive
