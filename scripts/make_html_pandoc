@@ -84,19 +84,35 @@ done
 
 if [ -n "$template" ]
 then
-	if [ -f "$movedo_root_dir/templates/pandoc-$template/standalone.html" ]
+	if [ -f "$templates_dir/pandoc-$template/standalone.html" ]
 	then
-		pandoc_extra+=("--template=$movedo_root_dir/templates/pandoc-$template/standalone.html")
+		pandoc_extra+=("--template=$templates_dir/pandoc-$template/standalone.html")
 	else
-		pandoc_extra+=("--template=$movedo_root_dir/templates/pandoc-$template/template.html")
+		pandoc_extra+=("--template=$templates_dir/pandoc-$template/template.html")
 		pandoc_extra+=("--self-contained")
 	fi
-	if [ -f "$movedo_root_dir/templates/pandoc-$template/template.css" ]
+	if [ -f "$templates_dir/pandoc-$template/template.css" ]
 	then
-		pandoc_extra+=("--css=$movedo_root_dir/templates/pandoc-$template/template.css")
+		css_file="pandoc-$template/template.css"
 	fi
 else
-	pandoc_extra+=("--css=$templates_dir/pandoc-github.css")
+	css_file="pandoc-github.css"
+fi
+if [ -n "${css_file:-}" ]
+then
+	cp "$templates_dir/$css_file" "$html_dir/"
+	pandoc_extra+=("--css=$css_file")
+	# HACK for lazy devs ...
+	pandoc_extra+=("--css=../$css_file")
+	pandoc_extra+=("--css=../../$css_file")
+	pandoc_extra+=("--css=../../../$css_file")
+	pandoc_extra+=("--css=../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../../../../../$css_file")
+	pandoc_extra+=("--css=../../../../../../../../../../$css_file")
 fi
 
 while read -r file_md
