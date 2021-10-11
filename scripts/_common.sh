@@ -80,6 +80,18 @@ _check_tool() {
 		fi
 		_error "'$tool' is not installed. Please install it manually${additional_info}."
 	fi
+	if [ "$tool" = "pandoc" ] && which -q pandoc
+	then
+		pandoc_version="$(pandoc --version | head -n 1 | sed -e 's/^pandoc //')"
+		pandoc_version_main="$(echo "$pandoc_version" | sed -e 's/\.[^.]+$//')"
+		if [ "$pandoc_version_main" = "2.13" ]
+		then
+			echo "WARNING: You are using pandoc version $pandoc_version, which has an issue with citeproc, messing up some normal Markdown text."
+		elif [ "$pandoc_version" = "2.14.1" ]
+		then
+			echo "WARNING: You are using pandoc version $pandoc_version, which fails to convert if there are SVG images used in the documentation."
+		fi
+	fi
 }
 
 _check_tools() {
