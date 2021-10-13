@@ -236,7 +236,7 @@ _git_remote_web_url() {
 			-e 's|'"$remote"'.||' \
 			-e 's|^git@|https://|' \
 			-e 's|^git:|https:|' \
-			-e 's|com:|com/|' \
+			-e 's|\([a-z]\):\([^/]\)|\1/\2|g' \
 			-e 's| (fetch)$||' \
 			-e 's|\.git$||'
 }
