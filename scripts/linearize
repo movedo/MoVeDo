@@ -44,7 +44,7 @@ function global_doc_meta() {
 		echo "---"
 		echo "# HACK The first line after the above '---' needs to be a comment,"
 		echo "#      or else this meta-data does not end up in the generated PDF,"
-		echo "#      ... ¯\_(ツ)_/¯"
+		echo "#      ... wierd!"
 		cat "$doc_meta_file_gen"
 		echo "---"
 		echo
