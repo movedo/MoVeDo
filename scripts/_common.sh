@@ -41,7 +41,7 @@ proj_dir="${proj_dir:-"$(pwd)"}"
 # Root directory for all files created during the documentation build process
 build_dir_rel="${build_dir_rel:-"build"}"
 build_dir="${build_dir:-"$proj_dir/$build_dir_rel"}"
-# YAML meta-data, to be usedin the single, fused Markdown file as FrontMatter
+# YAML meta-data, to be used in the single, fused/linearized Markdown file as FrontMatter
 doc_meta_file="${doc_meta_file:-"$proj_dir/doc.yml"}"
 # BibTex meta-data, to be usedin the PDF output (optional)
 biblography_file="${biblography_file:-"$proj_dir/citations.bib"}"
