@@ -80,7 +80,7 @@ _check_tool() {
 		fi
 		_error "'$tool' is not installed. Please install it manually${additional_info}."
 	fi
-	if [ "$tool" = "pandoc" ] && which -q pandoc
+	if [ "$tool" = "pandoc" ] && which pandoc > /dev/null 2>&1
 	then
 		pandoc_version="$(pandoc --version | head -n 1 | sed -e 's/^pandoc //')"
 		pandoc_version_main="$(echo "$pandoc_version" | sed -e 's/\.[^.]+$//')"
