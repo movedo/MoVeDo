@@ -15,8 +15,8 @@ import os
 import click
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-LINK_ONLY_EXTENSIONS = ['html', 'pdf', 'md']
-IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg']
+LINK_ONLY_EXTENSIONS = ['.html', '.pdf', '.md']
+IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.svg']
 
 #@click.group(context_settings=CONTEXT_SETTINGS)
 @click.version_option()
