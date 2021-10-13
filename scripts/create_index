@@ -113,13 +113,15 @@ def create_index(scan_dir, index_file):
     ind_f.write('<ul>\n')
     link_only_files = []
     image_files = []
-    for _, _, files in os.walk(scan_dir): # returns (root, dirs, files)
+    for dirpath, _, files in os.walk("."):
         for fle in files:
-            if os.path.isfile(fle):
-                if is_link_only_file(fle):
-                    link_only_files += [fle]
-                elif is_image_file(fle):
-                    image_files += [fle]
+            file_path = os.path.join(dirpath, fle)
+            file_path = file_path.removeprefix("./")
+            if os.path.isfile(file_path):
+                if is_link_only_file(file_path):
+                    link_only_files += [file_path]
+                elif is_image_file(file_path):
+                    image_files += [file_path]
 
     link_only_files.sort()
     for fle in link_only_files:
