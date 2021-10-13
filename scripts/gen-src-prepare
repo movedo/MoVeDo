@@ -105,7 +105,6 @@ then
 			\( ! -path "./script/*" \) \
 			\( ! -path "./.git*" \) \
 			\( ! -name "*.pp.md" \) \
-			\( ! -name "$(basename "$doc_meta_file")" \) \
 			\( ! -name "README.md" \) \
 		| cpio -pdvm "$gen_src_dir" 2> /dev/null
 

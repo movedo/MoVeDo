@@ -37,10 +37,10 @@ function global_doc_meta() {
 		doc_meta_file_gen="$gen_src_dir/$(basename "$doc_meta_file")"
 		#	-e '/^#.*$/d' \
 		sed \
+			-i \
 			-e '/^[-]\{3,\}$/d' \
 			-e '/^[.]\{3,\}$/d' \
-			< "$doc_meta_file" \
-			> "$doc_meta_file_gen"
+			"$doc_meta_file_gen"
 		echo "---"
 		echo "# HACK The first line after the above '---' needs to be a comment,"
 		echo "#      or else this meta-data does not end up in the generated PDF,"
