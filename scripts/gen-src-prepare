@@ -89,8 +89,8 @@ find . \
 		\( ! -path "./_site" \) \
 		\( ! -path "./.git/*" \) \
 		\( ! -path "./.git" \) \
-	| cpio -pdvm --quiet "${gen_src_dir}" 2> /dev/null
-mkdir -p "${gen_src_dir}/assets/images" # HACK
+	| cpio -pdvm --quiet "$gen_src_dir" 2> /dev/null
+mkdir -p "$gen_src_dir/assets/images" # HACK
 
 if $copy_source_files
 then
@@ -107,7 +107,7 @@ then
 			\( ! -name "*.pp.md" \) \
 			\( ! -name "$(basename "$doc_meta_file")" \) \
 			\( ! -name "README.md" \) \
-		| cpio -pdvm "${gen_src_dir}" 2> /dev/null
+		| cpio -pdvm "$gen_src_dir" 2> /dev/null
 
 	echo
 	echo "Copy (and pre-process) *.md source files to generated-sources dir,"
@@ -124,14 +124,14 @@ then
 	echo "  \${PROJECT_BUILD_DATE}:   '$project_build_date'"
 	echo "  \${PROJECT_SOURCE_URL}:   '$project_source_url'"
 	echo "Processing ..."
-	find "${gen_src_dir}" \
+	find "$gen_src_dir" \
 		-type f \
-		\( ! -path "${gen_src_dir}/${build_dir_rel}*" \) \
-		\( ! -path "${gen_src_dir}/movedo/*" \) \
-		\( ! -path "${gen_src_dir}/public/*" \) \
-		\( ! -path "${gen_src_dir}/_site/*" \) \
-		\( ! -path "${gen_src_dir}/script/*" \) \
-		\( ! -path "${gen_src_dir}/.git*" \) \
+		\( ! -path "$gen_src_dir/${build_dir_rel}*" \) \
+		\( ! -path "$gen_src_dir/movedo/*" \) \
+		\( ! -path "$gen_src_dir/public/*" \) \
+		\( ! -path "$gen_src_dir/_site/*" \) \
+		\( ! -path "$gen_src_dir/script/*" \) \
+		\( ! -path "$gen_src_dir/.git*" \) \
 		\( ! -name "*.pp.md" \) \
 		\( ! -name "README.md" \) \
 		\( -name "*.md" \
