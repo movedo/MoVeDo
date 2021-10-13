@@ -95,7 +95,7 @@ mkdir -p "$gen_src_dir/assets/images" # HACK
 if $copy_source_files
 then
 	echo
-	echo "Copy source *files* (except *.md) to generated-sources dir ..."
+	echo "Copy source *files* to generated-sources dir ..."
 	find . \
 			-type f \
 			\( ! -path "./${build_dir_rel}*" \) \
