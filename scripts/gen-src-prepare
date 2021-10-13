@@ -138,10 +138,10 @@ then
 		| sort -u \
 		| tr \\n \\0 \
 		| xargs -0 sed -i \
-			-e "s|\${PROJECT_VERSION}|$project_version|" \
-			-e "s|\${PROJECT_VERSION_URL}|$project_version_url|" \
-			-e "s|\${PROJECT_VERSION_DATE}|$project_version_date|" \
-			-e "s|\${PROJECT_BUILD_DATE}|$project_build_date|" \
-			-e "s|\${PROJECT_SOURCE_URL}|$project_source_url|"
+			-e "s|\${PROJECT_VERSION}|$project_version|g" \
+			-e "s|\${PROJECT_VERSION_URL}|$project_version_url|g" \
+			-e "s|\${PROJECT_VERSION_DATE}|$project_version_date|g" \
+			-e "s|\${PROJECT_BUILD_DATE}|$project_build_date|g" \
+			-e "s|\${PROJECT_SOURCE_URL}|$project_source_url|g"
 fi
 
