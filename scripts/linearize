@@ -31,18 +31,36 @@ rm -f "$single_md"
 pandoc_extra=()
 pandoc_extra+=("--citeproc")
 
+function global_doc_meta() {
+	if [ -f "$doc_meta_file" ]
+	then
+		doc_meta_file_tmp="${doc_meta_file}_tmp"
+		#	-e '/^#.*$/d' \
+		sed \
+			-e '/^[-]\{3,\}$/d' \
+			-e '/^[.]\{3,\}$/d' \
+			< "$doc_meta_file" \
+			> "$doc_meta_file_tmp"
+		echo "---"
+		echo "# HACK The first line after the above '---' needs to be a comment,"
+		echo "#      or else this meta-data does not end up in the generated PDF,"
+		echo "#      ... ¯\_(ツ)_/¯"
+		cat "$doc_meta_file_tmp"
+		echo "---"
+		echo
+	fi
+}
+
 echo
 echo "Generating single, linear Markdown file ..."
 if [ "$(wc -l < "$index_md_file")" -eq 1 ]
 then
+	# Build from a single source file
 	md_in="$(cat "$index_md_file")"
 	single_md_tmp="${single_md}_tmp"
-	# Build from a single source file
-	if [ -f "$doc_meta_file" ]
-	then
-		# Use global document meta-data
-		cat "$doc_meta_file" >> "$single_md_tmp"
-	fi
+	rm -f "$single_md_tmp"
+	# Use global document meta-data
+	global_doc_meta >> "$single_md_tmp"
 	# Use the single source file as-is
 	cat "$md_in" >> "$single_md_tmp"
 	echo "    adding '$md_in' ..."
@@ -66,7 +84,7 @@ then
 	# Build from multiple source files
 
 	# Use global document meta-data
-	cat "$doc_meta_file" > "$single_md"
+	global_doc_meta >> "$single_md"
 	while read -d $'\n' -r md_in
 	do
 		echo "Linearizing $md_in ..."
