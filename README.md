@@ -61,7 +61,7 @@ It also allows for easy switching between post-processing tools,
 like [pandoc](https://pandoc.org),
 [jekyll](https://jekyllrb.com),
 [hugo](https://gohugo.io)\*,
-[vue.js](https://vuejs.org)\*,
+[vuepress (vue.js)](https://vuepress.vuejs.org)\*,
 [docsify](https://docsify.js.org/)\*
 or whatever tool that supports Markdown as sources;
 no additional requirements.
