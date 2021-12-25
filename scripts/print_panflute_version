@@ -13,8 +13,9 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "${script_dir}/_common.sh"
 
+python="$(which python || which python3)"
 echo "import panflute; print(panflute.__version__)" \
-	| python 2> /dev/null \
+	| "$python" 2> /dev/null \
 	| sed -e 's/^/\t/' \
 	| head -n 1 \
 	|| true
