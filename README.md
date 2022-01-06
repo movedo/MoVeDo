@@ -148,7 +148,8 @@ and for the above project would look like:
 
 ## How to use
 
-In your git repo containing the Markdown sources, add this repo as a sub-module:
+In your git repo containing the Markdown sources,
+add this repo as a sub-module:
 
 ```bash
 git submodule add https://github.com/movedo/MoVeDo.git movedo
