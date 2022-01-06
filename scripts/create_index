@@ -6,7 +6,7 @@
 
 '''
 Given a directory, creates an index.html file
-listing all the generated files (like HTML fiels, PDFs and images)
+listing all the generated files (like HTML files, PDFs and images)
 within a dir (optionally recursively),
 and linking to them in an HTML file.
 '''
