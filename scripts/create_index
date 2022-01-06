@@ -24,8 +24,8 @@ def git_version_token():
     pass
 
 @click.command(context_settings=CONTEXT_SETTINGS)
-@click.argument('scan-dir', type=click.Path(), default='.')
-@click.argument('index-file', type=click.Path(), default='./index.html')
+@click.argument('scan-dir', type=click.Path(), default='.', required=False)
+@click.argument('index-file', type=click.Path(), default=None, required=False)
 #@click.argument('repo_path', type=click.Path(), envvar='GIT_REPO', default='.')
 #@click.option('--repo-path', '-C', type=click.Path(), envvar='GIT_REPO',
 #        default='.', help='The path to the local git repo')
