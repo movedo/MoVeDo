@@ -33,6 +33,8 @@ def git_version_token():
 #        help='Return an empty string, instead of an error, when the supplied dir is not a valid git repo')
 @click.version_option(git_version_token())
 def create_index_cli(scan_dir, index_file):
+    if index_file is None:
+        index_file = os.path.join(scan_dir, 'index.html')
     create_index(scan_dir, index_file)
 
 def is_link_only_file(file_path):
