@@ -148,6 +148,40 @@ and for the above project would look like:
 
 ## How to use
 
+### What you need to know first
+
+MoVeDo does mainly two things:
+
+1. Converting Markdown (tree of files) -> HTML (tree of files)
+2. Converting Markdown (tree of files) -> PDF (single, linear file)
+
+The first part (HTML) is almost entirely out-sourced
+to a 3rd party tool of your choice,
+while the second is mostly MoVeDo code and pandoc.
+
+So apart from choosing MoVeDo,
+you should also choose a Markdown to HTML converter.
+If you don't, MoVeDo uses plain pandoc,
+which will not result in the most pretty results.
+To see which Markdown to HTML converters are currently supported by MoVeDo,
+run `ls -1 movedo/scripts/make_html_*` from your project root.
+
+As of October 2021, this are:
+
+* [Jekyll](https://jekyllrb.com) -
+  Well established (ruby) static site generator (SSG)
+* [mdBook](https://github.com/rust-lang/mdBook) - fast SSG (rust)
+* [mkDocs](https://www.mkdocs.org) - simple SSG
+* [pandoc](https://pandoc.org) - bare-bones document converter
+* [pdsite](http://pdsite.org) - very simple, leight-weight SSG (bash)
+
+Please raise an issue if you need support for an other tool,
+or make a pull request.
+
+### Installation & Setup
+
+#### Base
+
 In your git repo containing the Markdown sources,
 add this repo as a sub-module:
 
@@ -178,6 +212,15 @@ movedo/scripts/build
 ```
 
 This would generate output like shown in [Sample Output](#sample-output).
+
+#### Custom HTML generator (optional, recommended)
+
+Basically, you follow the setup instructions for the tool you choose.
+In the case of [jekyll](https://jekyllrb.com), for example,
+this means that you will end up having at least a `_config.yml` file
+in the repo root.
+MoVeDo will detect that, and call jekyll to generate the HTML,
+after pre-processing the Markdown.
 
 ## Directory Structure
 
