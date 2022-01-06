@@ -41,6 +41,7 @@ ENV WORKDIR="/home/user/code"
 WORKDIR "$WORKDIR"
 
 ENV MVD_HOME="$WORKDIR/movedo"
+ENV PATH="${MVD_HOME}/bin:${PATH}"
 COPY . movedo
 
 # Workaround to get tags, until this bug is solved:
