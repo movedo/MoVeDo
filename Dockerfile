@@ -53,7 +53,8 @@ RUN cd "$MVD_HOME"; \
 	then \
 		git fetch --tags --unshallow; \
 	fi; \
-	git submodule update --init --recursive
+	git submodule update --init --recursive; \
+	git remote set-url origin "https://github.com/movedo/MoVeDo.git"
 
 # As of August 2021 (pandoc 2.14.2),
 # the below mentioned problem was fixed,
