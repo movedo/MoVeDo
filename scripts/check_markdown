@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "${script_dir}/_common.sh"
+
+tools=()
+tools+=("mdl") # for Markdown linting
+_check_tools "${tools[@]}"
+#_check_env
+
+app_name="Check Markdown (linting)"
+script_name="$(basename "$0")"
+# parameters
+debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
+
+function print_help() {
+
+	echo "$app_name - Checks all Markdown sources in a directory, recursively."
+	echo
+	echo "Usage:"
+	echo "  $script_name [OPTIONS]"
+	echo "Options:"
+	echo "  -h, --help              Show this help message"
+	echo "  --mvd-debug             Create (do not delete) the intermediary *.tex file."
+	echo "                          Equivalent to command-line: MVD_DEBUG=1"
+	echo "Examples:"
+	echo "  $script_name --mvd-debug"
+}
+
+# read command-line args
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	arg="$1"
+	shift # $2 -> $1, $3 -> $2, ...
+
+	case "$arg" in
+		-h|--help)
+			print_help
+			exit 0
+			;;
+		--mvd-debug)
+			debug=true
+			;;
+		--mvd-*)
+			# Ignore this option; it is used in other MoVeDo scripts
+			_movedo_common_arg_has_value "$arg" && shift
+			;;
+		*) # non-/unknown option
+			POSITIONAL+=("$arg") # save it in an array for later
+			;;
+	esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+doc_root_dir="${1:-$proj_dir}"
+mdl_args=()
+if [ -f .mdlrc ]
+then
+	mdl_args+=("-c")
+	mdl_args+=(".mdlrc")
+else
+	echo "NOTE: If you want to adjust Markdown-linter settings,"
+	echo "      you may want to introduce the files '.mdlrc'"
+	echo "      and '.mdl_style.rb' in your project root."
+	echo "      See <https://gitlab.com/OSEGermany/OHS-3105/> for an example."
+fi
+find \
+	"$doc_root_dir" \
+	-type f \
+	\( \
+		-iname "*.md" \
+		-o \
+		-iname "*.markdown" \
+	\) \
+	! -name "LICENSE.m*d*" \
+	-print0 \
+	| xargs -0 mdl -i "${mdl_args[@]}"
+
