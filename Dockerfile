@@ -28,6 +28,9 @@ RUN apt-get install -y -qq mkdocs > /dev/null
 
 RUN gem install minima bundler jekyll
 
+# Used for various, pretty, recursive directory listings, in plain text or HTML
+RUN apt-get install -y -qq tree > /dev/null
+
 # Allows to create nice HTML diffs betwen git refs,
 # more freely (and accurately) then github or gitlab show them
 # (as of late 2020).
