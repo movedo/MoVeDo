@@ -5,10 +5,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 '''
-Given a directory, creates an index.html file
-listing all the generated files (like HTML files, PDFs and images)
-within a dir (optionally recursively),
-and linking to them in an HTML file.
+Given a directory, creates an index.html file,
+listing all the generated files
+(like HTML files, PDFs and images)
+within a dir (optionally recursively).
 '''
 
 import os
@@ -21,6 +21,9 @@ IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.svg']
 #@click.group(context_settings=CONTEXT_SETTINGS)
 @click.version_option()
 def git_version_token():
+    '''
+    A stub method for the CLI version annotation.
+    '''
     pass
 
 @click.command(context_settings=CONTEXT_SETTINGS)
@@ -33,17 +36,27 @@ def git_version_token():
 #        help='Return an empty string, instead of an error, when the supplied dir is not a valid git repo')
 @click.version_option(git_version_token())
 def create_index_cli(scan_dir, index_file):
+    '''
+    Creates an index (CLI annotated version)
+    '''
     if index_file is None:
         index_file = os.path.join(scan_dir, 'index.html')
     create_index(scan_dir, index_file)
 
 def is_link_only_file(file_path):
+    '''
+    Checks whether a file is a file we only want to link to,
+    vs one to also display (meaning, an image).
+    '''
     for ext in LINK_ONLY_EXTENSIONS:
         if file_path.endswith(ext):
             return True
     return False
 
 def is_image_file(file_path):
+    '''
+    Checks whether the given file represents an image.
+    '''
     for ext in IMAGE_EXTENSIONS:
         if file_path.endswith(ext):
             return True
@@ -51,7 +64,8 @@ def is_image_file(file_path):
 
 def create_index(scan_dir, index_file):
     '''
-    Creates an index.html file, linking to all the generated files.
+    Creates an index.html file,
+    linking to all the generated files.
     '''
     ci_project_title = os.getenv('CI_PROJECT_TITLE')
     ci_project_url = os.getenv('CI_PROJECT_URL')
