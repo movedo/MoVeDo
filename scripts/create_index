@@ -24,7 +24,6 @@ def git_version_token():
     '''
     A stub method for the CLI version annotation.
     '''
-    pass
 
 @click.command(context_settings=CONTEXT_SETTINGS)
 @click.argument('scan-dir', type=click.Path(), default='.', required=False)
@@ -32,8 +31,6 @@ def git_version_token():
 #@click.argument('repo_path', type=click.Path(), envvar='GIT_REPO', default='.')
 #@click.option('--repo-path', '-C', type=click.Path(), envvar='GIT_REPO',
 #        default='.', help='The path to the local git repo')
-#@click.option('--empty-on-error', '-e', is_flag=True, default=None,
-#        help='Return an empty string, instead of an error, when the supplied dir is not a valid git repo')
 @click.version_option(git_version_token())
 def create_index_cli(scan_dir, index_file):
     '''
