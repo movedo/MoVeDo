@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-License-Identifier: Unlicense
 
-#FROM ubuntu:18.04
-FROM debian:latest
+FROM debian:testing
 
 RUN apt-get update
 
