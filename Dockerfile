@@ -74,6 +74,11 @@ RUN "$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
 
+# HACK For "shell not found" error when starting the resulting image.
+#      See details here:
+#      <https://gitlab.com/gitlab-org/gitlab-runner/-/issues/27614#note_517446691>
+ENTRYPOINT ["/bin/bash", "-c", "ln -snf /bin/bash /bin/sh && /bin/bash -c $0" ]
+
 LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
 LABEL version="1.x"
 LABEL description="This can be used as a CI base image when generating documents using MoVeDo - \
