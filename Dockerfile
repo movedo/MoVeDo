@@ -1,6 +1,5 @@
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
-#
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-License-Identifier: Unlicense
 
 #FROM ubuntu:18.04
 FROM debian:latest
