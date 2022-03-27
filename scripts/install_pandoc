@@ -1,62 +1,73 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Install the latest version of Pandoc (Document file type converter).
+# Install the latest version of Pandoc
+# (Document file type converter).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
 tools=()
-tools+=("wget") # for getting a recent version of pandoc
+tools+=("wget") # for fetching what is the latest version of the tool
 _check_tools "${tools[@]}"
 
 # parameters
-pandoc_ver_required="${MVD_PANDOC_VERSION:-}"
+gh_slug="jgm/pandoc"
+bin="pandoc"
+tool_ver_required="${MVD_PANDOC_VERSION:-}"
+target="linux"
+gh_releases="https://github.com/$gh_slug/releases"
 
-if [ -z "$pandoc_ver_required" ]
+if [ -z "$tool_ver_required" ]
 then
-	pandoc_ver_latest=$(wget -O - --max-redirect 0 https://github.com/jgm/pandoc/releases/latest 2>&1 \
+	tool_ver_latest=$(\
+		wget \
+			-O - \
+			--max-redirect 0 \
+			"$gh_releases/latest" \
+			2>&1 \
 		| grep "Location:" \
 		| sed 's/.*\/tag\/\([^ "]*\).*/\1/')
-	pandoc_ver_required="$pandoc_ver_latest"
+	tool_ver_required="$tool_ver_latest"
 fi
 
-# install pandoc if the latest version is not in PATH
-pandoc_ver_installed=$(which pandoc > /dev/null 2>&1 \
-	&& pandoc -v \
+# install the tool if the latest version is not in PATH
+tool_ver_installed=$(which "$bin" > /dev/null 2>&1 \
+	&& "$bin" -v \
 	| head -n 1 \
 	| sed -e 's/.* //' \
 	|| echo "NONE")
-if [ "$pandoc_ver_installed" = "$pandoc_ver_required" ]
+if [ "$tool_ver_installed" = "$tool_ver_required" ]
 then
-	echo "'pandoc' required version ($pandoc_ver_required) is already installed."
+	echo "'$bin' required version ($tool_ver_required) is already installed."
 else
-	echo "Installing pandoc $pandoc_ver_required ..."
-	if $(_is_deb)
+	echo "Installing $bin $tool_ver_required ..."
+	if eval "$(_is_deb)"
 	then
-		pandoc_deb="pandoc-${pandoc_ver_required}-1-amd64.deb"
-		wget --quiet "https://github.com/jgm/pandoc/releases/download/$pandoc_ver_required/$pandoc_deb"
-		dpkg -i "$pandoc_deb"
-		rm "$pandoc_deb"
+		tool_deb="$bin-${tool_ver_required}-1-amd64.deb"
+		wget --quiet "$gh_releases/download/$tool_ver_required/$tool_deb"
+		dpkg -i "$tool_deb"
+		rm "$tool_deb"
 	else
-		pandoc_tgz="pandoc-${pandoc_ver_required}-linux.tar.gz"
-		wget --quiet "https://github.com/jgm/pandoc/releases/download/$pandoc_ver_required/$pandoc_tgz"
+		tool_archive_base="$bin-${tool_ver_required}-${target}"
+		tool_tgz="${tool_archive_base}.tar.gz"
+		wget --quiet "$gh_releases/download/$tool_ver_required/$tool_tgz"
 		install_root=/usr/local
 		#install_root=$HOME/.local
-		tar xvzf "$pandoc_tgz" --strip-components 1 -C "$install_root"
-		rm "$pandoc_tgz"
+		tar xvzf "$tool_tgz" --strip-components 1 -C "$install_root"
+		rm "$tool_tgz"
 	fi
 fi
 
 # Check if it can be found
-which pandoc
+which "$bin"
 # ... and log the version info
-pandoc -v | sed -e 's/^/\t/' | head -n 1 || true
+"$bin" --version | head -n 1 || true
 
