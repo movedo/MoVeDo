@@ -7,14 +7,14 @@
 # Install and setup all requirements.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 
 # TODO This needs revising (compare to other install scripts)
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
 sys_pkgs=""
 sys_pkgs="$sys_pkgs git" # for fetching pdsite

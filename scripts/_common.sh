@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Common SH(/BASH) functions, to be sourced.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 # Exit immediately on each error and unset variable;
 # see: https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,11 +8,11 @@
 # We do that with Jekyll.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
 tools=()
 tools+=("pdsite") # for HTML site generation
