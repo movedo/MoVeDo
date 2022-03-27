@@ -74,6 +74,9 @@ RUN "$MVD_HOME/scripts/install_panflute" --locales
 RUN "$MVD_HOME/scripts/install_pp"
 #RUN "$MVD_HOME/scripts/install_pdsite"
 
+RUN "$MVD_HOME/scripts/install_repvar"
+RUN "$MVD_HOME/scripts/install_projvar"
+
 # HACK For "shell not found" error when starting the resulting image.
 #      See details here:
 #      <https://gitlab.com/gitlab-org/gitlab-runner/-/issues/27614#note_517446691>
