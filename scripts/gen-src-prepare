@@ -15,6 +15,8 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 
 tools=()
 tools+=("cpio") # for copying directory trees
+tools+=("projvar") # for gathering project related meta-data
+tools+=("repvar") # for replacing variables in files
 _check_tools "${tools[@]}"
 
 app_name="Generate Sources Preparer"
@@ -109,19 +111,21 @@ then
 		| cpio -pdvm "$gen_src_dir" 2> /dev/null
 
 	echo
+	echo "Gather projected related meta-data (mostly using 'projvar') ..."
+	projvar \
+		--file-out "$proj_vars_gen"
+	source "$proj_vars_gen"
+	{
+		echo "PROJECT_SOURCE_URL=$PROJECT_REPO_WEB_URL"
+		echo "PROJECT_VERSION_URL=${PROJECT_REPO_WEB_URL}/-/tree/${PROJECT_VERSION}/"
+		# An ... only slightly hacky solution for "${KEY}" instances in comments
+		echo "KEY=\${KEY}"
+	} >> "$proj_vars_gen"
+
+	echo
 	echo "Copy (and pre-process) *.md source files to generated-sources dir,"
 	echo "replacing these variables:"
-	project_repo_url="$repo_url"
-	project_version="$(_fetch_version)"
-	project_version_url="${project_repo_url}/-/tree/${project_version}/"
-	project_version_date="$(_fetch_document_date)"
-	project_build_date="$(_fetch_date)"
-	project_source_url="${project_repo_url}"
-	echo "  \${PROJECT_VERSION}:      '$project_version'"
-	echo "  \${PROJECT_VERSION_URL}:  '$project_version_url'"
-	echo "  \${PROJECT_VERSION_DATE}: '$project_version_date'"
-	echo "  \${PROJECT_BUILD_DATE}:   '$project_build_date'"
-	echo "  \${PROJECT_SOURCE_URL}:   '$project_source_url'"
+	sed -e 's|^|\t|' < "$proj_vars_gen"
 	echo "Processing ..."
 	find "$gen_src_dir" \
 		-type f \
@@ -136,12 +140,16 @@ then
 		\( -name "*.md" \
 		-o -name "$(basename "$doc_meta_file")" \) \
 		| sort -u \
-		| tr \\n \\0 \
-		| xargs -0 sed -i \
-			-e "s|\${PROJECT_VERSION}|$project_version|g" \
-			-e "s|\${PROJECT_VERSION_URL}|$project_version_url|g" \
-			-e "s|\${PROJECT_VERSION_DATE}|$project_version_date|g" \
-			-e "s|\${PROJECT_BUILD_DATE}|$project_build_date|g" \
-			-e "s|\${PROJECT_SOURCE_URL}|$project_source_url|g"
+		| while read -r pot_template_file
+		do
+			printf '\t"%s" ...\n' "$pot_template_file"
+			pot_template_file_tmp="${pot_template_file}_tmp"
+			repvar \
+				--fail-on-missing-values \
+				--input "$pot_template_file" \
+				--variables-file "$proj_vars_gen" \
+				--output "$pot_template_file_tmp"
+			mv "$pot_template_file_tmp" "$pot_template_file"
+		done
 fi
 

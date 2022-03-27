@@ -62,6 +62,8 @@ html_dir="${html_dir:-"$build_dir/html"}"
 pdf_dir="${pdf_dir:-"$build_dir/pdf"}"
 single_md="${single_md:-"$build_dir/doc.md"}"
 single_pdf="${single_pdf:-"$pdf_dir/doc.pdf"}"
+proj_vars_gen="$build_dir/projvars.env.txt"
+build_dir="${build_dir:-"$proj_dir/$build_dir_rel"}"
 # Open results (like PDF files or index.html) with the systems default viewer/editor
 # default: "no"
 # set to any non empty value for "yes"
