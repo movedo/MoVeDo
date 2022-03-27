@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Install the latest version of a rust tool,
+# which was built with <https://github.com/hoijui/rust-project-scripts>,
+# and released on GitHub.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+tools=()
+tools+=("wget") # for fetching what is the latest version of the tool
+_check_tools "${tools[@]}"
+
+# parameters
+gh_slug="$1"
+bin="$2"
+tool_ver_required="${3:-}"
+target="${4:-x86_64-unknown-linux-musl}"
+gh_releases="https://github.com/$gh_slug/releases"
+
+if [ -z "$tool_ver_required" ]
+then
+	tool_ver_latest=$(\
+		wget \
+			-O - \
+			--max-redirect 0 \
+			"$gh_releases/latest" \
+			2>&1 \
+		| grep "Location:" \
+		| sed 's/.*\/tag\/\([^ "]*\).*/\1/')
+	tool_ver_required="$tool_ver_latest"
+fi
+
+# install the tool if the latest version is not in PATH
+tool_ver_installed=$(which "$bin" > /dev/null 2>&1 \
+	&& "$bin" -v \
+	| head -n 1 \
+	| sed -e 's/.* //' \
+	|| echo "NONE")
+if [ "$tool_ver_installed" = "$tool_ver_required" ]
+then
+	echo "'$bin' required version ($tool_ver_required) is already installed."
+else
+	echo "Installing $bin $tool_ver_required ..."
+	tool_archive_base="$bin-${tool_ver_required}-${target}"
+	tool_tgz="${tool_archive_base}.tar.gz"
+	wget --quiet "$gh_releases/download/$tool_ver_required/$tool_tgz"
+	install_root=/usr/local/bin
+	#install_root=$HOME/.local
+	tar xvzf "$tool_tgz"
+	mv "$tool_archive_base/$bin" "$install_root/"
+	rm -Rf "$tool_archive_base"
+	rm "$tool_tgz"
+fi
+
+# Check if it can be found
+which "$bin"
+# ... and log the version info
+"$bin" --version | head -n 1 || true
+
