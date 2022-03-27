@@ -4,55 +4,58 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Install the latest version of PP (a Pandoc pre-processor).
+# Install the latest version of PP
+# (a Pandoc pre-processor).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
-install_dir_pp="$HOME/.pp"
+bin="pp"
+install_dir_tool="$HOME/.$bin"
 old_system=true
 
 tools=()
 tools+=("git")
-tools+=("wget") # for getting a recent version of pp
+tools+=("wget") # for getting a recent version of the tool
 _check_tools "${tools[@]}"
 
-# install pp if not yet in PATH
-if which pp > /dev/null 2>&1
+# install the tool if not yet in PATH
+if which "$bin" > /dev/null 2>&1
 then
-	echo "'pp' is already installed."
+	echo "'$bin' is already installed."
 else
-	if [ -e "${install_dir_pp}/pp" ]
+	if [ -e "$install_dir_tool/$bin" ]
 	then
-		echo "'pp' already present."
+		echo "'$bin' already present."
 	else
-		echo "Installing 'pp' at '$install_dir_pp' ..."
+		echo "Installing '$bin' at '$install_dir_tool' ..."
 		pre_dir=$(pwd)
-		mkdir -p "$install_dir_pp"
-		cd "$install_dir_pp"
+		mkdir -p "$install_dir_tool"
+		cd "$install_dir_tool"
 		if $old_system
 		then
 			# older systems (with GLIBC 2.29)
-			archive="pp-linux-x86_64.txz"
+			archive="$bin-linux-x86_64.txz"
 			wget --quiet "http://christophe.delord.free.fr/pp/$archive"
-			tar vxf "$archive" pp > /dev/null
-			rm -f "$archive" "pp.html"
+			tar vxf "$archive" "$bin" > /dev/null
+			rm -f "$archive" "$bin.html"
 		else
 			# more recent systems
-			wget --quiet --output-document=pp "https://fairkom.net/nextcloud/index.php/s/J5sLqJKtkGJkSE7/download"
+			wget --quiet --output-document="$bin" "https://fairkom.net/nextcloud/index.php/s/J5sLqJKtkGJkSE7/download"
 		fi
 		cd "$pre_dir"
 	fi
-	chmod +x "${install_dir_pp}/pp"
-	_permanently_add_to_path "$install_dir_pp"
+	chmod +x "$install_dir_tool/$bin"
+	_permanently_add_to_path "$install_dir_tool"
 	echo "Done."
 fi
 
-# Check if it can be found and log the version info
-which pp
-pp -v | sed -e 's/^/\t/' | head -n 1
+# Check if it can be found
+which "$bin"
+# ... and log the version info
+"$bin" -v | sed -e 's/^/\t/' | head -n 1
 

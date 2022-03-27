@@ -1,34 +1,37 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Install the latest version of mkDocs (Static site generator written in Python).
+# Install the latest version of mkDocs
+# (Static site generator written in Python).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
-tools=()
-#tools+=("mkdocs") # for getting a recent version of mdbook
-_check_tools "${tools[@]}"
+#tools=()
+#tools+=("apt-get") # for getting a recent version of this tool
+#_check_tools "${tools[@]}"
 
-if which "mkdocs" > /dev/null 2>&1
+bin="mkdocs"
+
+if which "$bin" > /dev/null 2>&1
 then
 	: # noop
 elif _is_deb
 then
-	apt-get install -y -qq mkdocs
+	apt-get install -y -qq "$bin"
 else
-	_error "Do not know how to install 'mkdocs'. Please do so manually."
+	_error "Do not know how to install '$bin'. Please do so manually."
 fi
 
 # Check if it can be found
-which mkdocs
+which "$bin"
 # ... and log the version info
-mkdocs -V | head -n 1 || true
+"$bin" --version | head -n 1 || true
 

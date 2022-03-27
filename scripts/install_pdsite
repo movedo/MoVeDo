@@ -1,51 +1,55 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Install the latest version of pdsite (single BASH script static site generator).
+# Install the latest version of pdsite
+# (single BASH script static site generator).
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
-# See LICENSE.md for copyright information.
+# See the LICENSES/ folder for copyright information.
 
 script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
-. "${script_dir}/_common.sh"
+. "$script_dir/_common.sh"
 
-install_dir_pdsite="$HOME/.pdsite"
+gh_slug="hoijui/pdsite"
+bin="pdsite"
+install_dir_tool="$HOME/.$bin"
 
 tools=()
-tools+=("git") # for getting a recent version of pdsite
+tools+=("git") # for fetching the tool
 _check_tools "${tools[@]}"
 
-_update_pdsite() {
-	echo "Updating 'pdsite' ..."
-	pushd "$install_dir_pdsite"
+function _update_tool() {
+	echo "Updating '$bin' ..."
+	pushd "$install_dir_tool"
 	git pull --recurse-submodules
 	popd
 }
 
-# install pdsite if not yet in PATH
-if which pdsite > /dev/null 2>&1
+# install the tool if not yet in PATH
+if which "$bin" > /dev/null 2>&1
 then
-	echo "'pdsite' is already installed."
-	_update_pdsite
+	echo "'$bin' is already installed."
+	_update_tool
 else
-	if [ -e "${install_dir_pdsite}/bin/pdsite" ]
+	if [ -e "${install_dir_tool}/bin/$bin" ]
 	then
-		echo "'pdsite' already present."
-		_update_pdsite
+		echo "'$bin' already present."
+		_update_tool
 	else
-		echo "Installing 'pdsite' at '$install_dir_pdsite' ..."
-		git clone --recurse-submodules https://github.com/hoijui/pdsite "$install_dir_pdsite"
+		echo "Installing '$bin' at '$install_dir_tool' ..."
+		git clone --recurse-submodules "https://github.com/$gh_slug" "$install_dir_tool"
 	fi
-	chmod 744 "$install_dir_pdsite/bin/pdsite"
-	_permanently_add_to_path "$install_dir_pdsite/bin"
+	chmod 744 "$install_dir_tool/bin/$bin"
+	_permanently_add_to_path "$install_dir_tool/bin"
 	echo "Done."
 fi
 
-# Check if it can be found and log the version info
-which pdsite
-pdsite -v | sed -e 's/^/\t/' | head -n 1
+# Check if it can be found
+which "$bin"
+# ... and log the version info
+"$bin" --version | head -n 1 || true
 
