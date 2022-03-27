@@ -106,12 +106,5 @@ else
 	fi
 fi
 
-# Check if it can be found
-which panflute
-# ... and log the version info
-echo "import panflute; print(panflute.__version__)" \
-	| python3 2> /dev/null \
-	| sed -e 's/^/\t/' \
-	| head -n 1 \
-	|| true
+"$script_dir/print_panflute_version"
 
