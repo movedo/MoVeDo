@@ -113,6 +113,7 @@ then
 	echo
 	echo "Gather projected related meta-data (mostly using 'projvar') ..."
 	projvar \
+		--none \
 		--file-out "$proj_vars_gen"
 	source "$proj_vars_gen"
 	{
