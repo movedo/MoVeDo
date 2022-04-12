@@ -69,8 +69,8 @@ no additional requirements.
 (\*_Not yet supported_)
 
 It might also make one think twice or three times,
-before Markdown extensions supported only by this tool or that platform.
-If it manages to do only that, it met it's highest goal,
+before using Markdown extensions supported only by "this tool" or "that platform".
+If it manages to do only that, it met its highest goal,
 as this leads to more social thinking,
 both for fellow co-workers and the community as a whole.
 
