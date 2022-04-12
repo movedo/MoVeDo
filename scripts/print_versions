@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Prints the versions of MoVeDo and all the used tools
+# (of significance).
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+
+echo "Used tools and their versions:"
+for pv in "$script_dir/print_"*"_version"
+do
+	"$pv"
+done
