@@ -13,4 +13,8 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "$script_dir/_common.sh"
 
-pandoc --version | head -n 2 || true
+pandoc --version \
+	| head -n 4 \
+	| tr '\n' '\t' \
+	| sed -e 's|\t$|\n|' -e 's|\t|\n\t|g' \
+	|| true

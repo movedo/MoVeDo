@@ -16,6 +16,6 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 python="$(which python || which python3)"
 echo "import panflute; print(panflute.__version__)" \
 	| "$python" 2> /dev/null \
-	| sed -e 's/^/\t/' \
+	| sed -e 's/^/panflute /' \
 	| head -n 1 \
 	|| true
