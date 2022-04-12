@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Prints the version of repvar that is currently installed.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+repvar --version || true
