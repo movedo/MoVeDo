@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Prints the version of MoVeDo that is currently installed.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+APP_NAME="MoVeDo"
+
+APP_VERSION="<UNKNOWN>"
+if which git &> /dev/null \
+	&& git rev-parse --is-inside-work-tree &> /dev/null
+then
+	APP_VERSION="$(git -C "$movedo_root_dir" describe --always --dirty)"
+fi
+
+echo "$APP_NAME $APP_VERSION"
