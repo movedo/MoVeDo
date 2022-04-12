@@ -16,12 +16,12 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 mvd_home_rel_tmp=$(cd "$script_dir/.."; pwd)
 mvd_home="${MVD_HOME:-$mvd_home_rel_tmp}"
 scripts_dir="$mvd_home/scripts"
+script_name="$(basename "$0")"
 
 APP_NAME="MoVeDo runner"
 
 function print_help() {
 
-	script_name="$(basename "$0")"
 	echo -e ""
 	echo -e "$APP_NAME - Allows to run all that MoVeDo has to offer through a single command."
 	echo -e ""
