@@ -32,8 +32,11 @@ function print_help() {
 	echo -e "\t\tPrint the list of available commands and exit"
 	echo -e "\t-h, --help"
 	echo -e "\t\tPrint this usage help and exit"
+	echo -e "\t-v, --version"
+	echo -e "\t\tPrint the MoVeDo version and exit"
 	echo -e "Examples:"
 	echo -e "\t$script_name --help"
+	echo -e "\t$script_name --version"
 	echo -e "\t$script_name build"
 	echo -e "\t$script_name make_html --individual"
 	echo -e ""
@@ -64,6 +67,9 @@ then
 		-h|--help)
 			print_help
 			exit 0
+			;;
+		-v|--version)
+			cmd="print_movedo_version"
 			;;
 		*)
 			cmd="$arg"
