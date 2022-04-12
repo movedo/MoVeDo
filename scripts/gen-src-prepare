@@ -117,8 +117,14 @@ then
 		--file-out "$proj_vars_gen"
 	source "$proj_vars_gen"
 	{
-		echo "PROJECT_SOURCE_URL=$PROJECT_REPO_WEB_URL"
-		echo "PROJECT_VERSION_URL=${PROJECT_REPO_WEB_URL}/-/tree/${PROJECT_VERSION}/"
+		if [ -n "${PROJECT_REPO_WEB_URL+x}" ]
+		then
+			echo "PROJECT_SOURCE_URL=$PROJECT_REPO_WEB_URL"
+			if [ -n "${PROJECT_VERSION+x}" ]
+			then
+				echo "PROJECT_VERSION_URL=${PROJECT_REPO_WEB_URL}/-/tree/${PROJECT_VERSION}/"
+			fi
+		fi
 		# An ... only slightly hacky solution for "${KEY}" instances in comments
 		echo "KEY=\${KEY}"
 	} >> "$proj_vars_gen"
