@@ -60,6 +60,7 @@ do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+"$script_dir/print_mdl_version"
 doc_root_dir="${1:-$proj_dir}"
 mdl_args=()
 mdl_args+=("--ignore-front-matter")
