@@ -62,9 +62,10 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 doc_root_dir="${1:-$proj_dir}"
 mdl_args=()
+mdl_args+=("--ignore-front-matter")
 if [ -f .mdlrc ]
 then
-	mdl_args+=("-c")
+	mdl_args+=("--config")
 	mdl_args+=(".mdlrc")
 else
 	echo "NOTE: If you want to adjust Markdown-linter settings,"
@@ -82,5 +83,5 @@ find \
 	\) \
 	! -name "LICENSE.m*d*" \
 	-print0 \
-	| xargs -0 mdl -i "${mdl_args[@]}"
+	| xargs -0 mdl "${mdl_args[@]}"
 
