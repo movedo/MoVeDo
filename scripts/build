@@ -20,10 +20,13 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 args=()
 [ "$#" -gt 0 ] && args=("$@")
 
+echo
+echo "Building the documentation ..."
 "$script_dir/print_versions"
 "$script_dir/generate" "${args[@]}"
 "$script_dir/generate-md-index" "${args[@]}"
 "$script_dir/linearize" "${args[@]}"
 "$script_dir/make_pdf" "${args[@]}"
 "$script_dir/make_html" "${args[@]}"
+echo "Building the documentation done."
 

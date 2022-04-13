@@ -27,4 +27,5 @@ cd "$gen_src_dir"
 echo
 echo "Serving HTML ..."
 bundle exec jekyll serve
+echo "Serving HTML done."
 

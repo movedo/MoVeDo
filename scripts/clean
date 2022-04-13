@@ -16,4 +16,5 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 echo
 echo "Cleaning the build directory ..."
 rm -Rf "$build_dir"*
+echo "Cleaning the build directory done."
 
