@@ -82,7 +82,7 @@ find \
 		-o \
 		-iname "*.markdown" \
 	\) \
-	! -name "LICENSE.m*d*" \
+	! -name "LICENSE.*" \
 	-print0 \
 	| xargs -0 mdl "${mdl_args[@]}"
 
