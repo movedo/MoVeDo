@@ -20,6 +20,7 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 args=()
 [ "$#" -gt 0 ] && args=("$@")
 
+"$script_dir/print_versions"
 "$script_dir/generate" "${args[@]}"
 "$script_dir/generate-md-index" "${args[@]}"
 "$script_dir/linearize" "${args[@]}"
