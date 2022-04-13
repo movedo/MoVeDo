@@ -76,6 +76,7 @@ else
 fi
 find \
 	"$doc_root_dir" \
+	-path "$doc_root_dir/$build_dir_rel" -prune -o \
 	-type f \
 	\( \
 		-iname "*.md" \
