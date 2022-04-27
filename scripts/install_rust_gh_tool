@@ -52,13 +52,18 @@ else
 	echo "Installing $bin $tool_ver_required ..."
 	tool_archive_base="$bin-${tool_ver_required}-${target}"
 	tool_tgz="${tool_archive_base}.tar.gz"
-	wget --quiet "$gh_releases/download/$tool_ver_required/$tool_tgz"
+	tool_dl_url="$gh_releases/download/$tool_ver_required/$tool_tgz"
+	tool_local_archive="/tmp/$tool_tgz"
+	tool_local_dir="/tmp/$tool_archive_base"
 	install_root=/usr/local/bin
 	#install_root=$HOME/.local
-	tar xvzf "$tool_tgz"
-	mv "$tool_archive_base/$bin" "$install_root/"
-	rm -Rf "$tool_archive_base"
-	rm "$tool_tgz"
+	wget --quiet \
+		--output-file "$tool_local_archive" \
+		"$tool_dl_url"
+	tar xvzf "$tool_local_archive"
+	mv "$tool_local_dir/$bin" "$install_root/"
+	rm -Rf "$tool_local_dir"
+	rm "$tool_local_archive"
 fi
 
 # Check if it can be found
