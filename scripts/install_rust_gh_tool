@@ -58,7 +58,7 @@ else
 	install_root=/usr/local/bin
 	#install_root=$HOME/.local
 	wget --quiet \
-		--output-file "$tool_local_archive" \
+		--output-document "$tool_local_archive" \
 		"$tool_dl_url"
 	tar xvzf "$tool_local_archive"
 	mv "$tool_local_dir/$bin" "$install_root/"
