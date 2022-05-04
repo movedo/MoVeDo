@@ -114,7 +114,8 @@ then
 	echo "Gather projected related meta-data (mostly using 'projvar') ..."
 	projvar \
 		--none \
-		--file-out "$proj_vars_gen"
+		--file-out "$proj_vars_gen" \
+		|| touch "$proj_vars_gen" # TODO HACK
 	source "$proj_vars_gen"
 	{
 		if [ -n "${PROJECT_REPO_WEB_URL+x}" ]
