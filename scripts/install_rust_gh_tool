@@ -53,13 +53,15 @@ else
 	tool_archive_base="$bin-${tool_ver_required}-${target}"
 	tool_tgz="${tool_archive_base}.tar.gz"
 	tool_dl_url="$gh_releases/download/$tool_ver_required/$tool_tgz"
-	tool_local_archive="/tmp/$tool_tgz"
-	tool_local_dir="/tmp/$tool_archive_base"
+	extraction_dir="/tmp"
+	tool_local_archive="$extraction_dir/$tool_tgz"
+	tool_local_dir="$extraction_dir/$tool_archive_base"
 	install_root=/usr/local/bin
 	#install_root=$HOME/.local
 	wget --quiet \
 		--output-document "$tool_local_archive" \
 		"$tool_dl_url"
+	cd "$extraction_dir"
 	tar xvzf "$tool_local_archive"
 	mv "$tool_local_dir/$bin" "$install_root/"
 	rm -Rf "$tool_local_dir"
