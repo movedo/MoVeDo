@@ -127,6 +127,10 @@ do
 		--to=html \
 		--standalone \
 		--markdown-headings=atx \
+		-M rls_relative_only=True \
+		-M rls_ext_from=".md" \
+		-M rls_ext_to=".html" \
+		--filter "$filters_dir/replace_link_suffixes.py" \
 		--output="$html_file" \
 		"${pandoc_extra[@]}" \
 		"$file_md"
