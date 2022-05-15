@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Builds a single Markdown file out of an index of Markdown files.
+# We do that by using Pandoc with custom filters.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+tools=()
+tools+=("git")
+_check_tools "${tools[@]}"
+
+app_name="Workarounder"
+
+# parameters
+# NONE
+
+function print_help() {
+
+	echo "$app_name - Potentially applies workarounds to the workdir."
+	echo
+	echo "Usage:"
+	echo "  $script_name [OPTIONS]"
+	echo "Options:"
+	echo "  -h, --help              Show this help message"
+	echo "  --mvd-debug             Create (do not delete) the intermediary *.tex file."
+	echo "                          Equivalent to command-line: MVD_DEBUG=1"
+	echo "Examples:"
+	echo "  $script_name --mvd-debug"
+}
+
+# read command-line args
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	arg="$1"
+	shift # $2 -> $1, $3 -> $2, ...
+
+	case "$arg" in
+		-h|--help)
+			print_help
+			exit 0
+			;;
+		--mvd-debug)
+			debug=true
+			;;
+		--mvd-*)
+			# Ignore this option; it is used in other MoVeDo scripts
+			_movedo_common_arg_has_value "$arg" && shift
+			;;
+		*) # non-/unknown option
+			POSITIONAL+=("$arg") # save it in an array for later
+			;;
+	esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+echo
+echo "Applying workarounds for bugs ..."
+
+# HACK This is a workaround for the GitLab Runner bug
+#      <https://gitlab.com/gitlab-org/gitlab/-/issues/350100>.
+# If we are on CI,
+# and we are (supposed to be) building a branch,
+# and the SHA of that branch is given
+# and the branch to be built does not exist, locally,
+# create it,
+# check it out,
+# and set its remote tracking branch, if available.
+# NOTE This should also work on local machines,
+#      GitHub Actions and other CI systems,
+#      as there it should result in a no-op,
+#      because the `CI_*` variables will not be set,
+#      and the branch will already exist.
+if \
+	[ -n "${CI:-}" ] && \
+	[ -n "${CI_COMMIT_BRANCH:-}" ] && \
+	[ -n "${CI_COMMIT_SHA:-}" ] && \
+	! git show-ref --verify --quiet "refs/heads/$CI_COMMIT_BRANCH"
+then
+	echo "    Applying fix for GitLab Runner bug 350100 ..."
+	git branch "$CI_COMMIT_BRANCH" "$CI_COMMIT_SHA"
+	git checkout "$CI_COMMIT_BRANCH"
+	# Sets the upstream branch, if it exists
+	if git show-ref --verify --quiet "refs/remotes/origin/$CI_COMMIT_BRANCH"
+	then
+		git branch --set-upstream-to="origin/$CI_COMMIT_BRANCH"
+	fi
+fi
+
+echo "Applying workarounds for bugs done."
+

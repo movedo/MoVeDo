@@ -23,6 +23,7 @@ args=()
 echo
 echo "Building the documentation ..."
 "$script_dir/print_versions"
+"$script_dir/workarounds" "${args[@]}"
 "$script_dir/generate" "${args[@]}"
 "$script_dir/generate-md-index" "${args[@]}"
 "$script_dir/linearize" "${args[@]}"
