@@ -1,0 +1,184 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# TODO Builds HTML out of a Markdown files.
+# We do that with Pandoc, each source file separately.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+tools=()
+tools+=("pandoc") # for EPub generation
+_check_tools "${tools[@]}"
+_check_env
+
+app_name="Make EPub"
+script_name="$(basename "$0")"
+# parameters
+#template="bootstrap-template"
+#template="bootstrap-adaptive-template"
+#template="uikit"
+#template="mdbook"
+#template="mindoc"
+#template=""
+#template="${HTML_TEMPLATE_NAME:-}"
+h1_page_breaks=$(_movedo_shell_var_to_bool "${MVD_H1_PAGE_BREAKS:-true}")
+debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
+individual=$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL_EPUBS:-$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL:-false}")}")
+
+function print_help() {
+
+	echo "$app_name - Builds EPubs out of Markdown files."
+	echo "Pandoc is used for this."
+	echo
+	echo "Usage:"
+	echo "  $script_name [OPTIONS]"
+	echo "Options:"
+	echo "  -h, --help              Show this help message"
+	#echo "  --mvd-debug             Enables more verbose output."
+	echo "                          Equivalent to command-line: MVD_DEBUG=1"
+	echo "  --mvd-individual(-epubs) Create individual EPubs"
+	echo "                          (one per Markdwn source file),"
+	echo "                          in addition to the merged one."
+	echo "                          Equivalent to command-line: MVD_INDIVIDUAL=1"
+	echo "  --mvd-no-h1-page-breaks Do not insert page breaks before level 1 headers."
+	echo "                          Equivalent to command-line: MVD_H1_PAGE_BREAKS=0"
+	echo "Examples:"
+	echo "  $script_name --mvd-individual"
+}
+
+# read command-line args
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	arg="$1"
+	shift # $2 -> $1, $3 -> $2, ...
+
+	case "$arg" in
+		-h|--help)
+			print_help
+			exit 0
+			;;
+		--mvd-debug)
+			debug=true
+			;;
+		--mvd-individual|--mvd-individual-epubs)
+			individual=true
+			;;
+		--mvd-no-h1-page-breaks)
+			h1_page_breaks=false
+			;;
+		--mvd-*)
+			# Ignore this option; it is used in other MoVeDo scripts
+			_movedo_common_arg_has_value "$arg" && shift
+			;;
+		*) # non-/unknown option
+			POSITIONAL+=("$arg") # save it in an array for later
+			;;
+	esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+args=()
+[ "$#" -gt 0 ] && args=("$@")
+
+cd "$gen_src_dir"
+
+echo
+echo "Generating combined ePub (with Pandoc) ..."
+mkdir -p "$ebook_dir"
+
+pandoc_extra=("${args[@]}")
+pandoc_extra+=("--citeproc")
+
+if [ -e "$biblography_file" ]
+then
+	pandoc_extra+=("--bibliography=$biblography_file")
+	pandoc_extra+=("--filter=pandoc-citeproc")
+fi
+
+if $h1_page_breaks
+then
+	# with this. Latex adds a page-break before every level 1 header
+	pandoc_extra+=("--variable=documentclass:report")
+fi
+
+function pandoc_convert2epub() {
+
+	file_md="$1"
+	file_out="$2" # this is .epub
+
+	file_in="$file_md"
+	pandoc_extra+=("--from=markdown")
+	pandoc_extra+=("--markdown-headings=atx")
+
+	echo "Creating ePub '$file_out' ..."
+
+	# Convert from Markdown to EPub
+	pandoc \
+		--to=epub \
+		--standalone \
+		--table-of-contents \
+		--output="$file_out" \
+		"${pandoc_extra[@]}" \
+		"${args[@]}" \
+		"$file_in" \
+		-V block-headings
+}
+
+if [ -f "$single_md" ]
+then
+	pandoc_convert2epub "$single_md" "$single_epub"
+fi
+
+if $individual
+then
+	echo
+	echo "Generating individual EPubs (with Pandoc) ..."
+
+	while read -r file_md
+	do
+		if [ ! -e "$file_md" ]
+		then
+			_error "File '$file_md' not found! It is specified in the index file '$index_md_file'."
+		fi
+		file_epub="$ebook_dir/${file_md%.md}.epub"
+		mkdir -p "$(dirname "$file_epub")"
+		pandoc_convert2epub "$file_md" "$file_epub"
+		echo "EPub file generated: '$file_epub'"
+	done < "$index_md_file"
+	echo
+fi
+
+
+
+
+exit 0
+
+while read -r file_md
+do
+	if [ ! -e "$file_md" ]
+	then
+		_error "File '$file_md' not found! It is specified in the index file '$index_md_file'."
+	fi
+	html_file="${file_md%.md}.html"
+	pandoc \
+		--from=markdown \
+		--to=html \
+		--standalone \
+		--markdown-headings=atx \
+		-M rls_relative_only=True \
+		-M rls_ext_from=".md" \
+		-M rls_ext_to=".html" \
+		--filter "$filters_dir/replace_link_suffixes.py" \
+		--output="$html_file" \
+		"${pandoc_extra[@]}" \
+		"$file_md"
+done < "$index_md_file"
+

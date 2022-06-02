@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2022 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Builds an EBook (*.epub) out of a Markdown file,
+# both for the individual Markdown files
+# as well as the linearized one.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+mkdir -p "$ebook_dir"
+rm -Rf "${ebook_dir:?}/"*
+
+# parameters
+args=()
+[ "$#" -gt 0 ] && args=("$@")
+
+"$script_dir/make_epub_pandoc" "${args[@]}"
+
+echo "Ebook file generated: '$single_epub'"
+
+if [ -n "$OPEN_X11" ]
+then
+	xdg-open "$single_epub"
+fi
+

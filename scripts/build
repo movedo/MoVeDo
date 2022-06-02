@@ -29,5 +29,6 @@ echo "Building the documentation ..."
 "$script_dir/linearize" "${args[@]}"
 "$script_dir/make_pdf" "${args[@]}"
 "$script_dir/make_html" "${args[@]}"
+"$script_dir/make_epub" "${args[@]}"
 echo "Building the documentation done."
 
