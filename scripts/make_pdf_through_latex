@@ -108,8 +108,9 @@ function pandoc_convert2pdf() {
 
 	file_md="$1"
 	file_out="$2" # this is either .tex or .pdf
+	creating_tex=$(if echo "$file_out" | grep -q '.pdf$'; then echo "false"; else echo "true"; fi)
 
-	if $debug && echo "$file_out" | grep -q '.pdf$'
+	if $debug && ! $creating_tex
 	then
 		file_tex="${file_out%.pdf}.tex"
 		# NOTE This is required because of the recursive call below
@@ -131,7 +132,15 @@ function pandoc_convert2pdf() {
 		pandoc_extra+=("--markdown-headings=atx")
 	fi
 
+	if $creating_tex
+	then
+		echo "Creating intermediary file (for debugging PDF generation) '$file_out' ..."
+	else
+		echo "Creating PDF '$file_out' ..."
+	fi
+
 	# Convert from Markdown to LaTex or PDF
+	# or from Latex to PDF.
 	pandoc \
 		--to=latex \
 		--standalone \
