@@ -65,6 +65,7 @@ echo "Checking Markdown sources ..."
 "$script_dir/print_mdl_version"
 doc_root_dir="${1:-$proj_dir}"
 mdl_args=()
+mdl_args+=("--git-recurse")
 mdl_args+=("--ignore-front-matter")
 if [ -f .mdlrc ]
 then
