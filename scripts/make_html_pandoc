@@ -41,7 +41,7 @@ echo "    Copy generated-sources *dir* structure to HTML output dir ..."
 find . \
 		-type d \
 		\( ! -regex '.*/\..*' \) \
-	| cpio -pdvm --quiet "${html_dir}" 2> /dev/null
+	| cpio -pdvm --quiet "$html_dir" 2> /dev/null
 
 if $copy_source_files
 then
@@ -51,7 +51,7 @@ then
 		| cpio -pdvm "${html_dir}" 2> /dev/null
 fi
 
-cd "${html_dir}"
+cd "$html_dir"
 
 echo "    Converting ..."
 
