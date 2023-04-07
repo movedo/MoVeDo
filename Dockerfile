@@ -23,6 +23,8 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN apt-get install -y default-jre > /dev/null
 RUN apt-get install -y -qq texlive-latex-base texlive-fonts-recommended texlive-latex-extra librsvg2-bin > /dev/null
 RUN apt-get install -y -qq mkdocs > /dev/null
+# Dependencies of some of our more common scripts
+RUN apt-get install -y -qq python3-click python3-git python3-svgwrite > /dev/null
 
 RUN gem install minima bundler jekyll
 
@@ -34,9 +36,6 @@ RUN apt-get install -y -qq tree > /dev/null
 # (as of late 2020).
 RUN apt-get install -y -qq npm > /dev/null
 RUN npm install -g diff2html-cli
-
-# Dependencies of some of our more common scripts
-RUN pip3 install click gitpython svgwrite
 
 ENV WORKDIR="/home/user/code"
 WORKDIR "$WORKDIR"
