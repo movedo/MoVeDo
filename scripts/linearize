@@ -140,7 +140,11 @@ then
 else
 	if [ "${MVD_SINGLE_FILE:-true}" = "true" ]
 	then
-		_error "If you have more then one source file, you need '$doc_meta_file', containing the YAML Front-Matter for the combined document, or you need to set the env var MVD_SINGLE_FILE to 'false'.\nYour index:\n$(cat "$index_md_file")"
+		_error "If you have more then one source file, you need '$doc_meta_file', \
+containing the YAML Front-Matter for the combined document, \
+or you need to set the env var MVD_SINGLE_FILE to 'false'.
+Your index:
+$(cat "$index_md_file")"
 	fi
 fi
 
