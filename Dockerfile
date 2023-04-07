@@ -60,7 +60,7 @@ RUN cd "$MVD_HOME"; \
 # the below mentioned problem was fixed,
 # so we resolve to use the latest version again.
 RUN "$MVD_HOME/scripts/install_pandoc"
-RUN "$MVD_HOME/scripts/install_panflute" --locales
+RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 # As of 1. June 2021, latest pandoc (2.14.1) had a bug
 # where it failed producing PDFs from Markdown if there are SVG files.
 # Thus we installed the latest working version,
@@ -85,4 +85,3 @@ LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
 LABEL version="1.x"
 LABEL description="This can be used as a CI base image when generating documents using MoVeDo - \
 https://github.com/movedo/MoVeDo/"
-
