@@ -176,7 +176,9 @@ do
 		-M rls_relative_only=True \
 		-M rls_ext_from=".md" \
 		-M rls_ext_to=".html" \
-		--filter "$filters_dir/replace_link_suffixes.py" \
+		-M panflute-path="$filters_dir" \
+		-M panflute-filters="replace_link_suffixes" \
+		-F panflute \
 		--output="$html_file" \
 		"${pandoc_extra[@]}" \
 		"$file_md"

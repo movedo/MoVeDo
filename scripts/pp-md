@@ -95,7 +95,9 @@ function process_ppmd() {
 			-M rls_relative_only=True \
 			-M rls_ext_from=".pp.md" \
 			-M rls_ext_to=".md" \
-			--filter "$filters_dir/replace_link_suffixes.py" \
+			-M panflute-path="$filters_dir" \
+			-M panflute-filters="replace_link_suffixes" \
+			-F panflute \
 			--output="${target_rel}_out" \
 			"${pandoc_extra[@]}" \
 			"$target_rel"

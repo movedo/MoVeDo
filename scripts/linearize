@@ -53,6 +53,21 @@ function global_doc_meta() {
 
 echo
 echo "Generating single, linear Markdown file ..."
+
+# This file is used for each file to be converted,
+# but only during conversion.
+# We need this, as it is not possible to supply a YAML array
+# with "-M" to pandoc, which we require for "panflute-filters".
+common_lin_meta_file="$(mktemp --suffix=".yml")"
+# Remove this file when script exits
+trap 'rm -rf -- "$common_lin_meta_file"' EXIT
+{
+	echo "panflute-path: \"$filters_dir\""
+	echo "panflute-filters: [add_local_link_prefix, normalize_links, linearize_links]"
+	# Uncomment this next line for debugging
+	# echo "panflute-verbose: true"
+} > "$common_lin_meta_file"
+
 if [ "$(wc -l < "$index_md_file")" -eq 1 ]
 then
 	# Build from a single source file
@@ -71,10 +86,9 @@ then
 			--markdown-headings=atx \
 			-M allp_prefix="$(dirname "$md_in")/" \
 			-M allp_file="$md_in" \
-			--filter "$filters_dir/add_local_link_prefix.py" \
-			--filter "$filters_dir/normalize_links.py" \
 			-M ll_doc_path="" \
-			--filter "$filters_dir/linearize_links.py" \
+			--metadata-file="$common_lin_meta_file" \
+			-F panflute \
 			"${pandoc_extra[@]}" \
 		< "$single_md_tmp" \
 		>> "$single_md"
@@ -116,10 +130,9 @@ then
 				--markdown-headings=atx \
 				-M allp_prefix="$(dirname "$md_in")/" \
 				-M allp_file="$md_in" \
-				--filter "$filters_dir/add_local_link_prefix.py" \
-				--filter "$filters_dir/normalize_links.py" \
 				-M ll_doc_path="$md_in" \
-				--filter "$filters_dir/linearize_links.py" \
+				--metadata-file="$common_lin_meta_file" \
+				-F panflute \
 				"${pandoc_extra[@]}" \
 			>> "$single_md"
 		echo -e "\n" >> "$single_md"
