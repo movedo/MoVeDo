@@ -54,7 +54,7 @@ function global_doc_meta() {
 echo
 echo "Generating single, linear Markdown file ..."
 
-# This file is used for each file to be converted,
+# This meta-data file is used for each markdown file to be converted,
 # but only during conversion.
 # We need this, as it is not possible to supply a YAML array
 # with "-M" to pandoc, which we require for "panflute-filters".
