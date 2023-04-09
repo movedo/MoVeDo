@@ -92,7 +92,7 @@ RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 #	"$MVD_HOME/scripts/install_panflute" --locales
 
 RUN "$MVD_HOME/scripts/install_pp"
-#RUN "$MVD_HOME/scripts/install_pdsite"
+RUN "$MVD_HOME/scripts/install_pdsite"
 
 RUN "$MVD_HOME/scripts/install_repvar"
 RUN "$MVD_HOME/scripts/install_projvar"
