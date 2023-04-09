@@ -43,6 +43,7 @@ RUN apt-get install -y -qq \
 RUN apt-get install -y -qq \
     texlive-latex-base \
     texlive-fonts-recommended \
+    texlive-font-utils \
     texlive-latex-extra \
     librsvg2-bin \
     > /dev/null
