@@ -5,37 +5,75 @@ FROM debian:testing
 
 RUN apt-get update
 
-RUN apt-get install -y -qq ruby ruby-dev > /dev/null
-RUN gem install chef-utils -v 16.6.14
-RUN gem install mdl
+RUN apt-get install -y -qq \
+    ruby \
+    ruby-dev \
+    > /dev/null
+RUN gem install \
+    chef-utils -v 16.6.14
+RUN gem install \
+    mdl
 RUN mdl --version
 
 # Install basic tools required in the MoVeDo scripts
-RUN apt-get install -y -qq git cpio wget > /dev/null
-RUN apt-get install -y locales > /dev/null
+RUN apt-get install -y -qq \
+    git \
+    cpio \
+    wget \
+    > /dev/null
+RUN apt-get install -y -qq \
+    locales \
+    > /dev/null
 # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ )
-RUN apt-get install -y -qq python3 python3-pip python3-dev python3-yaml python3-bs4 > /dev/null
+RUN apt-get install -y -qq \
+    python3 \
+    python3-pip \
+    python3-dev \
+    python3-yaml \
+    python3-bs4 \
+    > /dev/null
 # Make Python 3 the default, so pandoc will use it to run panflute,
 # which required at least Python 3.6
 RUN rm -f /usr/bin/python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 # For PP PlantUML
-RUN apt-get install -y default-jre > /dev/null
-RUN apt-get install -y -qq texlive-latex-base texlive-fonts-recommended texlive-latex-extra librsvg2-bin > /dev/null
-RUN apt-get install -y -qq mkdocs > /dev/null
+RUN apt-get install -y -qq \
+    default-jre \
+    > /dev/null
+RUN apt-get install -y -qq \
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-latex-extra \
+    librsvg2-bin \
+    > /dev/null
+RUN apt-get install -y -qq \
+    mkdocs \
+    > /dev/null
 # Dependencies of some of our more common scripts
-RUN apt-get install -y -qq python3-click python3-git python3-svgwrite > /dev/null
+RUN apt-get install -y -qq \
+    python3-click \
+    python3-git \
+    python3-svgwrite \
+    > /dev/null
 
-RUN gem install minima bundler jekyll
+RUN gem install \
+    minima \
+    bundler \
+    jekyll
 
 # Used for various, pretty, recursive directory listings, in plain text or HTML
-RUN apt-get install -y -qq tree > /dev/null
+RUN apt-get install -y -qq \
+    tree \
+    > /dev/null
 
 # Allows to create nice HTML diffs betwen git refs,
 # more freely (and accurately) then github or gitlab show them
 # (as of late 2020).
-RUN apt-get install -y -qq npm > /dev/null
-RUN npm install -g diff2html-cli
+RUN apt-get install -y -qq \
+    npm \
+    > /dev/null
+RUN npm install -g \
+    diff2html-cli
 
 ENV WORKDIR="/home/user/code"
 WORKDIR "$WORKDIR"
