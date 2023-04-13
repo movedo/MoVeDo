@@ -139,9 +139,9 @@ _permanently_add_to_path() {
 	local add_path="$1"
 	# HACK We probably should not modify the users environment permanently and globally like that
 	{
-		echo ''
+		echo
 		echo "export PATH=\"\$PATH:$add_path\""
-		echo ''
+		echo
 	} >> "$HOME/.profile"
 	export PATH="$PATH:$add_path"
 }
