@@ -24,9 +24,9 @@ _check_tools "${tools[@]}"
 
 function _update_tool() {
 	echo "Updating '$bin' ..."
-	pushd "$install_dir_tool"
+	pushd "$install_dir_tool" || return 6
 	git pull --recurse-submodules
-	popd
+	popd || return 6
 }
 
 # install the tool if not yet in PATH
@@ -52,4 +52,3 @@ fi
 which "$bin"
 # ... and log the version info
 "$bin" --version | head -n 1 || true
-
