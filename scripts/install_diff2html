@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2023 Robin Vobruba <hoijui.quaero@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Install the latest version of 'diff2html-cli',
+# required for 'create_git_diffs'.
+#
+# This is part of the [MoVeDo](https://github.com/movedo) project.
+# See the LICENSES/ folder for copyright information.
+
+script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+# shellcheck source=./_common.sh
+. "$script_dir/_common.sh"
+
+bin="diff2html"
+
+tools=()
+tools+=("npm") # for fetching the tool
+_check_tools "${tools[@]}"
+
+function _update_tool() {
+	echo "Updating '$bin' ..."
+	npm install --global "${bin}-cli"
+}
+
+function _install_tool() {
+	echo "Installing '$bin' ..."
+	npm install --global "${bin}-cli"
+}
+
+# install the tool if not yet in PATH
+if which "$bin" > /dev/null 2>&1
+then
+	echo "'$bin' is already installed."
+	_update_tool
+else
+	_install_tool
+fi
+echo "Done."
+
+# Check if it can be found
+which "$bin"
+# ... and log the version info
+"$bin" --version | head -n 1 || true
