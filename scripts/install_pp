@@ -14,6 +14,8 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "$script_dir/_common.sh"
 
+_error "pp is dicontinued, and should be replaces by ypp, or even better: not be used at all."
+
 bin="pp"
 install_dir_tool="$HOME/.$bin"
 old_system=true

@@ -30,6 +30,7 @@ then
 	exit 0
 fi
 
+_error "pp is dicontinued, and should be replaces by ypp, or even better: not be used at all."
 
 tools=()
 tools+=("pp") # for pre-processing Markdown sources
