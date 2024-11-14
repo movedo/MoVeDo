@@ -13,6 +13,10 @@ SPDX-License-Identifier: CC0-1.0
     https://api.reuse.software/badge/github.com/movedo/MoVeDo)](
     https://api.reuse.software/info/github.com/movedo/MoVeDo)
 
+[![In cooperation with Open Source Ecology Germany](
+    https://raw.githubusercontent.com/osegermany/tiny-files/master/res/media/img/badge-oseg.svg)](
+    https://opensourceecology.de)
+
 (pronounciation of *MoVeDo* is in Italian)
 
 A build tool for your Markdown based, git hosted documentation.
