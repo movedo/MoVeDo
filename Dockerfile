@@ -16,10 +16,11 @@ RUN apt-get update && \
         tree \
         # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
         python3 \
-        python3-pip \
-        python3-dev \
-        python3-yaml \
         python3-bs4 \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
+        python3-yaml \
         # For PP PlantUML \
         default-jre \
         # For PDF generation through LaTeX (with Pandoc) \
