@@ -35,7 +35,7 @@ By default it:
 [YFM]: https://assemble.io/docs/YAML-front-matter.html
 [PANDOC-MD]: https://pandoc.org/MANUAL.html#pandocs-markdown
 [COMMON-MARK]: https://commonmark.org
-[GFM]: https://help.github.com/articles/github-flavored-markdown/)
+[GFM]: https://help.github.com/articles/github-flavored-markdown/
 
 ## Philosophy & Psychology
 
