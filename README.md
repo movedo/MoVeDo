@@ -182,40 +182,134 @@ As of October 2021, this are:
 Please raise an issue if you need support for an other tool,
 or make a pull request.
 
+### CI
+
+The easiest way to use MoVeDo
+is by putting your Markdown content in a git repo
+and running MoVeDo in the CI (build-bot),
+e.g. on GitHub or GitLab.
+
+We generate a [MoVeDo Docker image] that ocntains MoVeDo and all of its mandatory dependencies,
+plus quite a few optional tools.
+
+You may use it locally, or on CI (recomended).
+How see hwo to use it on CI,
+see the approppriate of the following two sample projects;
+mainly: copy the CI script:
+
+- GitHub.com
+  - Project Repo: <https://github.com/osegermany/git-internals-doc>
+  - CI script: <https://github.com/osegermany/git-internals-doc/blob/master/.github/workflows/movedo.yml>
+  - Generated output
+    - HTML: <https://osegermany.github.io/git-internals-doc/html/index.html> -> TODO BAD; Fix it!
+    - PDF: <https://osegermany.github.io/git-internals-doc/pdf/doc.pdf>
+- GitLab(.com)
+  - Project Repo: <https://gitlab.com/OSEGermany/OHS-3105/>
+  - CI script: <https://gitlab.com/OSEGermany/OHS-3105/-/blob/ohs/.gitlab-ci.yml>
+  - Generated output
+    - HTML: <https://osegermany.gitlab.io/OHS-3105/develop/din-spec-3105-1/>
+    - PDF: <https://osegermany.gitlab.io/OHS-3105/develop/DIN_SPEC_3105-1.pdf>
+
 ### Installation & Setup
+
+If you really want to run MoVeDo locally (alternative: [CI](#ci)),
+You will have to install MoVeDo and qutie a few of its dependencies.
+This is described in the following section.
 
 #### Base
 
-In your git repo containing the Markdown sources,
-add this repo as a sub-module:
+> **NOTE**
+> MoVeDo is only tested on Linux,
+> and will definitely not work on Windows.
+> It is not likely to work on OSX.
+
+Setup MoVeDo locally:
 
 ```bash
-git submodule add https://github.com/movedo/MoVeDo.git movedo
-git submodule update --init --recursive # to install MoVeDo submodules
-echo "/build/" >> .gitignore # to git ignore the MoVeDo generated files
+# Change to a directory where you wnat MoVeDo to be installed
+#cd ~/Applications/
+# Get MoVeDo onto your computer
+git clone https://github.com/movedo/MoVeDo.git
+# Make sure you can execute it
+printf 'PATH=$PATH:%s/bin' "$PWD/MoVeDo" >> ~/.profile
+source ~/.profile
 ```
 
-(and then commit this)
-
-Other devs will then have to check the sub-module out as well:
+Now you need to install the dependencies.
+We only provide instructions for that for Debian(based) systems.
+These instructions work as of November 2024.
+If they don't check the instructions in the [Dockerfile](Dockerfile),
+and if they are the same or they too do not work for you,
+please file an issue.
 
 ```bash
-git submodule update --init --recursive
+set -e
+apt-get update
+apt-get install -y -qq
+  ruby \
+  ruby-dev \
+  # Install basic tools required in the MoVeDo scripts \
+  git \
+  cpio \
+  wget \
+  locales \
+  # Used for various, pretty, recursive directory listings, in plain text or HTML \
+  tree \
+  # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
+  python3 \
+  python3-bs4 \
+  python3-dev \
+  python3-pip \
+  python3-setuptools \
+  python3-yaml \
+  # For PP PlantUML \
+  default-jre \
+  # For PDF generation through LaTeX (with Pandoc) \
+  texlive-latex-base \
+  texlive-fonts-recommended \
+  texlive-font-utils \
+  texlive-latex-extra \
+  librsvg2-bin \
+  # In case someone wants to use this Static Site Generator \
+  mkdocs \
+  # Dependencies of some of our more common filters \
+  python3-click \
+  python3-git \
+  python3-svgwrite \
+  # Allows to create nice HTML diffs betwen git refs, \
+  # more freely (and accurately) then github or gitlab show them \
+  # (as of late 2020). \
+  npm \
+  > /dev/null
+
+gem install \
+  chef-utils -v 16.6.14
+gem install \
+  mdl \
+  minima \
+  bundler \
+  jekyll
+npm install -g \
+  diff2html-cli
+
+mvd install_pandoc
+mvd install_panflute --locales --mvd-from-source
+mvd install_pdsite
+mvd install_repvar
+mvd install_projvar
+set +e
 ```
 
-or do it right when cloning your repo:
+From now on,
+you can use MoVeDo for building your docu like this:
 
 ```bash
-git clone --recurse-submodules https://github.com/GH_USER/GH_REPO.git
+cd MyMarkdownDocuProject
+mvd build
 ```
 
-from then on, you can use MoVeDo for building your docu like this:
-
-```bash
-movedo/scripts/build
-```
-
-This would generate output like shown in [Sample Output](#sample-output).
+This would generate output like shown in [Sample Output](#sample-output)
+in a newly created directory caleld `./build/`.
 
 #### Custom HTML generator (optional, recommended)
 
