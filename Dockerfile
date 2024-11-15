@@ -92,7 +92,7 @@ RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 #RUN export MVD_PANFLUTE_VERSION=2.1; \
 #	"$MVD_HOME/scripts/install_panflute" --locales
 
-# NOTE pp is discontinued, and should be replaces by ypp.
+# NOTE pp is discontinued, and should be replaced by ypp.
 #      Though that would be some work, and as we did not use it anywhere yet,
 #      and not relying on a pre-processor makes sources much more compatible,
 #      or say, lock-in resistant, we postphone this fr now, preliminarily indefinitely.
