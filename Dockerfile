@@ -64,6 +64,7 @@ WORKDIR "$WORKDIR"
 
 ENV MVD_HOME="$WORKDIR/movedo"
 ENV PATH="${MVD_HOME}/bin:${PATH}"
+RUN echo "export PATH=\"${MVD_HOME}/bin:\$PATH\"" >> "$HOME/.profile"
 COPY . movedo
 
 # Workaround to get tags, until this bug is solved:
