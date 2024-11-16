@@ -103,6 +103,12 @@ RUN "$MVD_HOME/scripts/install_pdsite"
 RUN "$MVD_HOME/scripts/install_repvar"
 RUN "$MVD_HOME/scripts/install_projvar"
 
+# This is where the user will mount the content project root
+# (where the MD files are located)
+ENV CONTENT_DIR="/home/user/content"
+RUN mkdir "$CONTENT_DIR"
+WORKDIR "$CONTENT_DIR"
+
 # HACK For "shell not found" error when starting the resulting image.
 #      See details here:
 #      <https://gitlab.com/gitlab-org/gitlab-runner/-/issues/27614#note_517446691>
