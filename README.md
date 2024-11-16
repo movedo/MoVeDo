@@ -17,6 +17,11 @@ SPDX-License-Identifier: CC0-1.0
     https://raw.githubusercontent.com/osegermany/tiny-files/master/res/media/img/badge-oseg.svg)](
     https://opensourceecology.de)
 
+![MoVeDo logo ("Ma cosa stai dicendo?")](logo.svg)
+
+[<font size="1">Image by VectorStock</font>](
+https://www.vectorstock.com/royalty-free-vector/italian-hand-gesture-vector-25169331)
+
 (pronounciation of *MoVeDo* is in Italian)
 
 A build tool for your Markdown based, git hosted documentation.
