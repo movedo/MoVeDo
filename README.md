@@ -31,14 +31,15 @@ or any other build tool that mainly relies on convention
 
 By default it:
 
-* supports pre-processing with [PP][PP]
 * produces one HTML file per Markdown file
 * produces a single, fused Markdown file
 * produces a single PDF file
+* produces a single `epub` (E-Book) file
 * uses [YAML Front-Matter document meta-data][YFM]
 * promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor),
   though it also works well with [CommonMark][COMMON-MARK]
   and [GFM (GitHub's Markdown)][GFM]
+* supports pre-processing with [PP][PP]
 
 [PP]: https://github.com/CDSoft/pp
 [YFM]: https://assemble.io/docs/YAML-front-matter.html
