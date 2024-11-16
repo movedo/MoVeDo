@@ -112,6 +112,15 @@ WORKDIR "$CONTENT_DIR"
 # HACK For "shell not found" error when starting the resulting image.
 #      See details here:
 #      <https://gitlab.com/gitlab-org/gitlab-runner/-/issues/27614#note_517446691>
+# NOTE: Override like this (when running):
+# ```bash
+# docker run \
+#   --entrypoint /bin/bash \
+#   --volume $(pwd):/home/user/content \
+#   hoijui/movedo:latest \
+#   -l -c \
+#   "mvd build"`
+# ```
 ENTRYPOINT ["/bin/bash", "-c", "ln -snf /bin/bash /bin/sh && /bin/bash -c $0" ]
 
 LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
