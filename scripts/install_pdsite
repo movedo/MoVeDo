@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2024 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -35,7 +35,7 @@ then
 	echo "'$bin' is already installed."
 	_update_tool
 else
-	if [ -e "${install_dir_tool}/bin/$bin" ]
+	if [ -e "$install_dir_tool/bin/$bin" ]
 	then
 		echo "'$bin' already present."
 		_update_tool
