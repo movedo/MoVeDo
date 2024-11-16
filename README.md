@@ -216,7 +216,54 @@ mainly: copy the CI script:
     - HTML: <https://osegermany.gitlab.io/OHS-3105/develop/din-spec-3105-1/>
     - PDF: <https://osegermany.gitlab.io/OHS-3105/develop/DIN_SPEC_3105-1.pdf>
 
-### Installation & Setup
+### Locally (with docker)
+
+This is way easier then runing it natively,
+and also works on non-Linux systems.
+
+#### Download (Easier)
+
+Installing or updating:
+
+```bash
+docker pull hoijui/movedo:latest
+```
+
+running:
+
+```bash
+#cd MyMarkdownDocuProject
+docker run \
+  --entrypoint /bin/bash \
+  --volume $(pwd):/home/user/content \
+  hoijui/movedo:latest \
+  -l -c \
+  "mvd build"
+```
+
+#### Building from Sources (For Devs)
+
+Installing or updating:
+
+```bash
+git clone https://github.com/movedo/MoVeDo.git
+cd MoVeDo
+docker build --tag hoijui/movedo:local .
+```
+
+running:
+
+```bash
+#cd MyMarkdownDocuProject
+docker run \
+  --entrypoint /bin/bash \
+  --volume $(pwd):/home/user/content \
+  hoijui/movedo:local \
+  -l -c \
+  "mvd build"
+```
+
+### Locally (natively)
 
 If you really want to run MoVeDo locally (alternative: [CI](#ci)),
 You will have to install MoVeDo and qutie a few of its dependencies.
