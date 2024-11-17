@@ -90,8 +90,9 @@ both for fellow co-workers and the community as a whole.
 
 Compared to other [lightweight markup formats](
     https://en.wikipedia.org/wiki/Lightweight_markup_language)
-like [reText](https://github.com/retext-project/retext)
-and [AsciiDoc](https://asciidoc.org):
+like [reText](https://github.com/retext-project/retext),
+[AsciiDoc](https://asciidoc.org)
+and [Org mode](https://orgmode.org/):
 
 * **\+** It is "industry" standard for documentation in Open Source software,
   many people know it already and there are lots of examples
