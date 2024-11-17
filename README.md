@@ -256,7 +256,7 @@ docker run \
   --volume $(pwd):/home/user/content \
   hoijui/movedo:latest \
   -l -c \
-  "mvd build"
+  "mvd build ; chown -R $(id -u):$(id -g) /home/user/content"
 ```
 
 #### Building from Sources (For Devs)
@@ -278,7 +278,7 @@ docker run \
   --volume $(pwd):/home/user/content \
   hoijui/movedo:local \
   -l -c \
-  "mvd build"
+  "mvd build ; chown -R $(id -u):$(id -g) /home/user/content"
 ```
 
 ### Locally (natively)
