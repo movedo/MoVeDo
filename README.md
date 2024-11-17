@@ -64,7 +64,7 @@ but rather on using standard formats an idioms.
 That way of thinking nudges one to keep it simple,
 using only basic Markdown syntax, whenever possible.
 
-This allows anyone working on the docs
+Doing things this way allows anyone working on the docs
 to use their preferred tool for editing, previewing
 and even post-processing into distributable document formats.
 It also allows for easy switching between post-processing tools,
@@ -106,7 +106,8 @@ and [AsciiDoc](https://asciidoc.org):
 
 ### Expected Input
 
-A directory structure sketch of a sample project using MoVeDo:
+A sample directory structure of a documentation project
+which is ready for generating output with MoVeDo:
 
 ```
 /about.md                              # part of the beginning of the docu
