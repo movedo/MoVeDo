@@ -129,6 +129,22 @@ With the exception of a few special files (like `README` and `LICENSE`),
 and directories (like `build` and hidden ones (`.*`)),
 all `*.md` files are considered sources for the documentation.
 
+This makes MoVeDo sources compatible with:
+
+* How git forges (GitHub, GitLab, CodeBerg, ...)
+  render Markdown to HTML in their Web UIs
+* How IDEs and other Markdown editors
+  will present a project to you
+* Following inter-document links on your file-system
+* How some git and Markdown based Wiki systmes work;
+  the ones that do it right.
+  Sadly, these are not many,
+  but the others are incompatible amongst each other,
+  so they are not better in that respect
+* How some [Static Site Generator]s work;
+  again, the ones that do it right;
+  same story.
+
 ### Sample Output
 
 By default, all output is generated in the `build` directory,
