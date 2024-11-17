@@ -108,6 +108,7 @@ RUN "$MVD_HOME/scripts/install_projvar"
 ENV CONTENT_DIR="/home/user/content"
 RUN mkdir "$CONTENT_DIR"
 WORKDIR "$CONTENT_DIR"
+RUN git config --system --add safe.directory "${CONTENT_DIR}"
 
 # HACK For "shell not found" error when starting the resulting image.
 #      See details here:
