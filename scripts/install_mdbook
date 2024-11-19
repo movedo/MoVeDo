@@ -15,28 +15,16 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 . "$script_dir/_common.sh"
 
 tools=()
-tools+=("cargo") # for getting a recent version of cargo, the rust build tool and package manager
+tools+=("wget") # for fetching what is the latest version of the tool
 _check_tools "${tools[@]}"
 
+# parameters
+gh_slug="rust-lang/mdBook"
 bin="mdbook"
+tool_ver_required="${MVD_MDBOOK_VERSION:-}"
 
-#if [ ! -x "$HOME/.cargo/bin/cargo-install-update" ]
-#then
-#	echo "Installing 'cargo-update' ($bin dependency) ..."
-#	cargo install cargo-update
-#fi
-
-if [ ! -x "$HOME/.cargo/bin/$bin" ]
-then
-	echo "Installing '$bin' ..."
-	cargo install --vers "^0.2" "$bin"
-fi
-
-#echo "Updating all cargo packages ..."
-#cargo install-update -a
-
-# Check if it can be found
-which "$bin"
-# ... and log the version info
-"$bin" --version | head -n 1 || true
+"$script_dir/install_rust_gh_tool" \
+	"$gh_slug" \
+	"$bin" \
+	"$tool_ver_required"
 
