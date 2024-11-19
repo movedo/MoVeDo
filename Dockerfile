@@ -5,6 +5,7 @@ FROM debian:testing
 
 RUN apt-get update && \
     apt-get install -y -qq \
+        # These are mainly requried for jekyll \
         ruby \
         ruby-dev \
         # Install basic tools required in the MoVeDo scripts \
@@ -29,7 +30,8 @@ RUN apt-get update && \
         texlive-font-utils \
         texlive-latex-extra \
         librsvg2-bin \
-        # In case someone wants to use this Static Site Generator \
+        # In case someone wants to use any of these Static Site Generators (SSG) \
+        mdbook \
         mkdocs \
         # Dependencies of some of our more common filters \
         python3-click \
