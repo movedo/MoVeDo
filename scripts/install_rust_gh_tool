@@ -63,7 +63,16 @@ else
 		"$tool_dl_url"
 	cd "$extraction_dir"
 	tar xvzf "$tool_local_archive"
-	mv "$tool_local_dir/$bin" "$install_root/"
+	if [ -f "$tool_local_dir/$bin" ]
+	then
+		extracted_bin="$tool_local_dir/$bin"
+	elif [ -f "$bin" ]
+	then
+		extracted_bin="$bin"
+	else
+		_error "Failed to find binary '$bin' after extracting release archive '$tool_local_archive'."
+	fi
+	mv "$extracted_bin" "$install_root/"
 	rm -Rf "$tool_local_dir"
 	rm "$tool_local_archive"
 fi
