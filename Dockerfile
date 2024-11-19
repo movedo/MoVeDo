@@ -30,8 +30,6 @@ RUN apt-get update && \
         texlive-font-utils \
         texlive-latex-extra \
         librsvg2-bin \
-        # In case someone wants to use any of these Static Site Generators (SSG) \
-        mdbook \
         mkdocs \
         # Dependencies of some of our more common filters \
         python3-click \
@@ -104,6 +102,7 @@ RUN "$MVD_HOME/scripts/install_pdsite"
 
 RUN "$MVD_HOME/scripts/install_repvar"
 RUN "$MVD_HOME/scripts/install_projvar"
+RUN "$MVD_HOME/scripts/install_mdbook"
 
 # This is where the user will mount the content project root
 # (where the MD files are located)
