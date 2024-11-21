@@ -23,8 +23,6 @@ _check_env
 args=()
 [ "$#" -gt 0 ] && args=("$@")
 
-cd "$gen_src_dir"
-
 mdbook_extra=()
 switch_next=false
 for arg in "${args[@]}"
@@ -52,9 +50,23 @@ function generate_summary() {
 
 	awk '{ printf "[%s](%s)\n\n", $0, $0; }' \
 		< "$index_md_file" \
-		> "$gen_src_dir/SUMMARY.md" \
+		> "$gen_src_dir_no_fm/SUMMARY.md" \
 		|| exit 1
 }
+
+# HACK mdbook does not support (nor ignore) FrontMatter in MD files,
+#      therefore we create a copy of the generated source files
+#      and strip the FrontMatter there.
+echo
+echo "Stripping (YAML-)FrontMatter from MarkDown files (required for mdbook) ..."
+gen_src_dir_no_fm="${gen_src_dir}_no_fm"
+rm -Rf "$gen_src_dir_no_fm"
+cp -r "$gen_src_dir" "$gen_src_dir_no_fm"
+cd "$gen_src_dir_no_fm"
+find . -type f -name "*.md" | while read -r md_src
+do
+	mvd strip_front_matter --in-place "$md_src"
+done
 
 echo
 echo "Generating HTML (using mdbook) ..."
