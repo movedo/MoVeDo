@@ -14,6 +14,9 @@ RUN install_packages \
         locales \
         # Used for various, pretty, recursive directory listings, in plain text or HTML \
         tree \
+        # Required for ruby stuff \
+        ruby-ffi \
+        build-essential \
         # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
         python3 \
         python3-bs4 \
