@@ -122,7 +122,6 @@ RUN git config --system --add safe.directory "${CONTENT_DIR}"
 # ```
 ENTRYPOINT ["/bin/bash", "-c", "ln -snf /bin/bash /bin/sh && /bin/bash -c $0" ]
 
-LABEL maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
-LABEL version="1.x"
-LABEL description="This can be used as a CI base image when generating documents using MoVeDo - \
-https://github.com/movedo/MoVeDo/"
+# NOTE Labels and annotaitons are added by CI (outside this Dockerfile);
+#      see `.github/workflows/docker.yml`.
+#      This also means they will not be availabel in local builds.

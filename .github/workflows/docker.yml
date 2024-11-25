@@ -33,14 +33,37 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       -
+        name: Prepare build meta-data
+        run: |
+          # This allows reproducible docker builds
+          echo "TIMESTAMP=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
+          echo "GIT_VERSION=$(git describe --broken --always --tags --dirty)" >> $GITHUB_ENV
+      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+          annotations: |
+            org.opencontainers.image.version=${{ env.GIT_VERSION }}
+            org.opencontainers.image.documentation="https://github.com/movedo/MoVeDo/blob/${{ env.GIT_VERSION }}/README.md"
+            org.opencontainers.image.vendor="Open Source Ecology Germany e.V."
+#            org.opencontainers.image.authors="Robin Vobruba <hoijui.quaero@gmail.com>"
+#            description="This can be used as a CI base image when generating documents using MoVeDo - https://github.com/movedo/MoVeDo/"
+#            maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
+#            version="1.x"
       -
         name: Push to Docker Hub
         uses: docker/build-push-action@v6
+        env:
+          SOURCE_DATE_EPOCH: ${{ env.TIMESTAMP }}
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
@@ -48,12 +71,3 @@ jobs:
           annotations: ${{ steps.meta.outputs.annotations }}
           build-args: |
             BUILDKIT_CONTEXT_KEEP_GIT_DIR=true
-      #- name: Push to GitHub Packages
-      #  uses: docker/build-push-action@v2
-      #  with:
-      #    username: ${{ github.actor }}
-      #    password: ${{ secrets.GITHUB_TOKEN }}
-      #    registry: docker.pkg.github.com
-      #    #repository: my-org/my-repo/my-image
-      #    repository: movedo/movedo/movedo
-      #    tag_with_ref: true
