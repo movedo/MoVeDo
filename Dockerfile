@@ -1,10 +1,9 @@
 # SPDX-FileCopyrightText: 2022-2023 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-License-Identifier: Unlicense
 
-FROM debian:testing
+FROM bitnami/minideb:bookworm
 
-RUN apt-get update && \
-    apt-get install -y -qq \
+RUN install_packages \
         # These are mainly requried for jekyll \
         ruby \
         ruby-dev \
@@ -38,9 +37,7 @@ RUN apt-get update && \
         # Allows to create nice HTML diffs betwen git refs, \
         # more freely (and accurately) then github or gitlab show them \
         # (as of late 2020). \
-        npm \
-        > /dev/null && \
-    rm -rf /var/lib/apt/lists/*
+        npm
 
 RUN gem install \
     chef-utils -v 16.6.14
