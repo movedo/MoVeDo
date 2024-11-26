@@ -51,7 +51,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-          annotations: |
+          labels: |
             org.opencontainers.image.version=${{ env.GIT_VERSION }}
             org.opencontainers.image.documentation="https://github.com/movedo/MoVeDo/blob/${{ env.GIT_VERSION }}/README.md"
             org.opencontainers.image.vendor="Open Source Ecology Germany e.V."
