@@ -53,8 +53,8 @@ jobs:
             type=sha
           labels: |
             org.opencontainers.image.version=${{ env.GIT_VERSION }}
-            org.opencontainers.image.documentation="https://github.com/movedo/MoVeDo/blob/${{ env.GIT_VERSION }}/README.md"
-            org.opencontainers.image.vendor="Open Source Ecology Germany e.V."
+            org.opencontainers.image.documentation=https://github.com/movedo/MoVeDo/blob/${{ env.GIT_VERSION }}/README.md
+            org.opencontainers.image.vendor=Open Source Ecology Germany e.V.
 #            org.opencontainers.image.authors="Robin Vobruba <hoijui.quaero@gmail.com>"
 #            description="This can be used as a CI base image when generating documents using MoVeDo - https://github.com/movedo/MoVeDo/"
 #            maintainer="Robin Vobruba <hoijui.quaero@gmail.com>"
