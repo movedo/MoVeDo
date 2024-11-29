@@ -76,10 +76,10 @@ then
 	generate_summary
 fi
 
-mdbook build --dest-dir "$html_dir" "${mdbook_extra[@]}"
+mdbook build --dest-dir "$build_dir" "${mdbook_extra[@]}"
 # NOTE This only tests rust code samples,
 # and it assumes code snippets to be Rust,
 # which is very disadventageous for a general content oriented framework
 # like MoVeDo.
-#mdbook test --dest-dir "$html_dir"
+#mdbook test --dest-dir "$build_dir"
 
