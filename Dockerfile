@@ -130,4 +130,4 @@ ENTRYPOINT ["/bin/bash", "-c", "ln -snf /bin/bash /bin/sh && /bin/bash -c $0" ]
 
 # NOTE Labels and annotaitons are added by CI (outside this Dockerfile);
 #      see `.github/workflows/docker.yml`.
-#      This also means they will not be availabel in local builds.
+#      This also means they will not be available in local builds.
