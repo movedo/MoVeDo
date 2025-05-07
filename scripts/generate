@@ -16,7 +16,11 @@ script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 # shellcheck source=./_common.sh
 . "$script_dir/_common.sh"
 
-"$script_dir/gen-src-prepare"
+# parameters
+args=()
+[ "$#" -gt 0 ] && args=("$@")
+
+"$script_dir/gen-src-prepare" "${args[@]}"
 _fetch_version > "$gen_src_dir/VERSION"
 "$script_dir/pp-md"
 #"$script_dir/gen-diagrams"
