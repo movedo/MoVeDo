@@ -95,7 +95,7 @@ then
 	cd "$build_dir"
 	git clone "https://github.com/sergiocorreia/panflute.git"
 	cd panflute
-	python3 -m pip install .
+	python3 -m pip install --break-system-packages .
 	cd "$prev_dir"
 else
 	if [ -z "$panflute_ver_required" ]
