@@ -88,7 +88,7 @@ then
 	source "$HOME/.profile"
 fi
 
-if [ "$from_source" = "true" ]
+if $from_source
 then
 	prev_dir="$(pwd)"
 	mkdir -p "$build_dir"
@@ -100,9 +100,9 @@ then
 else
 	if [ -z "$panflute_ver_required" ]
 	then
-		pip3 install panflute
+		python3 -m pip install panflute
 	else
-		pip3 install -Iv panflute=="$panflute_ver_required"
+		python3 -m pip install -Iv panflute=="$panflute_ver_required"
 	fi
 fi
 
