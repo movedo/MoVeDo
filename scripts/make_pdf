@@ -28,8 +28,6 @@ then
 	"$script_dir/make_pdf_through_html" "${args[@]}"
 fi
 
-echo "PDF file generated: '$single_pdf'"
-
 if [ -n "$OPEN_X11" ]
 then
 	xdg-open "$single_pdf"

@@ -187,6 +187,7 @@ echo "Generating combined PDF ($h2p_tool) ..."
 if [ -f "$single_md" ]
 then
 	generateHtmlAndPdf "$single_md" "$single_html" "$single_pdf"
+	echo "PDF file generated: '$single_pdf'"
 fi
 
 if $individual

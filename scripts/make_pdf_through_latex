@@ -155,6 +155,7 @@ function pandoc_convert2pdf() {
 if [ -f "$single_md" ]
 then
 	pandoc_convert2pdf "$single_md" "$single_pdf"
+	echo "PDF file generated: '$single_pdf'"
 fi
 
 if $individual
