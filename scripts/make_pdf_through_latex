@@ -175,7 +175,11 @@ then
 		fi
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		mkdir -p "$(dirname "$file_pdf")"
-		pandoc_convert2pdf "$file_md" "$file_pdf"
+		# We switch to the MD files dir, so relative paths to (e.g.) images will be correct.
+		dir_before="$PWD"
+		cd "$(dirname "$file_md")"
+		pandoc_convert2pdf "$(basename "$file_md")" "$file_pdf"
+		cd "$dir_before"
 		generated_individual_pdf=true
 		echo "PDF file generated: '$file_pdf'"
 	done < "$index_md_file"

@@ -206,7 +206,11 @@ then
 		fi
 		file_html="$pdf_dir/${file_md%.md}.html"
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
-		generateHtmlAndPdf "$file_md" "$file_html" "$file_pdf"
+		# We switch to the MD files dir, so relative paths to (e.g.) images will be correct.
+		dir_before="$PWD"
+		cd "$(dirname "$file_md")"
+		generateHtmlAndPdf "$(basename "$file_md")" "$file_html" "$file_pdf"
+		cd "$dir_before"
 		generated_individual_pdf=true
 		echo "PDF file generated: '$file_pdf'"
 	done < "$index_md_file"
