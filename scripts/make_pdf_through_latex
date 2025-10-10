@@ -152,9 +152,13 @@ function pandoc_convert2pdf() {
 		-V block-headings
 }
 
+generated_single_pdf=false
+generated_individual_pdf=false
+
 if [ -f "$single_md" ]
 then
 	pandoc_convert2pdf "$single_md" "$single_pdf"
+	generated_single_pdf=true
 	echo "PDF file generated: '$single_pdf'"
 fi
 
@@ -172,8 +176,13 @@ then
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		mkdir -p "$(dirname "$file_pdf")"
 		pandoc_convert2pdf "$file_md" "$file_pdf"
+		generated_individual_pdf=true
 		echo "PDF file generated: '$file_pdf'"
 	done < "$index_md_file"
 	echo
 fi
 
+if ! $generated_single_pdf && ! $generated_individual_pdf
+then
+	_error "Neither a single nor individual PDFs were created!"
+fi

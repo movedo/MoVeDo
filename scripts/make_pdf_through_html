@@ -181,12 +181,15 @@ function generateHtmlAndPdf() {
 	fi
 }
 
-echo
-echo "Generating combined PDF ($h2p_tool) ..."
+generated_single_pdf=false
+generated_individual_pdf=false
 
 if [ -f "$single_md" ]
 then
+	echo
+	echo "Generating combined PDF ($h2p_tool) ..."
 	generateHtmlAndPdf "$single_md" "$single_html" "$single_pdf"
+	generated_single_pdf=true
 	echo "PDF file generated: '$single_pdf'"
 fi
 
@@ -204,7 +207,13 @@ then
 		file_html="$pdf_dir/${file_md%.md}.html"
 		file_pdf="$pdf_dir/${file_md%.md}.pdf"
 		generateHtmlAndPdf "$file_md" "$file_html" "$file_pdf"
+		generated_individual_pdf=true
 		echo "PDF file generated: '$file_pdf'"
 	done < "$index_md_file"
 	echo
+fi
+
+if ! $generated_single_pdf && ! $generated_individual_pdf
+then
+	_error "Neither a single nor individual PDFs were created!"
 fi
