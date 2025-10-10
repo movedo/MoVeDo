@@ -27,6 +27,12 @@ _warning() {
 	echo -e "$0: WARNING: $msg" 1>&2
 }
 
+_debug() {
+	local msg="$*"
+
+	echo -e "$0: DEBUG $msg"
+}
+
 _var_set() {
 	set | grep '^'"$1"'=' > /dev/null
 }

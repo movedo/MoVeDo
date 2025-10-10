@@ -117,7 +117,7 @@ function pandoc_convert2pdf() {
 		#      overwriting file_out, because in BASH,
 		#      all variables have global scope.
 		file_pdf="$file_out"
-		echo "DEBUG: Creating intermediary file '$file_tex' ..."
+		_debug "Creating intermediary file '$file_tex' ..."
 		# Convert from Markdown to LaTex
 		pandoc_convert2pdf "$file_md" "$file_tex"
 		file_out="$file_pdf"

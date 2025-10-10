@@ -175,7 +175,7 @@ function generateHtmlAndPdf() {
 
 	if $debug
 	then
-		echo "DEBUG: Created intermediary file '$file_html'"
+		_debug "Created intermediary file '$file_html'"
 	else
 		rm "$file_html"
 	fi
