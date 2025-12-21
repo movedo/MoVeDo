@@ -34,6 +34,7 @@ RUN install_packages \
         texlive-fonts-recommended \
         texlive-font-utils \
         texlive-latex-extra \
+        texlive-xetex \
         librsvg2-bin \
         mkdocs \
         # Dependencies of some of our more common filters \
