@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1
 # NOTE Lint this file with https://hadolint.github.io/hadolint/
 
-# SPDX-FileCopyrightText: 2022-2024 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2022 - 2025 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-License-Identifier: Unlicense
 
 FROM bitnami/minideb:bookworm
 
 RUN install_packages \
-        # These are mainly requried for jekyll \
+        # These are mainly required for jekyll \
         ruby \
         ruby-dev \
         # Install basic tools required in the MoVeDo scripts \
@@ -40,7 +40,7 @@ RUN install_packages \
         python3-click \
         python3-git \
         python3-svgwrite \
-        # Allows to create nice HTML diffs betwen git refs, \
+        # Allows to create nice HTML diffs between git refs, \
         # more freely (and accurately) then github or gitlab show them \
         # (as of late 2020). \
         npm
@@ -99,7 +99,7 @@ RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 # NOTE pp is discontinued, and should be replaced by ypp.
 #      Though that would be some work, and as we did not use it anywhere yet,
 #      and not relying on a pre-processor makes sources much more compatible,
-#      or say, lock-in resistant, we postphone this fr now, preliminarily indefinitely.
+#      or say, lock-in resistant, we postpone this fr now, preliminarily indefinitely.
 #RUN "$MVD_HOME/scripts/install_pp"
 RUN "$MVD_HOME/scripts/install_pdsite"
 
@@ -128,6 +128,6 @@ RUN git config --system --add safe.directory "${CONTENT_DIR}"
 # ```
 ENTRYPOINT ["/bin/bash", "-c", "ln -snf /bin/bash /bin/sh && /bin/bash -c $0" ]
 
-# NOTE Labels and annotaitons are added by CI (outside this Dockerfile);
+# NOTE Labels and annotations are added by CI (outside this Dockerfile);
 #      see `.github/workflows/docker.yml`.
 #      This also means they will not be available in local builds.
