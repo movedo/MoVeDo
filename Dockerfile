@@ -24,6 +24,7 @@ RUN install_packages \
         python3 \
         python3-bs4 \
         python3-dev \
+        python3-panflute \
         python3-pip \
         python3-setuptools \
         python3-yaml \
@@ -87,7 +88,7 @@ RUN cd "$MVD_HOME"; \
 # the below mentioned problem was fixed,
 # so we resolve to use the latest version again.
 RUN "$MVD_HOME/scripts/install_pandoc"
-RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
+#RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 # As of 1. June 2021, latest pandoc (2.14.1) had a bug
 # where it failed producing PDFs from Markdown if there are SVG files.
 # Thus we installed the latest working version,
