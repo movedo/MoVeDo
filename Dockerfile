@@ -4,7 +4,7 @@
 # SPDX-FileCopyrightText: 2022 - 2025 Robin Vobruba <hoijui.quaero@gmail.com>
 # SPDX-License-Identifier: Unlicense
 
-FROM bitnami/minideb:bookworm
+FROM bitnami/minideb:trixie
 
 RUN install_packages \
         # These are mainly required for jekyll \
