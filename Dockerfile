@@ -38,6 +38,8 @@ RUN install_packages \
         texlive-latex-extra \
         texlive-xetex \
         librsvg2-bin \
+        # LaTeX requirement \
+        lmodern \
         mkdocs \
         # Dependencies of some of our more common filters \
         python3-click \
