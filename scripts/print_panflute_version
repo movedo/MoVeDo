@@ -18,4 +18,4 @@ echo "import panflute; print(panflute.__version__)" \
 	| "$python" 2> /dev/null \
 	| sed -e 's/^/panflute /' \
 	| head -n 1 \
-	|| true
+	|| >&2 echo "panflute - Failed to evaluate version! (exit code: $?)"
