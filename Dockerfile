@@ -20,6 +20,7 @@ RUN install_packages \
         # Required for ruby stuff \
         ruby-ffi \
         build-essential \
+        pandoc \
         # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
         python3 \
         python3-bs4 \
@@ -57,9 +58,9 @@ RUN gem install \
 RUN mdl --version
 
 # Make Python 3 the default, so pandoc will use it to run panflute,
-# which required at least Python 3.6
-RUN rm -f /usr/bin/python
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# which requires at least Python 3.6
+#RUN rm -f /usr/bin/python
+#RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN npm install -g \
     diff2html-cli
@@ -87,7 +88,7 @@ RUN cd "$MVD_HOME"; \
 # As of August 2021 (pandoc 2.14.2),
 # the below mentioned problem was fixed,
 # so we resolve to use the latest version again.
-RUN "$MVD_HOME/scripts/install_pandoc"
+#RUN "$MVD_HOME/scripts/install_pandoc"
 #RUN "$MVD_HOME/scripts/install_panflute" --locales --mvd-from-source
 # As of 1. June 2021, latest pandoc (2.14.1) had a bug
 # where it failed producing PDFs from Markdown if there are SVG files.
