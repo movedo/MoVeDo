@@ -113,7 +113,7 @@ function pandoc_convert2pdf() {
 	if $debug && ! $creating_tex
 	then
 		file_tex="${file_out%.pdf}.tex"
-		# NOTE This is required because of the recursive call below
+		# NOTE This is required because of the recursive call below,
 		#      overwriting file_out, because in BASH,
 		#      all variables have global scope.
 		file_pdf="$file_out"
@@ -125,12 +125,10 @@ function pandoc_convert2pdf() {
 		# This would make sense, but pandoc fares better
 		# with md->pdf then with md->tex->pdf :/
 		#file_in="$file_tex"
-		file_in="$file_md"
-	else
-		file_in="$file_md"
-		pandoc_extra+=("--from=markdown")
-		pandoc_extra+=("--markdown-headings=atx")
 	fi
+	file_in="$file_md"
+	pandoc_extra+=("--from=markdown")
+	pandoc_extra+=("--markdown-headings=atx")
 
 	if $creating_tex
 	then
