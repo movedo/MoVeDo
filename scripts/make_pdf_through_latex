@@ -22,6 +22,7 @@ app_name="Make PDF through Latex"
 script_name="$(basename "$0")"
 # parameters
 h1_page_breaks=$(_movedo_shell_var_to_bool "${MVD_H1_PAGE_BREAKS:-true}")
+implicit_figures=$(_movedo_shell_var_to_bool "${MVD_IMPLICIT_FIGURES:-false}")
 debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
 individual=$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL_PDFS:-$(_movedo_shell_var_to_bool "${MVD_INDIVIDUAL:-false}")}")
 
@@ -43,6 +44,9 @@ function print_help() {
 	echo "                          Equivalent to command-line: MVD_INDIVIDUAL=1"
 	echo "  --mvd-no-h1-page-breaks Do not insert page breaks before level 1 headers."
 	echo "                          Equivalent to command-line: MVD_H1_PAGE_BREAKS=0"
+	echo "  --mvd-implicit-figures  Use Pandocs implicit_figures option (on Markdown)."
+	echo "                          This gives paper-ish results,"
+	echo "                          with images appearing \"all over the place\"."
 	echo "Examples:"
 	echo "  $script_name --mvd-individual"
 }
@@ -67,6 +71,9 @@ do
 			;;
 		--mvd-no-h1-page-breaks)
 			h1_page_breaks=false
+			;;
+		--mvd-implicit-figures)
+			implicit_figures=true
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
@@ -127,7 +134,12 @@ function pandoc_convert2pdf() {
 		#file_in="$file_tex"
 	fi
 	file_in="$file_md"
-	pandoc_extra+=("--from=markdown")
+	if $implicit_figures
+	then
+		pandoc_extra+=("--from=markdown")
+	else
+		pandoc_extra+=("--from=markdown-implicit_figures")
+	fi
 	pandoc_extra+=("--markdown-headings=atx")
 
 	if $creating_tex
