@@ -38,7 +38,7 @@ function print_help() {
 	echo "  --mvd-debug             Create (do not delete) the intermediary *.tex file."
 	echo "                          Equivalent to command-line: MVD_DEBUG=1"
 	echo "  --mvd-individual(-pdfs) Create individual PDFs"
-	echo "                          (one per Markdwn source file),"
+	echo "                          (one per Markdown source file),"
 	echo "                          in addition to the merged one."
 	echo "                          Equivalent to command-line: MVD_INDIVIDUAL=1"
 	echo "  --mvd-no-h1-page-breaks Do not insert page breaks before level 1 headers."
