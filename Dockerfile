@@ -50,7 +50,9 @@ RUN install_packages \
         # Allows to create nice HTML diffs between git refs, \
         # more freely (and accurately) then github or gitlab show them \
         # (as of late 2020). \
-        npm
+        npm \
+        unzip \
+        zip
 
 RUN gem install \
     chef-utils -v 16.6.14
