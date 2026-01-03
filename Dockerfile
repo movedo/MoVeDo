@@ -21,9 +21,11 @@ RUN install_packages \
         ruby-ffi \
         build-essential \
         pandoc \
-        # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
+        # python-is-python3 - symlinks /usr/bin/python to python3 \
+        python-is-python3 \
         python3 \
         python3-bs4 \
+        # NOTE We need python-dev to prevent encoding errors when running panflute (why? :/ ) \
         python3-dev \
         python3-panflute \
         python3-pip \
@@ -58,11 +60,6 @@ RUN gem install \
     bundler \
     jekyll
 RUN mdl --version
-
-# Make Python 3 the default, so pandoc will use it to run panflute,
-# which requires at least Python 3.6
-#RUN rm -f /usr/bin/python
-#RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN npm install -g \
     diff2html-cli
