@@ -22,6 +22,7 @@ _check_env
 # parameters
 args=()
 [ "$#" -gt 0 ] && args=("$@")
+debug=$(_movedo_shell_var_to_bool "${MVD_DEBUG:-false}")
 
 mdbook_extra=()
 switch_next=false
@@ -76,6 +77,10 @@ then
 	generate_summary
 fi
 
+if $debug
+then
+	_debug "Running 'build --dest-dir \"$html_dir\" ${mdbook_extra[*]}' ..."
+fi
 mdbook build --dest-dir "$html_dir" "${mdbook_extra[@]}"
 # NOTE This only tests rust code samples,
 # and it assumes code snippets to be Rust,
