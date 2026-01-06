@@ -9,6 +9,9 @@ SPDX-License-Identifier: CC0-1.0
 [![License: GPL-3.0-or-later](
     https://img.shields.io/badge/License-GPLv3-blue.svg)](
     https://www.gnu.org/licenses/gpl-3.0)
+[![Publish Docker image - status badge](
+    https://github.com/movedo/MoVeDo/actions/workflows/docker.yml/badge.svg)](
+    https://github.com/movedo/MoVeDo/actions/workflows/docker.yml)
 [![REUSE status](
     https://api.reuse.software/badge/github.com/movedo/MoVeDo)](
     https://api.reuse.software/info/github.com/movedo/MoVeDo)
