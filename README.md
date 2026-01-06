@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: 2021 - 2026 Robin Vobruba <hoijui.quaero@gmail.com>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-[![License: GPL v3](
+[![License: GPL-3.0-or-later](
     https://img.shields.io/badge/License-GPLv3-blue.svg)](
     https://www.gnu.org/licenses/gpl-3.0)
 [![REUSE status](
