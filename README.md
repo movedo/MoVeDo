@@ -31,15 +31,15 @@ or any other build tool that mainly relies on convention
 
 By default it:
 
-* produces one HTML file per Markdown file
-* produces a single, fused Markdown file
-* produces a single PDF file
-* produces a single `epub` (E-Book) file
-* uses [YAML Front-Matter document meta-data][YFM]
-* promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor),
+- produces one HTML file per Markdown file
+- produces a single, fused Markdown file
+- produces a single PDF file
+- produces a single `epub` (E-Book) file
+- uses [YAML Front-Matter document meta-data][YFM]
+- promotes/suggests/uses [*Pandoc's Markdown*][PANDOC-MD] (a Markdown flavor),
   though it also works well with [CommonMark][COMMON-MARK]
   and [GFM (GitHub's Markdown)][GFM]
-* supports pre-processing with [PP][PP]
+- supports pre-processing with [PP][PP]
 
 [PP]: https://github.com/CDSoft/pp
 [YFM]: https://assemble.io/docs/YAML-front-matter.html
@@ -94,11 +94,11 @@ like [reText](https://github.com/retext-project/retext),
 [AsciiDoc](https://asciidoc.org)
 and [Org mode](https://orgmode.org/):
 
-* **\+** It is "industry" standard for documentation in Open Source software,
+- **\+** It is "industry" standard for documentation in Open Source software,
   many people know it already and there are lots of examples
-* **\+** It is supported by [a *lot* of tools and platforms](
+- **\+** It is supported by [a *lot* of tools and platforms](
   https://www.markdownguide.org/tools/)
-* **\-** many non-marginal, parallel ["flavors"](
+- **\-** many non-marginal, parallel ["flavors"](
   https://github.com/commonmark/commonmark-spec/wiki/markdown-flavors)
   exist, so there is no *one* standard for it \
   -> compatibility issues
@@ -132,17 +132,17 @@ all `*.md` files are considered sources for the documentation.
 
 This makes MoVeDo sources compatible with:
 
-* How git forges (GitHub, GitLab, CodeBerg, ...)
+- How git forges (GitHub, GitLab, CodeBerg, ...)
   render Markdown to HTML in their Web UIs
-* How IDEs and other Markdown editors
+- How IDEs and other Markdown editors
   will present a project to you
-* Following inter-document links on your file-system
-* How some git and Markdown based Wiki systmes work;
+- Following inter-document links on your file-system
+- How some git and Markdown based Wiki systems work;
   the ones that do it right.
   Sadly, these are not many,
   but the others are incompatible amongst each other,
   so they are not better in that respect
-* How some [Static Site Generator]s work;
+- How some [Static Site Generator]s work;
   again, the ones that do it right;
   same story.
 
@@ -196,12 +196,12 @@ run `ls -1 movedo/scripts/make_html_*` from your project root.
 
 As of October 2021, this are:
 
-* [Jekyll](https://jekyllrb.com) -
+- [Jekyll](https://jekyllrb.com) -
   Well established (ruby) static site generator (SSG)
-* [mdBook](https://github.com/rust-lang/mdBook) - fast SSG (rust)
-* [mkDocs](https://www.mkdocs.org) - simple SSG
-* [pandoc](https://pandoc.org) - bare-bones document converter
-* [pdsite](http://pdsite.org) - very simple, leight-weight SSG (bash)
+- [mdBook](https://github.com/rust-lang/mdBook) - fast SSG (rust)
+- [mkDocs](https://www.mkdocs.org) - simple SSG
+- [pandoc](https://pandoc.org) - bare-bones document converter
+- [pdsite](http://pdsite.org) - very simple, light-weight SSG (bash)
 
 Please raise an issue if you need support for an other tool,
 or make a pull request.
