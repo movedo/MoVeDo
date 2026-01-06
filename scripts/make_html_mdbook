@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2026 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -76,10 +76,9 @@ then
 	generate_summary
 fi
 
-mdbook build --dest-dir "$build_dir" "${mdbook_extra[@]}"
+mdbook build --dest-dir "$html_dir" "${mdbook_extra[@]}"
 # NOTE This only tests rust code samples,
 # and it assumes code snippets to be Rust,
 # which is very disadvantageous for a general content oriented framework
 # like MoVeDo.
-#mdbook test --dest-dir "$build_dir"
-
+#mdbook test --dest-dir "$html_dir"
