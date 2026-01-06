@@ -43,7 +43,7 @@ do
 done
 
 # mdbook requires a file called SUMMARY.md,
-# containnig a markdown formatted index.
+# containing a markdown formatted index.
 # We auto-create a simple version of it from the index-md file,
 # if no SUMMARY.md is provided in the sources.
 function generate_summary() {
@@ -79,7 +79,7 @@ fi
 mdbook build --dest-dir "$build_dir" "${mdbook_extra[@]}"
 # NOTE This only tests rust code samples,
 # and it assumes code snippets to be Rust,
-# which is very disadventageous for a general content oriented framework
+# which is very disadvantageous for a general content oriented framework
 # like MoVeDo.
 #mdbook test --dest-dir "$build_dir"
 

@@ -45,7 +45,7 @@ do
 done
 
 # mdbook requires a file called SUMMARY.md,
-# containnig a markdown formatted index.
+# containing a markdown formatted index.
 # We auto-create a simple version of it from the index-md file,
 # if no SUMMARY.md is provided in the sources.
 # function generate_summary() {
