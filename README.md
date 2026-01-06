@@ -225,7 +225,7 @@ mainly: copy the CI script:
   - Project Repo: <https://github.com/osegermany/git-internals-doc>
   - CI script: <https://github.com/osegermany/git-internals-doc/blob/master/.github/workflows/generate_documents.yml>
   - Generated output
-    - HTML: <https://osegermany.github.io/git-internals-doc/html/index.html> -> TODO BAD; Fix it!
+    - HTML: <https://osegermany.github.io/git-internals-doc/html/text/s0-c00-title.html>
     - PDF: <https://osegermany.github.io/git-internals-doc/pdf/doc.pdf>
 - GitLab(.com)
   - Project Repo: <https://gitlab.com/OSEGermany/OHS-3105/>
