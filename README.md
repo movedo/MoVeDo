@@ -22,7 +22,7 @@ SPDX-License-Identifier: CC0-1.0
 [<font size="1">Image by VectorStock</font>](
 https://www.vectorstock.com/royalty-free-vector/italian-hand-gesture-vector-25169331)
 
-(pronounciation of *MoVeDo* is in Italian)
+(pronunciation of *MoVeDo* is in Italian)
 
 A build tool for your Markdown based, git hosted documentation.
 Think of it like `gradle`, `leiningen`, `maven`, `grunt`,
@@ -213,12 +213,12 @@ is by putting your Markdown content in a git repo
 and running MoVeDo in the CI (build-bot),
 e.g. on GitHub or GitLab.
 
-We generate a [MoVeDo Docker image] that ocntains MoVeDo and all of its mandatory dependencies,
+We generate a [MoVeDo Docker image] that contains MoVeDo and all of its mandatory dependencies,
 plus quite a few optional tools.
 
-You may use it locally, or on CI (recomended).
+You may use it locally, or on CI (recommended).
 How see hwo to use it on CI,
-see the approppriate of the following two sample projects;
+see the appropriate of the following two sample projects;
 mainly: copy the CI script:
 
 - GitHub.com
@@ -236,7 +236,7 @@ mainly: copy the CI script:
 
 ### Locally (with docker)
 
-This is way easier then runing it natively,
+This is way easier then running it natively,
 and also works on non-Linux systems.
 
 #### Download (Easier)
@@ -284,7 +284,7 @@ docker run \
 ### Locally (natively)
 
 If you really want to run MoVeDo locally (alternative: [CI](#ci)),
-You will have to install MoVeDo and qutie a few of its dependencies.
+You will have to install MoVeDo and quite a few of its dependencies.
 This is described in the following section.
 
 #### Base
@@ -347,7 +347,7 @@ apt-get install -y -qq
   python3-click \
   python3-git \
   python3-svgwrite \
-  # Allows to create nice HTML diffs betwen git refs, \
+  # Allows to create nice HTML diffs between git refs, \
   # more freely (and accurately) then github or gitlab show them \
   # (as of late 2020). \
   npm \
@@ -380,7 +380,7 @@ mvd build
 ```
 
 This would generate output like shown in [Sample Output](#sample-output)
-in a newly created directory caleld `./build/`.
+in a newly created directory called `./build/`.
 
 #### Custom HTML generator (optional, recommended)
 
