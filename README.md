@@ -1,10 +1,10 @@
+# MoVeDo - Modular, Versioned Documentation
+
 <!--
-SPDX-FileCopyrightText: 2021 Robin Vobruba <hoijui.quaero@gmail.com>
+SPDX-FileCopyrightText: 2021 - 2026 Robin Vobruba <hoijui.quaero@gmail.com>
 
 SPDX-License-Identifier: CC0-1.0
 -->
-
-# MoVeDo - Modular, Versioned Documentation
 
 [![License: GPL v3](
     https://img.shields.io/badge/License-GPLv3-blue.svg)](
