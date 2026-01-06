@@ -223,7 +223,7 @@ mainly: copy the CI script:
 
 - GitHub.com
   - Project Repo: <https://github.com/osegermany/git-internals-doc>
-  - CI script: <https://github.com/osegermany/git-internals-doc/blob/master/.github/workflows/movedo.yml>
+  - CI script: <https://github.com/osegermany/git-internals-doc/blob/master/.github/workflows/generate_documents.yml>
   - Generated output
     - HTML: <https://osegermany.github.io/git-internals-doc/html/index.html> -> TODO BAD; Fix it!
     - PDF: <https://osegermany.github.io/git-internals-doc/pdf/doc.pdf>
