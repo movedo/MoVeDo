@@ -110,7 +110,7 @@ and [Org mode](https://orgmode.org/):
 A sample directory structure of a documentation project
 which is ready for generating output with MoVeDo:
 
-```
+```shell
 /about.md                              # part of the beginning of the docu
 /index.md                              # part of multi-file outputs like HTML, but not PDF
 /LICENSE.md                            # treated as repo file -> excluded from the docu
@@ -151,7 +151,7 @@ This makes MoVeDo sources compatible with:
 By default, all output is generated in the `build` directory,
 and for the above project would look like:
 
-```
+```shell
 /build/gen-src/index-md.txt                       # either copied from the source, or auto-generated
                                                   # from the FS structure of the *.md files
                                                   # (alphabetically, with directories after files).
@@ -395,7 +395,7 @@ after pre-processing the Markdown.
 
 The main directories of this repo are:
 
-```
+```shell
 /scripts/        # BASH scripts that may be used by a "client"-project to generate artifacts
 /filters/        # Python Panflute Pandoc filters, that act as little helpers
                  # when dealing with multiple Markdown files that are meant to be fused together
