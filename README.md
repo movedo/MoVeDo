@@ -19,9 +19,6 @@ SPDX-License-Identifier: CC0-1.0
 
 ![MoVeDo logo ("Ma cosa stai dicendo?")](logo.svg)
 
-[<font size="1">Image by VectorStock</font>](
-https://www.vectorstock.com/royalty-free-vector/italian-hand-gesture-vector-25169331)
-
 (pronunciation of *MoVeDo* is in Italian)
 
 A build tool for your Markdown based, git hosted documentation.
