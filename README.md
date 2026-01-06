@@ -408,3 +408,6 @@ The main directories of this repo are:
 ```bash
 test/filters/_all.sh
 ```
+
+[Static Site Generator]: https://en.wikipedia.org/wiki/Static_site_generator
+[MoVeDo Docker image]: https://hub.docker.com/repository/docker/hoijui/movedo/tags/latest/
