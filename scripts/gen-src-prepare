@@ -24,6 +24,7 @@ script_name="$(basename "$0")"
 # parameters
 copy_source_files=$(_movedo_shell_var_to_bool "${MVD_COPY_SOURCE_FILES:-true}")
 # repo_url="${MVD_REPO_URL:-$(_git_remote_web_url)}"
+include_readme="${MVD_INCLUDE_README:-false}"
 
 function print_help() {
 
@@ -38,8 +39,11 @@ function print_help() {
 	echo "                          Equivalent to command-line: MVD_COPY_SOURCE_FILES=0"
 	# echo "  --mvd-repo-url [URL]    Use this as the repo URL, instead of extracting it from the git repo."
 	# echo "                          Equivalent to command-line: MVD_REPO_URL=[URL]"
+	echo "  --mvd-include-readme    Include README*.md (case insensitive) in the output."
+	echo "                          Equivalent to command-line: MVD_INCLUDE_README=1"
 	echo "Examples:"
 	echo "  $script_name"
+	echo "  $script_name --help"
 }
 
 # read command-line args
@@ -61,6 +65,8 @@ do
 		# 	repo_url="$1"
 		# 	shift
 		# 	;;
+		--mvd-include-readme)
+			include_readme=true
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
@@ -98,7 +104,7 @@ mkdir -p "$gen_src_dir/assets/images" # HACK
 if $copy_source_files
 then
 	echo
-	echo "Copy source *files* to generated-sources dir ..."
+	echo "Copy source *files* (except *.md) to generated-sources dir ..."
 	find . \
 			-type f \
 			\( ! -path "./${build_dir_rel}*" \) \
@@ -111,7 +117,6 @@ then
 			\( ! -iname "*.pp.markdown" \) \
 			\( ! -iname "*.md" \) \
 			\( ! -iname "*.markdown" \) \
-			\( ! -name "README.md" \) \
 		| cpio -pdvm "$gen_src_dir" 2> /dev/null
 
 	echo
@@ -146,7 +151,6 @@ then
 		\( ! -path "$gen_src_dir/_site/*" \) \
 		\( ! -path "$gen_src_dir/script/*" \) \
 		\( ! -path "$gen_src_dir/.git*" \) \
-		\( ! -name "README.md" \) \
 		\( ! -iname "*.pp.md" \) \
 		\( ! -iname "*.pp.markdown" \) \
 		\( \
@@ -168,5 +172,16 @@ then
 				--output "$pot_template_file_tmp"
 			mv "$pot_template_file_tmp" "$pot_template_file"
 		done
+	if ! $include_readme
+	then
+		find "$gen_src_dir" \
+			-type f \
+			\( \
+				-iname "README*.md" \
+				-o \
+				-iname "README*.markdown" \
+			\) \
+			-exec rm {} \;
+	fi
 fi
 
