@@ -86,7 +86,7 @@ find \
 		-o \
 		-iname "*.markdown" \
 	\) \
-	! -name "LICENSE.*" \
+	! -iname "LICENSE*.*" \
 	-print0 \
 	| xargs -0 mdl "${mdl_args[@]}"
 echo "Checking Markdown sources done."
