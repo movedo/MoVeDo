@@ -23,7 +23,7 @@ app_name="Generate Sources Preparer"
 script_name="$(basename "$0")"
 # parameters
 copy_source_files=$(_movedo_shell_var_to_bool "${MVD_COPY_SOURCE_FILES:-true}")
-repo_url="${MVD_REPO_URL:-$(_git_remote_web_url)}"
+# repo_url="${MVD_REPO_URL:-$(_git_remote_web_url)}"
 
 function print_help() {
 
@@ -36,8 +36,8 @@ function print_help() {
 	echo "  -h, --help              Show this help message"
 	echo "  --mvd-no-copy-sources   Do not copy the original source files into the generated-sources dir as well."
 	echo "                          Equivalent to command-line: MVD_COPY_SOURCE_FILES=0"
-	echo "  --mvd-repo-url [URL]    Use this as the repo URL, instead of extracting it from the git repo."
-	echo "                          Equivalent to command-line: MVD_REPO_URL=[URL]"
+	# echo "  --mvd-repo-url [URL]    Use this as the repo URL, instead of extracting it from the git repo."
+	# echo "                          Equivalent to command-line: MVD_REPO_URL=[URL]"
 	echo "Examples:"
 	echo "  $script_name"
 }
@@ -57,9 +57,10 @@ do
 		--mvd-no-copy-sources)
 			copy_source_files=false
 			;;
-		--mvd-repo-url)
-			repo_url="$1"
-			shift
+		# --mvd-repo-url)
+		# 	repo_url="$1"
+		# 	shift
+		# 	;;
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
