@@ -27,16 +27,15 @@ export gen_src_dir
 
 echo
 echo "Generate GraphViz/DOT graph images ..."
-find . -type f -name "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
+find . -type f -iname "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
 	-exec dot -Tsvg {} -o ${gen_src_dir}/{}.svg \;
-find . -type f -name "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
+find . -type f -iname "*.dot" ! -path "./${build_dir}*" ! -path "./_site/*" \
 	-exec dot -Tpng {} -o ${gen_src_dir}/{}.png \;
 
 echo
 echo "Generate PlantUML graph images .."
-for dir in $(find . -type f -name "*.puml" ! -path "./${build_dir}*" ! -path "./_site/*" \
+for dir in $(find . -type f -iname "*.puml" ! -path "./${build_dir}*" ! -path "./_site/*" \
 	-exec dirname {} \; | sort | uniq)
 do
 	plantuml -tsvg -o "$(pwd)/${gen_src_dir}/$dir" "$dir/"*.puml
 done
-
