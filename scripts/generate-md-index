@@ -64,7 +64,7 @@ function index_txt2json() {
 		done
 
 		echo "\"$entry_name\": [],"
-	done | jq '.' >> "$out" < "$in"
+	done < "$in" | jq '.' >> "$out"
 
 	while [ -n "$cur_dir" ]
 	do
