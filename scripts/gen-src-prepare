@@ -107,7 +107,10 @@ then
 			\( ! -path "./_site/*" \) \
 			\( ! -path "./script/*" \) \
 			\( ! -path "./.git*" \) \
-			\( ! -name "*.pp.md" \) \
+			\( ! -iname "*.pp.md" \) \
+			\( ! -iname "*.pp.markdown" \) \
+			\( ! -iname "*.md" \) \
+			\( ! -iname "*.markdown" \) \
 			\( ! -name "README.md" \) \
 		| cpio -pdvm "$gen_src_dir" 2> /dev/null
 
@@ -143,10 +146,16 @@ then
 		\( ! -path "$gen_src_dir/_site/*" \) \
 		\( ! -path "$gen_src_dir/script/*" \) \
 		\( ! -path "$gen_src_dir/.git*" \) \
-		\( ! -name "*.pp.md" \) \
 		\( ! -name "README.md" \) \
-		\( -name "*.md" \
-		-o -name "$(basename "$doc_meta_file")" \) \
+		\( ! -iname "*.pp.md" \) \
+		\( ! -iname "*.pp.markdown" \) \
+		\( \
+			-iname "*.md" \
+			-o \
+			-iname "*.markdown" \
+			-o \
+			-name "$(basename "$doc_meta_file")" \
+		\) \
 		| sort -u \
 		| while read -r pot_template_file
 		do

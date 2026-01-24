@@ -64,7 +64,13 @@ gen_src_dir_no_fm="${gen_src_dir}_no_fm"
 rm -Rf "$gen_src_dir_no_fm"
 cp -r "$gen_src_dir" "$gen_src_dir_no_fm"
 cd "$gen_src_dir_no_fm"
-find . -type f -name "*.md" | while read -r md_src
+find . -type f \
+	\( \
+		-iname "*.md" \
+		-o \
+		-iname "*.markdown" \
+	\) \
+	| while read -r md_src
 do
 	mvd strip_front_matter --in-place "$md_src"
 done

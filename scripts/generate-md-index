@@ -93,14 +93,18 @@ echo "Generate index of Markdown sources on the basis of the file-system structu
 # HACK Ignoring "./movedo/*" might only be right for our specific (the default/intended) scenario.
 find . \
 	-type f \
-	\( -name "*.md" \) \
+	\( \
+		-iname "*.md" \
+		-o \
+		-iname "*.markdown" \
+	\) \
 	\( ! -path "\./build/*" \) \
 	\( ! -path "\./vendor/*" \) \
 	\( ! -path "\./_vendor/*" \) \
 	\( ! -path "\./themes/*" \) \
 	\( ! -path "\./archetypes/*" \) \
 	\( ! -ipath "\./movedo/*" \) \
-	\( ! -name "*.pp.md" \) \
+	\( ! -iname "*.pp.md" \) \
 	\( ! -regex '.*/\..*' \) \
 	-printf "%d %p\0" \
 		| sort -n --zero-terminated \

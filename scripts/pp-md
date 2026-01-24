@@ -18,7 +18,7 @@ function find_pp_sources() {
 
 	find . \
 		-type f \
-		-name "*.pp.md" \
+		-iname "*.pp.md" \
 		\( ! -regex '.*/\..*' \) \
 		\( ! -path "./${build_dir}*" \) \
 		\( ! -path "./_site/*" \)
