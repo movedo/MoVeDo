@@ -4,12 +4,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Prepares the generated sources directory.
+# See the output of "$0 -h" for details.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See the LICENSES/ folder for copyright information.
 
-script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+script_path="$(readlink -f "${BASH_SOURCE[0]}")"
+script_dir="$(dirname "$script_path")"
+script_name="$(basename "$script_path")"
 # shellcheck source=./_common.sh
 . "$script_dir/_common.sh"
 
@@ -20,7 +22,6 @@ tools+=("repvar") # for replacing variables in files
 _check_tools "${tools[@]}"
 
 app_name="Generate Sources Preparer"
-script_name="$(basename "$0")"
 # parameters
 copy_source_files=$(_movedo_shell_var_to_bool "${MVD_COPY_SOURCE_FILES:-true}")
 # repo_url="${MVD_REPO_URL:-$(_git_remote_web_url)}"
@@ -34,13 +35,17 @@ function print_help() {
 	echo "Usage:"
 	echo "  $script_name [OPTIONS]"
 	echo "Options:"
-	echo "  -h, --help              Show this help message"
-	echo "  --mvd-no-copy-sources   Do not copy the original source files into the generated-sources dir as well."
-	echo "                          Equivalent to command-line: MVD_COPY_SOURCE_FILES=0"
+	echo "  -h, --help"
+	echo "    Show this help message and exit"
+	echo "  --mvd-no-copy-sources"
+	echo "    Do not copy the original source files"
+	echo "    into the generated-sources dir as well."
+	echo "    Equivalent to  (env var): MVD_COPY_SOURCE_FILES=0"
 	# echo "  --mvd-repo-url [URL]    Use this as the repo URL, instead of extracting it from the git repo."
 	# echo "                          Equivalent to command-line: MVD_REPO_URL=[URL]"
-	echo "  --mvd-include-readme    Include README*.md (case insensitive) in the output."
-	echo "                          Equivalent to command-line: MVD_INCLUDE_README=1"
+	echo "  --mvd-include-readme"
+	echo "    Include README*.md (case insensitive) in the output."
+	echo "    Equivalent to  (env var): MVD_INCLUDE_README=1"
 	echo "Examples:"
 	echo "  $script_name"
 	echo "  $script_name --help"
@@ -78,7 +83,6 @@ do
 	esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
-
 
 mkdir -p "$gen_src_dir"
 
