@@ -49,14 +49,14 @@ build_dir_rel="${build_dir_rel:-"build"}"
 build_dir="${build_dir:-"$proj_dir/$build_dir_rel"}"
 # YAML meta-data, to be used in the single, fused/linearized Markdown file as FrontMatter
 doc_meta_file="${doc_meta_file:-"$proj_dir/doc.yml"}"
-# BibTex meta-data, to be usedin the PDF output (optional)
+# BibTex meta-data, to be used in the PDF output (optional)
 bibliography_file="${bibliography_file:-"$proj_dir/citations.bib"}"
 templates_dir="${templates_dir:-"$movedo_root_dir/templates"}"
 # Root for all generated sources
 # the original sources are copied in here too,
 # and the documentation is actually built from here
 gen_src_dir="${gen_src_dir:-"$build_dir/gen_sources"}"
-# Index file(s) containing the Markdonw sources
+# Index file(s) containing the Markdown sources
 # to be used for linearizing, in the correct order.
 index_md_file_name="${index_md_file_name:-"index-md.txt"}"
 index_md_file_generated="${index_md_file_generated:-"$gen_src_dir/$index_md_file_name"}"
