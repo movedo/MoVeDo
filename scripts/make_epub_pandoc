@@ -97,9 +97,9 @@ mkdir -p "$ebook_dir"
 pandoc_extra=("${args[@]}")
 pandoc_extra+=("--citeproc")
 
-if [ -e "$biblography_file" ]
+if [ -e "$bibliography_file" ]
 then
-	pandoc_extra+=("--bibliography=$biblography_file")
+	pandoc_extra+=("--bibliography=$bibliography_file")
 	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
 

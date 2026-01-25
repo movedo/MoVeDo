@@ -99,9 +99,9 @@ pandoc_extra+=("--citeproc")
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/scholarly-metadata/scholarly-metadata.lua")
 pandoc_extra+=(--lua-filter="$filters_dir/lua-filters/author-info-blocks/author-info-blocks.lua")
 
-if [ -e "$biblography_file" ]
+if [ -e "$bibliography_file" ]
 then
-	pandoc_extra+=("--bibliography=$biblography_file")
+	pandoc_extra+=("--bibliography=$bibliography_file")
 	pandoc_extra+=("--filter=pandoc-citeproc")
 fi
 
