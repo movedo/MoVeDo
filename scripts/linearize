@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2026 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Builds a single Markdown file out of an index of Markdown files.
-# We do that by using Pandoc with custom filters.
+# See the output of "$0 -h" for details.
 #
 # This is part of the [MoVeDo](https://github.com/movedo) project.
 # See the LICENSES/ folder for copyright information.
 
-script_dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+script_path="$(readlink -f "${BASH_SOURCE[0]}")"
+script_dir="$(dirname "$script_path")"
+script_name="$(basename "$script_path")"
 # shellcheck source=./_common.sh
 . "$script_dir/_common.sh"
 
@@ -23,6 +24,45 @@ _check_tools "${tools[@]}"
 _check_env
 
 # parameters
+
+function print_help() {
+
+	echo "$script_name - Builds a single Markdown file"
+	echo "out of an index of Markdown files."
+	echo "We do that by using Pandoc with custom filters."
+	echo
+	echo "Usage:"
+	echo "  $script_name [OPTIONS]"
+	echo "Options:"
+	echo "  -h, --help"
+	echo "    Show this help message and exit"
+	echo "Examples:"
+	echo "  $script_name"
+	echo "  $script_name --help"
+}
+
+# read command-line args
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	arg="$1"
+	shift # $2 -> $1, $3 -> $2, ...
+
+	case "$arg" in
+		-h|--help)
+			print_help
+			exit 0
+			;;
+		--mvd-*)
+			# Ignore this option; it is used in other MoVeDo scripts
+			_movedo_common_arg_has_value "$arg" && shift
+			;;
+		*) # non-/unknown option
+			POSITIONAL+=("$arg") # save it in an array for later
+			;;
+	esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 
 cd "$gen_src_dir"
 
