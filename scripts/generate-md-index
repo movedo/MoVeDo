@@ -112,7 +112,11 @@ function index_txt2json() {
 		done
 
 		echo "\"$entry_name\": [],"
-	done < "$in" | jq '.' >> "$out"
+	done < "$in" > "${out}_tmp"
+	# NOTE We use an intermediate file ("${out}_tmp"),
+	#      because else we would lose the modification of variable `cur_dir`,
+	#      due to using a pipe.
+	jq '.' < "${out}_tmp" >> "$out"
 
 	while [ -n "$cur_dir" ]
 	do
