@@ -20,6 +20,9 @@ tools=()
 _check_tools "${tools[@]}"
 _check_env
 
+# parameters
+include_readme="${MVD_INCLUDE_README:-false}"
+
 ##################################################################
 #{
 #  "docs": {
@@ -46,6 +49,9 @@ function print_help() {
 	echo "Options:"
 	echo "  -h, --help"
 	echo "    Show this help message and exit"
+	echo "  --mvd-include-readme"
+	echo "    Include README*.md (case insensitive) in the output."
+	echo "    Equivalent to (env var): MVD_INCLUDE_README=1"
 	echo "Examples:"
 	echo "  $script_name"
 	echo "  $script_name --help"
@@ -62,6 +68,9 @@ do
 		-h|--help)
 			print_help
 			exit 0
+			;;
+		--mvd-include-readme)
+			include_readme=true
 			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
@@ -151,3 +160,12 @@ find . \
 		| tr '\0' '\n' \
 	> "$index_md_file_generated"
 
+# Remove README*.md from the index, if requested (default).
+if ! $include_readme
+then
+	mv "$index_md_file_generated" "${index_md_file_generated}_tmp"
+	grep --invert-match --ignore-case "^README" \
+		< "${index_md_file_generated}_tmp" \
+		> "$index_md_file_generated"
+	rm "${index_md_file_generated}_tmp"
+fi

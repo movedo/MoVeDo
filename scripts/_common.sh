@@ -61,6 +61,7 @@ gen_src_dir="${gen_src_dir:-"$build_dir/gen_sources"}"
 index_md_file_name="${index_md_file_name:-"index-md.txt"}"
 index_md_file_generated="${index_md_file_generated:-"$gen_src_dir/$index_md_file_name"}"
 index_md_file_manual="${index_md_file_manual:-"$proj_dir/$index_md_file_name"}"
+index_md_file_linear="${index_md_file_linear:-"$proj_dir/index-md-linear.txt"}"
 # If the manually crafted file one is present,
 # it has precedence over the generated one.
 index_md_file="${index_md_file:-"$([ -f "$index_md_file_manual" ] && echo "$index_md_file_manual" || echo "$index_md_file_generated")"}"

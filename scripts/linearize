@@ -24,6 +24,7 @@ _check_tools "${tools[@]}"
 _check_env
 
 # parameters
+include_readme="${MVD_INCLUDE_README_IN_LINEARIZED:-false}"
 
 function print_help() {
 
@@ -36,6 +37,9 @@ function print_help() {
 	echo "Options:"
 	echo "  -h, --help"
 	echo "    Show this help message and exit"
+	echo "  --mvd-include-readme-in-linearization"
+	echo "    Include README*.md (case insensitive) in the linearized output."
+	echo "    Equivalent to (env var): MVD_INCLUDE_README_IN_LINEARIZED=1"
 	echo "Examples:"
 	echo "  $script_name"
 	echo "  $script_name --help"
@@ -53,6 +57,9 @@ do
 			print_help
 			exit 0
 			;;
+		--mvd-include-readme-in-linearization)
+			include_readme=true
+			;;
 		--mvd-*)
 			# Ignore this option; it is used in other MoVeDo scripts
 			_movedo_common_arg_has_value "$arg" && shift
@@ -63,6 +70,8 @@ do
 	esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
+
+_debug "include_readme=$include_readme"
 
 cd "$gen_src_dir"
 
@@ -108,10 +117,20 @@ trap 'rm -rf -- "$common_lin_meta_file"' EXIT
 	# echo "panflute-verbose: true"
 } > "$common_lin_meta_file"
 
-if [ "$(wc -l < "$index_md_file")" -eq 1 ]
+rm -f "$index_md_file_linear"
+if $include_readme
+then
+	ln -s "$index_md_file" "$index_md_file_linear"
+else
+	grep --invert-match --ignore-case "^README" \
+		< "$index_md_file" \
+		> "$index_md_file_linear"
+fi
+
+if [ "$(wc -l < "$index_md_file_linear")" -eq 1 ]
 then
 	# Build from a single source file
-	md_in="$(cat "$index_md_file")"
+	md_in="$(cat "$index_md_file_linear")"
 	single_md_tmp="${single_md}_tmp"
 	rm -f "$single_md_tmp"
 	# Use global document meta-data
@@ -144,7 +163,7 @@ then
 		echo "Linearizing $md_in ..."
 		if [ ! -e "$md_in" ]
 		then
-			_error "File '$md_in' not found! It is specified in the index file '$index_md_file'."
+			_error "File '$md_in' not found! It is specified in the index file (for linearization) '$index_md_file_linear'."
 		fi
 		# TODO put this in its own script:
 		# extract the document(-fragment)s title from the YAML meta-data
@@ -176,15 +195,15 @@ then
 				"${pandoc_extra[@]}" \
 			>> "$single_md"
 		echo -e "\n" >> "$single_md"
-	done < "$index_md_file"
+	done < "$index_md_file_linear"
 else
 	if [ "${MVD_SINGLE_FILE:-true}" = "true" ]
 	then
 		_error "If you have more then one source file, you need '$doc_meta_file', \
 containing the YAML Front-Matter for the combined document, \
 or you need to set the env var MVD_SINGLE_FILE to 'false'.
-Your index:
-$(cat "$index_md_file")"
+Your index (for linearization):
+$(cat "$index_md_file_linear")"
 	fi
 fi
 
