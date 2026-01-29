@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021-2022 Robin Vobruba <hoijui.quaero@gmail.com>
+# SPDX-FileCopyrightText: 2021-2026 Robin Vobruba <hoijui.quaero@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -47,5 +47,7 @@ done
 echo
 echo "Generating HTML (using pdsite) ..."
 
-pdsite build --output-folder "$html_dir" "${pdsite_extra[@]}"
-
+pdsite build \
+	--output-folder "$html_dir" \
+	--input-index "$index_md_file" \
+	"${pdsite_extra[@]}"
